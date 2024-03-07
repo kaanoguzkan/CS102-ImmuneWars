@@ -10,6 +10,6 @@ public class DesktopLauncher {
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 		config.setForegroundFPS(60);
 		config.setTitle("Immune Wars");
-		new Lwjgl3Application(new GameManager(), config);
+		new Lwjgl3Application(new ImmuneWars(), config);
 	}
 }
