@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.*;
 import com.badlogic.gdx.graphics.Texture;
 import com.immunewars.game.ImmuneWars;
+import com.immunewars.game.GameConfig;
 
 public class MainMenuScreen implements Screen {
 	Stage stage;
@@ -22,7 +23,7 @@ public class MainMenuScreen implements Screen {
 		this.game = game;
 		
 		camera = new OrthographicCamera();
-		camera.setToOrtho(false, 480, 480);
+		camera.setToOrtho(false, GameConfig.resolutionX, GameConfig.resolutionY);
 		
 		stage = new Stage();
 		Gdx.input.setInputProcessor(stage);
@@ -34,13 +35,13 @@ public class MainMenuScreen implements Screen {
 		Drawable drawableButtonDownTexture = drawableButtonUpTexture.tint(new Color(1f,1f,1f,0.5f));
 		buttonStyle.up = drawableButtonUpTexture;
 		buttonStyle.down = drawableButtonDownTexture;
-		TextButton button = new TextButton("Sudoku", buttonStyle);
+		TextButton button = new TextButton("TicTacToe", buttonStyle);
 		
 		button.addListener(new ChangeListener() {
 			@Override
 			public void changed (ChangeEvent event, Actor actor) {
 				System.out.println("Button pressed");
-				game.setScreen(new SudokuScreen(game));
+				game.setScreen(new TicTacToeScreen(game, 7, 5));
 			}
 		});
 		
