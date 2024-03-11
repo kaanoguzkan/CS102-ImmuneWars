@@ -9,7 +9,7 @@ public class startMenu extends JFrame {
         setSize(480, 480);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
-        setResizable(false);
+        setResizable(true);
     }
     public static void main(String[] args) {
         startMenu start = new startScreen();
