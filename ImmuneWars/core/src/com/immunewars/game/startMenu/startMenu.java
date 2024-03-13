@@ -1,6 +1,8 @@
 // TODO I just only wrote simple GUI code, later will add 
 // operations such as change background picture, maybe language, 
 // and some render process, but this is simple just at this point
+package com.immunewars.game.startMenu;
+
 import javax.swing.*;
 
 public class startMenu extends JFrame {
@@ -12,7 +14,9 @@ public class startMenu extends JFrame {
         setResizable(true);
     }
     public static void main(String[] args) {
+    	/*
         startMenu start = new startScreen();
         start.setVisible(true);
+        */
     }
 }

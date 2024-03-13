@@ -10,12 +10,17 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.*;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.badlogic.gdx.graphics.Texture;
 import com.immunewars.game.ImmuneWars;
 import com.immunewars.game.GameConfig;
 
 public class MainMenuScreen implements Screen {
+	float cameraX = GameConfig.resolutionX;
+	float cameraY = GameConfig.resolutionY;
 	Stage stage;
+	Viewport viewport;
 	final ImmuneWars game;
 	OrthographicCamera camera;
 	
@@ -24,8 +29,11 @@ public class MainMenuScreen implements Screen {
 		
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, GameConfig.resolutionX, GameConfig.resolutionY);
+		viewport = new StretchViewport(cameraX, cameraY, camera);
+		viewport.apply();
 		
 		stage = new Stage();
+		stage.setViewport(viewport);
 		Gdx.input.setInputProcessor(stage);
 		
 		TextButton.TextButtonStyle buttonStyle = new TextButton.TextButtonStyle();
@@ -41,7 +49,7 @@ public class MainMenuScreen implements Screen {
 			@Override
 			public void changed (ChangeEvent event, Actor actor) {
 				System.out.println("Button pressed");
-				game.setScreen(new TicTacToeScreen(game, 7, 5));
+				game.setScreen(new TicTacToeScreen(game));
 			}
 		});
 		
@@ -61,7 +69,7 @@ public class MainMenuScreen implements Screen {
 
 	@Override
 	public void resize(int width, int height) {
-		// TODO Auto-generated method stub
+		viewport.update(width, height);
 
 	}
 

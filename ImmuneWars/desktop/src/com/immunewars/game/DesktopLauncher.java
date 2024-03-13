@@ -8,6 +8,7 @@ public class DesktopLauncher {
 	public static void main (String[] arg) {
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 		config.setForegroundFPS(GameConfig.targetFPS);
+		config.setWindowedMode(1280, 800);
 		config.setTitle("Immune Wars");
 		new Lwjgl3Application(new ImmuneWars(), config);
 	}
