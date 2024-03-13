@@ -22,26 +22,38 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.immunewars.game.ImmuneWars;
+import com.immunewars.game.minigameBackend.MinigamePresets;
 import com.immunewars.game.minigameBackend.TicTacToe;
 import com.immunewars.game.GameConfig;
 
 public class TicTacToeScreen implements Screen {
 	static TicTacToeScreen currentScreen;
-	int cameraX = GameConfig.resolutionX; 
-	int cameraY = GameConfig.resolutionY;
-	Stage stage;
-	TicTacToe backend;
 	final ImmuneWars game;
+	TicTacToe backend;
+	
+	int cameraX = Math.min(GameConfig.resolutionX, GameConfig.resolutionY); 
+	int cameraY = cameraX;
 	OrthographicCamera camera;
-	int gameSize;
 	Viewport viewport;
+	Stage stage;
+	
+	int gameSize;
+	int winLength;
+	
 	float buttonLengthX, buttonLengthY;
+	float lineThickness;
+	
+	public TicTacToeScreen(final ImmuneWars game) {
+		this(game, MinigamePresets.TicTacToe.gameSize, MinigamePresets.TicTacToe.winLength);
+	}
 	
 	public TicTacToeScreen(final ImmuneWars game, int gameSize, int winLength) {
 		currentScreen = this;
 		this.game = game;
-		this.gameSize = gameSize;
 		this.backend = new TicTacToe(gameSize, winLength);
+		
+		this.gameSize = gameSize;
+		this.winLength = winLength;
 		
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, cameraX, cameraY);
@@ -52,22 +64,23 @@ public class TicTacToeScreen implements Screen {
 		stage.setViewport(viewport);
 		Gdx.input.setInputProcessor(stage);
 		
-		buttonLengthX = ((float)(cameraX - 5)/gameSize - 5);
-		buttonLengthY = ((float)(cameraY - 5)/gameSize - 5);
+		lineThickness = Math.max(Math.min(40 / (gameSize + 1), 10), 5);
+		buttonLengthX = ((float)(cameraX - lineThickness)/gameSize - lineThickness);
+		buttonLengthY = ((float)(cameraY - lineThickness)/gameSize - lineThickness);
 		
 		for (int i = 0; i < gameSize; i++) {
 			for (int j = 0; j < gameSize; j++) {
 				Image button = new Image(new Texture("pixel.png"));
-				button.setX(5 + i*(buttonLengthX + 5));
-				button.setY(5 + j*(buttonLengthY + 5));
+				button.setX(lineThickness + i*(buttonLengthX + lineThickness));
+				button.setY(lineThickness + j*(buttonLengthY + lineThickness));
 				button.setSize(buttonLengthX, buttonLengthY);
 				button.setColor(new Color(1.0f,1.0f,1.0f,1.0f));
 				
 				button.addListener(new ClickListener() {
 					@Override
 					public void clicked (InputEvent event, float x, float y) {
-						int xIndex = (int) Math.round((button.getX() - 5.0)/(buttonLengthX+5));
-						int yIndex = (int) Math.round((button.getY() - 5.0)/(buttonLengthY+5));
+						int xIndex = (int) Math.round((button.getX() - lineThickness)/(buttonLengthX+lineThickness));
+						int yIndex = (int) Math.round((button.getY() - lineThickness)/(buttonLengthY+lineThickness));
 						TicTacToe backend = TicTacToeScreen.currentScreen.backend;
 						System.out.println("---------");
 						
@@ -96,15 +109,15 @@ public class TicTacToeScreen implements Screen {
 	@Override
 	public void render(float delta) {
 		stage.draw();
-		float lineSpacingX = ((float)(cameraX - 5.0)) / gameSize;
-		float lineSpacingY = ((float)(cameraY - 5.0)) / gameSize;
+		float lineSpacingX = ((float)(cameraX - lineThickness)) / gameSize;
+		float lineSpacingY = ((float)(cameraY - lineThickness)) / gameSize;
 		for (int i = 0; i <= gameSize; i++) {
 			ShapeRenderer newLine = new ShapeRenderer();
 			newLine.setProjectionMatrix(camera.combined);
 			newLine.begin(ShapeType.Filled);
 			newLine.setColor(Color.BLUE);
-			newLine.rect(lineSpacingX*i, 0, 5, cameraX);
-			newLine.rect(0, lineSpacingY*i, cameraY, 5);
+			newLine.rect(lineSpacingX*i, 0, lineThickness, cameraX);
+			newLine.rect(0, lineSpacingY*i, cameraY, lineThickness);
 			newLine.end();
 		}
 	}

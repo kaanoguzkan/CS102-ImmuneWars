@@ -7,6 +7,10 @@ public class TicTacToe extends Minigame {
 	char currentChar;
 	char char1, char2;
 	
+	public TicTacToe() {
+		this(MinigamePresets.TicTacToe.gameSize, MinigamePresets.TicTacToe.winLength);
+	}
+	
 	public TicTacToe(int gameSize, int winLength) {
 		gameGrid = new char[gameSize][gameSize];
 		this.gameSize = gameSize;
@@ -44,7 +48,7 @@ public class TicTacToe extends Minigame {
 			}
 		}
 		
-		return maxCount >= winLength;
+		return maxCount > winLength;
 	}
 	
 	public boolean horizontalCheck() {
@@ -66,7 +70,7 @@ public class TicTacToe extends Minigame {
 			}
 		}
 		
-		return maxCount >= winLength;
+		return maxCount > winLength;
 	}
 	
 	public boolean diagonalCheck(){
@@ -75,7 +79,7 @@ public class TicTacToe extends Minigame {
             for (int y = 0; y < gameSize; y++){
             	
                 int count = 1;
-                char lastChar = gameGrid[0][0];
+                char lastChar = gameGrid[x][y];
                 for (int i = x, j = y; i < gameSize && j < gameSize; i++, j++) {
                 	if (lastChar == gameGrid[i][j] && lastChar == currentChar) {
     					count++;
@@ -87,7 +91,7 @@ public class TicTacToe extends Minigame {
                 }
                 
                 count = 1;
-                
+                lastChar = gameGrid[x][gameSize-1-y];
                 for (int i = x, j = gameSize-1-y; i < gameSize && j >= 0; i++, j--) {
                 	if (lastChar == gameGrid[i][j] && lastChar == currentChar) {
     					count++;
@@ -99,7 +103,7 @@ public class TicTacToe extends Minigame {
                 }
             }
         }
-        return maxCount >= winLength;
+        return maxCount > winLength;
     }
 	
 	public boolean winCheck() {
