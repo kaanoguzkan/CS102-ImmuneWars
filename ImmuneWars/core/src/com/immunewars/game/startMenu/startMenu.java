@@ -1,22 +1,54 @@
-// TODO I just only wrote simple GUI code, later will add 
-// operations such as change background picture, maybe language, 
-// and some render process, but this is simple just at this point
 package com.immunewars.game.startMenu;
 
 import javax.swing.*;
+import java.awt.event.*;
 
 public class startMenu extends JFrame {
+
     public startMenu() {
-        setTitle("Immune Wars");
-        setSize(480, 480);
+        setTitle("Start Screen");
+        setSize(800, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
         setResizable(true);
+
+        // Set background image
+        ImageIcon backgroundImage = new ImageIcon("C:\\Users\\kaano\\OneDrive\\Masaüstü\\CS102-ImmuneWars\\ImmuneWars\\core\\src\\com\\immunewars\\game\\startMenu\\background.png");
+        JLabel backgroundLabel = new JLabel(backgroundImage);
+        setContentPane(backgroundLabel);
+        setLayout(null); // Absolute layout
+
+        // Create start button
+        JButton startButton = new JButton("Start");
+        startButton.setBounds(300, 300, 200, 50);
+        startButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // Add code to start the game or application
+                JOptionPane.showMessageDialog(null, "Starting...");
+            }
+        });
+        add(startButton);
+
+        // Create settings button that is invisible lies on settings letters
+        JButton settingsButton = new JButton("Settings");
+        settingsButton.setBounds(300, 400, 200, 50);
+        settingsButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // Add code to open settings
+                JOptionPane.showMessageDialog(null, "Opening settings...");
+            }
+
+
+        });
+        add(settingsButton);
+
+        setVisible(true);
     }
+
     public static void main(String[] args) {
-    	/*
-        startMenu start = new startScreen();
-        start.setVisible(true);
-        */
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                new startMenu();
+            }
+        });
     }
 }
