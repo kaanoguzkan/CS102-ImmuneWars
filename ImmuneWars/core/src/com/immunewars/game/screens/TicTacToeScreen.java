@@ -43,11 +43,11 @@ public class TicTacToeScreen implements Screen {
 	float buttonLengthX, buttonLengthY;
 	float lineThickness;
 	
-	public TicTacToeScreen(final ImmuneWars game) {
+	public TicTacToeScreen(ImmuneWars game) {
 		this(game, MinigamePresets.TicTacToe.gameSize, MinigamePresets.TicTacToe.winLength);
 	}
 	
-	public TicTacToeScreen(final ImmuneWars game, int gameSize, int winLength) {
+	public TicTacToeScreen(ImmuneWars game, int gameSize, int winLength) {
 		currentScreen = this;
 		this.game = game;
 		this.backend = new TicTacToe(gameSize, winLength);
