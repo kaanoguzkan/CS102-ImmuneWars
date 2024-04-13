@@ -43,17 +43,27 @@ public class MainMenuScreen implements Screen {
 		Drawable drawableButtonDownTexture = drawableButtonUpTexture.tint(new Color(1f,1f,1f,0.5f));
 		buttonStyle.up = drawableButtonUpTexture;
 		buttonStyle.down = drawableButtonDownTexture;
-		TextButton button = new TextButton("TicTacToe", buttonStyle);
+		TextButton button1 = new TextButton("TicTacToe", buttonStyle);
+		TextButton button2 = new TextButton("SpaceInvaders", buttonStyle);
+		button2.setBounds(0, 100, 200, 100);
 		
-		button.addListener(new ChangeListener() {
+		button1.addListener(new ChangeListener() {
 			@Override
 			public void changed (ChangeEvent event, Actor actor) {
 				System.out.println("Button pressed");
 				game.setScreen(new TicTacToeScreen(game));
 			}
 		});
+		button2.addListener(new ChangeListener() {
+			@Override
+			public void changed (ChangeEvent event, Actor actor) {
+				System.out.println("Button pressed");
+				game.setScreen(new SpaceInvadersScreen(game));
+			}
+		});
 		
-		stage.addActor(button);
+		stage.addActor(button1);
+		stage.addActor(button2);
 	}
 
 	@Override
