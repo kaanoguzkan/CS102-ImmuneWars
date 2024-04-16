@@ -30,12 +30,12 @@ public class MainMenuScreen implements Screen {
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, GameConfig.resolutionX, GameConfig.resolutionY);
 		viewport = new StretchViewport(cameraX, cameraY, camera);
-		viewport.apply();
+		viewport.apply();		
 		
 		stage = new Stage();
 		stage.setViewport(viewport);
-		Gdx.input.setInputProcessor(stage);
 		
+		Gdx.input.setInputProcessor(stage);	
 		TextButton.TextButtonStyle buttonStyle = new TextButton.TextButtonStyle();
 		buttonStyle.font = new BitmapFont();
 		TextureRegionDrawable drawableButtonUpTexture = new TextureRegionDrawable(new TextureRegion(new Texture("button.png")));
@@ -47,6 +47,8 @@ public class MainMenuScreen implements Screen {
 		TextButton button2 = new TextButton("SpaceInvaders", buttonStyle);
 		button2.setBounds(0, 100, 200, 100);
 		
+		TextButton button3 = new TextButton ("SpeedTyping", buttonStyle);
+		button3.setBounds(0, 200, 200, 100);
 		button1.addListener(new ChangeListener() {
 			@Override
 			public void changed (ChangeEvent event, Actor actor) {
@@ -61,9 +63,17 @@ public class MainMenuScreen implements Screen {
 				game.setScreen(new SpaceInvadersScreen(game));
 			}
 		});
-		
+
+		button3.addListener(new ChangeListener() {
+			@Override
+			public void changed (ChangeEvent event, Actor actor) {
+				System.out.println("Button pressed");
+				game.setScreen(new SpeedTypingScreen(game));
+			}
+		});
 		stage.addActor(button1);
 		stage.addActor(button2);
+		stage.addActor(button3);
 	}
 
 	@Override
