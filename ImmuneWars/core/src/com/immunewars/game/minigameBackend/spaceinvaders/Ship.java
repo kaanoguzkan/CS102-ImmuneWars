@@ -6,6 +6,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.immunewars.game.minigameBackend.MinigamePresets;
 
+
+
 public class Ship extends SIElement {
 	int score = 0;
 	float speed = 300;

@@ -11,7 +11,7 @@ public class startMenu extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(true);
 
-        // Set background image
+        // Set background image                       // ASDASdas:Das:dd:AsDa:ad:A:dAS:DSA:dAS:dSAd.ASd:SAd:AD:AS
         ImageIcon backgroundImage = new ImageIcon("C:\\Users\\kaano\\OneDrive\\Masaüstü\\CS102-ImmuneWars\\ImmuneWars\\core\\src\\com\\immunewars\\game\\startMenu\\background.png");
         JLabel backgroundLabel = new JLabel(backgroundImage);
         setContentPane(backgroundLabel);

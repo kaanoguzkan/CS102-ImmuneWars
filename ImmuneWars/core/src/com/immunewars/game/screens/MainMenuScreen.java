@@ -49,17 +49,21 @@ public class MainMenuScreen implements Screen {
 		
 		TextButton button3 = new TextButton ("SpeedTyping", buttonStyle);
 		button3.setBounds(0, 200, 200, 100);
+
+		TextButton button4 = new TextButton ("Snake", buttonStyle);
+		button4.setBounds(0, 300, 200, 100);
+
 		button1.addListener(new ChangeListener() {
 			@Override
 			public void changed (ChangeEvent event, Actor actor) {
-				System.out.println("Button pressed");
+				System.out.println("Button1 pressed");
 				game.setScreen(new TicTacToeScreen(game));
 			}
 		});
 		button2.addListener(new ChangeListener() {
 			@Override
 			public void changed (ChangeEvent event, Actor actor) {
-				System.out.println("Button pressed");
+				System.out.println("Button2 pressed");
 				game.setScreen(new SpaceInvadersScreen(game));
 			}
 		});
@@ -67,13 +71,23 @@ public class MainMenuScreen implements Screen {
 		button3.addListener(new ChangeListener() {
 			@Override
 			public void changed (ChangeEvent event, Actor actor) {
-				System.out.println("Button pressed");
+				System.out.println("Button3 pressed");
 				game.setScreen(new SpeedTypingScreen(game));
 			}
 		});
+
+		button4.addListener(new ChangeListener() {
+			@Override
+			public void changed (ChangeEvent event, Actor actor) {
+				System.out.println("Button4 pressed");
+				game.setScreen(new SnakeScreen(game));
+			}
+		});
+		
 		stage.addActor(button1);
 		stage.addActor(button2);
 		stage.addActor(button3);
+		stage.addActor(button4);
 	}
 
 	@Override

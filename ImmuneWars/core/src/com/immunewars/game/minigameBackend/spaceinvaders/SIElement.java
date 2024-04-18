@@ -66,6 +66,4 @@ public abstract class SIElement extends Actor {
 		batch.draw(texture, getX(), getY(), getWidth(), getHeight());
 	}
 	
-
-	
 }
