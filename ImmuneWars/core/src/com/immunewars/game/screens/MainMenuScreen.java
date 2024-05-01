@@ -16,7 +16,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.immunewars.game.ImmuneWars;
 import com.immunewars.game.GameConfig;
 
-public class MainMenuScreen implements Screen {
+public class MainMenuScreen implements Screen 
+{
 	float cameraX = GameConfig.resolutionX;
 	float cameraY = GameConfig.resolutionY;
 	Stage stage;
@@ -34,7 +35,11 @@ public class MainMenuScreen implements Screen {
 		
 		stage = new Stage();
 		stage.setViewport(viewport);
-		
+		TextureRegionDrawable backgroundTexture = new TextureRegionDrawable(new TextureRegion(new Texture("ImmuneWars\\desktop\\src\\com\\immunewars\\game\\title screen,.png")));
+		Image backgroundImage = new Image(backgroundTexture);
+		backgroundImage.setBounds(0, 0, GameConfig.resolutionX, GameConfig.resolutionY);
+		stage.addActor(backgroundImage);
+
 		Gdx.input.setInputProcessor(stage);	
 		TextButton.TextButtonStyle buttonStyle = new TextButton.TextButtonStyle();
 		buttonStyle.font = new BitmapFont();
