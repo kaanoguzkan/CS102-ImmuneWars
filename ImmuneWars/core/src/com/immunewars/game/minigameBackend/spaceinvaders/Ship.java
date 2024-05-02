@@ -15,7 +15,7 @@ public class Ship extends SIElement {
 	int health = MinigamePresets.SpaceInvaders.startHealth;
 	
 	public Ship(int x, int y, int width, int height) {
-		setBounds(x, y, width, height);
+		setBounds(x, y, width*2, height*2);
 		texture = new Texture(Gdx.files.internal(MinigamePresets.SpaceInvaders.shipTexture));
 		System.out.println(texture);
 	}
