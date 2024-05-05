@@ -59,6 +59,7 @@ public class SnakeScreen implements Screen{
 	Viewport viewport;
 	Stage stage;
 	SpriteBatch batch;
+    int mehmetcan = 31;
 	
     snakeBody snakePart;
 	snakeHead theSnakeHead;
