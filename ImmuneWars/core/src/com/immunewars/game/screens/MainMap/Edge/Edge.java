@@ -1,4 +1,6 @@
-package com.immunewars.game.screens.MainMap;
+package com.immunewars.game.screens.MainMap.Edge;
+
+import com.immunewars.game.screens.MainMap.Node.Node;
 
 public class Edge 
 {

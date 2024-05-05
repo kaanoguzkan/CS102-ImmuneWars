@@ -1,4 +1,4 @@
-package com.immunewars.game.screens.MainMap;
+package com.immunewars.game.screens.MainMap.Node;
 
 import java.util.ArrayList;
 
@@ -12,7 +12,7 @@ public class Node
     private ArrayList<Node> neighbors;
     private int weight;
 
-    public Node(int id, int x, int y, String name, int type, int[] neighbors, int weight)
+    public Node(int id, int x, int y, String name, int type, ArrayList<Node> neighbors, int weight)
     {
         this.id = id;
         this.x = x;
@@ -73,12 +73,12 @@ public class Node
         this.type = type;
     }
 
-    public int[] getNeighbors() 
+    public ArrayList<Node> getNeighbors() 
     {
         return neighbors;
     }
 
-    public void setNeighbors(int[] neighbors) 
+    public void setNeighbors(ArrayList<Node> neighbors) 
     {
         this.neighbors = neighbors;
     }
@@ -128,7 +128,7 @@ public class Node
         return name;
     }
 
-    
+
     
 
 }
