@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.*;
+import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.badlogic.gdx.graphics.Texture;
@@ -35,10 +36,8 @@ public class MainMenuScreen implements Screen
 		
 		stage = new Stage();
 		stage.setViewport(viewport);
-		TextureRegionDrawable backgroundTexture = new TextureRegionDrawable(new TextureRegion(new Texture("ImmuneWars\\desktop\\src\\com\\immunewars\\game\\title screen,.png")));
-		Image backgroundImage = new Image(backgroundTexture);
-		backgroundImage.setBounds(0, 0, GameConfig.resolutionX, GameConfig.resolutionY);
-		stage.addActor(backgroundImage);
+		DynamicBackground db = new DynamicBackground(new Texture("title screen.png"), 0, 0, GameConfig.resolutionX, GameConfig.resolutionY);
+		stage.addActor(db);
 
 		Gdx.input.setInputProcessor(stage);	
 		TextButton.TextButtonStyle buttonStyle = new TextButton.TextButtonStyle();
@@ -104,6 +103,7 @@ public class MainMenuScreen implements Screen
 	@Override
 	public void render(float delta) {
 		stage.draw();
+		stage.act();
 	}
 
 	@Override
