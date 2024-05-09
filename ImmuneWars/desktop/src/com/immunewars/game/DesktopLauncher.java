@@ -7,9 +7,9 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
-		config.setWindowIcon( "logo.png" ); 
+		config.setWindowIcon("logo.png"); 
 		config.setForegroundFPS(GameConfig.targetFPS);
-		config.setWindowedMode(1280, 800);
+		config.setWindowedMode(GameConfig.resolutionX, GameConfig.resolutionY);
 		config.setTitle("Immune Wars");
 		new Lwjgl3Application(new ImmuneWars(), config);
 	}
