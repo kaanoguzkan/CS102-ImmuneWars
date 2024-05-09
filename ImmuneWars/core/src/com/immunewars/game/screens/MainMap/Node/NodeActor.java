@@ -26,25 +26,30 @@ public class NodeActor extends Actor {
             @Override
             public boolean handle(Event event) {
                 // handle touch events here
+                 
                 return false;
             }
         });
-
-        
-
-         
     }
 
     @Override
     public void draw(Batch batch, float parentAlpha) 
     {
         batch.end(); // End the SpriteBatch 
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
         shapeRenderer.setColor(Color.BLACK); // Or any color you prefer
         shapeRenderer.circle(getX() + radius, getY() + radius, radius);
         shapeRenderer.end();
         batch.begin(); // Restart the SpriteBatch
     }
 
-    // ... other methods ...
+    public Node getNodeData() {
+        return nodeData;
+    }
+
+    public void setNodeData(Node nodeData) {
+        this.nodeData = nodeData;
+    }
+
+    
 }

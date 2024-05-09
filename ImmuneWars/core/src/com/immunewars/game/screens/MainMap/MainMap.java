@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.immunewars.game.screens.MainMap.Node.Node;
 import com.immunewars.game.screens.MainMap.Edge.Edge;
@@ -13,6 +14,8 @@ import com.immunewars.game.screens.MainMap.Edge.EdgeActor;
 public class MainMap implements Screen 
 {
     private ShapeRenderer shapeRenderer;
+    private Stage stage;
+    
     ArrayList<Node> nodes = new ArrayList<Node>();
     ArrayList<Edge> edges = new ArrayList<Edge>();
     Node brainNode = new Node(0, 0, 0, "Brain", 0, new ArrayList<Node>(), 10);
@@ -96,6 +99,9 @@ public class MainMap implements Screen
         edges.add(kidneyLEdge);
         edges.add(legFootEdge);
         edges.add(intestinesLegEdge);
+
+        stage = new Stage();
+        shapeRenderer = new ShapeRenderer();
     }
 
 
