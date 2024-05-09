@@ -35,7 +35,7 @@ public class MainMenuScreen implements Screen
 		
 		stage = new Stage();
 		stage.setViewport(viewport);
-		TextureRegionDrawable backgroundTexture = new TextureRegionDrawable(new TextureRegion(new Texture("ImmuneWars\\desktop\\src\\com\\immunewars\\game\\title screen,.png")));
+		TextureRegionDrawable backgroundTexture = new TextureRegionDrawable(new TextureRegion(new Texture("title screen,.png")));
 		Image backgroundImage = new Image(backgroundTexture);
 		backgroundImage.setBounds(0, 0, GameConfig.resolutionX, GameConfig.resolutionY);
 		stage.addActor(backgroundImage);
