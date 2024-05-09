@@ -7,6 +7,8 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.immunewars.game.screens.MainMap.Node.Node;
 import com.immunewars.game.screens.MainMap.Edge.Edge;
+import com.immunewars.game.screens.MainMap.Node.NodeActor;
+import com.immunewars.game.screens.MainMap.Edge.EdgeActor;
 
 public class MainMap implements Screen 
 {
@@ -27,6 +29,8 @@ public class MainMap implements Screen
     Node legNode = new Node(11, 0, 0, "Leg", 0, new ArrayList<Node>(), 3);
     Node footNode = new Node(12, 0, 0, "Foot", 0, new ArrayList<Node>(), 2);
     Node handNode = new Node(13, 0, 0, "Hand", 0, new ArrayList<Node>(), 4);
+
+
 
     Edge brainEyesEdge = new Edge(brainNode, eyesNode);
     Edge brainMouthEdge = new Edge(brainNode, mouthNode);
@@ -51,17 +55,116 @@ public class MainMap implements Screen
     Edge kidneyLEdge = new Edge(kidneysNode, legNode);
     Edge legFootEdge = new Edge(legNode, footNode);
     Edge intestinesLegEdge = new Edge(intestinesNode, legNode);
-    
-
-
 
     public MainMap() 
     {
-        shapeRenderer = new ShapeRenderer();
-        
-        
+        nodes.add(brainNode);
+        nodes.add(eyesNode);
+        nodes.add(mouthNode);
+        nodes.add(noseNode);
+        nodes.add(hearthNode);
+        nodes.add(lungsNode);
+        nodes.add(stomachNode);
+        nodes.add(liverNode);
+        nodes.add(kidneysNode);
+        nodes.add(intestinesNode);
+        nodes.add(armNode);
+        nodes.add(legNode);
+        nodes.add(footNode);
+        nodes.add(handNode);
+
+        edges.add(brainEyesEdge);
+        edges.add(brainMouthEdge);
+        edges.add(brainNoseEdge);
+        edges.add(brainHearthEdge);
+        edges.add(hearthLungsEdge);
+        edges.add(hearthStomachEdge);
+        edges.add(mouthLungEdge);
+        edges.add(mouthEyesEdge);
+        edges.add(mouthNoseEdge);
+        edges.add(stomachIntestinesEdge);
+        edges.add(stomachLiverEdge);
+        edges.add(stomachKidneysEdge);
+        edges.add(intestinesLiverEdge);
+        edges.add(intestinesKidneysEdge);
+        edges.add(noseLungEdge);
+        edges.add(mouthStomachEdge);
+        edges.add(eyesHearthEdge);
+        edges.add(eyesArmEdge);
+        edges.add(armHanEdge);
+        edges.add(hearthArmEdge);
+        edges.add(kidneyLEdge);
+        edges.add(legFootEdge);
+        edges.add(intestinesLegEdge);
     }
 
-   
+
+    // method that paints this nodes and edges to the map 
+    public void paintMap()
+    {
+        // paint nodes
+        for (Node node : nodes)
+        {
+            // paint node do it for nodeActor
+            
+
+        }
+
+        // paint edges
+        for (Edge edge : edges)
+        {
+            // paint edge
+        }
+    }
+
+
+    @Override
+    public void show() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'show'");
+    }
+
+
+    @Override
+    public void render(float delta) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'render'");
+    }
+
+
+    @Override
+    public void resize(int width, int height) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'resize'");
+    }
+
+
+    @Override
+    public void pause() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'pause'");
+    }
+
+
+    @Override
+    public void resume() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'resume'");
+    }
+
+
+    @Override
+    public void hide() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'hide'");
+    }
+
+
+    @Override
+    public void dispose() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'dispose'");
+    }
+    
 }
 
