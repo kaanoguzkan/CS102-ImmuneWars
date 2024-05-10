@@ -10,15 +10,13 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.*;
-import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.badlogic.gdx.graphics.Texture;
 import com.immunewars.game.ImmuneWars;
 import com.immunewars.game.GameConfig;
 
-public class MainMenuScreen implements Screen 
-{
+public class MainMenuScreen implements Screen {
 	float cameraX = GameConfig.resolutionX;
 	float cameraY = GameConfig.resolutionY;
 	Stage stage;
@@ -36,9 +34,7 @@ public class MainMenuScreen implements Screen
 		
 		stage = new Stage();
 		stage.setViewport(viewport);
-		DynamicBackground db = new DynamicBackground(new Texture("title screen.png"), 0, 0, GameConfig.resolutionX, GameConfig.resolutionY);
-		stage.addActor(db);
-
+		
 		Gdx.input.setInputProcessor(stage);	
 		TextButton.TextButtonStyle buttonStyle = new TextButton.TextButtonStyle();
 		buttonStyle.font = new BitmapFont();
@@ -47,6 +43,7 @@ public class MainMenuScreen implements Screen
 		Drawable drawableButtonDownTexture = drawableButtonUpTexture.tint(new Color(1f,1f,1f,0.5f));
 		buttonStyle.up = drawableButtonUpTexture;
 		buttonStyle.down = drawableButtonDownTexture;
+		
 		TextButton button1 = new TextButton("TicTacToe", buttonStyle);
 		TextButton button2 = new TextButton("SpaceInvaders", buttonStyle);
 		button2.setBounds(0, 100, 200, 100);
@@ -56,6 +53,9 @@ public class MainMenuScreen implements Screen
 
 		TextButton button4 = new TextButton ("Snake", buttonStyle);
 		button4.setBounds(0, 300, 200, 100);
+
+		TextButton button5 = new TextButton ("ImagesImagesImages", buttonStyle);
+		button5.setBounds(0, 400, 200, 100);
 
 		button1.addListener(new ChangeListener() {
 			@Override
@@ -87,11 +87,20 @@ public class MainMenuScreen implements Screen
 				game.setScreen(new SnakeScreen(game));
 			}
 		});
+
+		button5.addListener(new ChangeListener() {
+			@Override
+			public void changed (ChangeEvent event, Actor actor) {
+				System.out.println("Button5 pressed");
+				game.setScreen(new ImageMatchingScreen(game,3));
+			}
+		});
 		
 		stage.addActor(button1);
 		stage.addActor(button2);
 		stage.addActor(button3);
 		stage.addActor(button4);
+		stage.addActor(button5);
 	}
 
 	@Override
@@ -103,7 +112,6 @@ public class MainMenuScreen implements Screen
 	@Override
 	public void render(float delta) {
 		stage.draw();
-		stage.act();
 	}
 
 	@Override

@@ -7,7 +7,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch; 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -18,40 +18,18 @@ import com.immunewars.game.ImmuneWars;
 import com.immunewars.game.minigameBackend.MinigamePresets;
 import com.immunewars.game.minigameBackend.Snake.Apple;
 import com.immunewars.game.minigameBackend.Snake.Pixel;
+import com.immunewars.game.minigameBackend.Snake.SnakeTail;
 import com.immunewars.game.minigameBackend.Snake.snakeBody;
 import com.immunewars.game.minigameBackend.Snake.snakeHead;
 
-
-/** Main screen, core of the snake game
- * snake body and head are seperate classes even though almost every func is the same
- * it is as it is for possible implementations / putting a proper image to it in the future
- * -
- * Someday I may put some funcs in pixel class such as getPixel() to reduce copy-code
- * In that way it is better but not clearer.
- * And may delete the grid-line-making-part of the render()
- * but in that way it can be a bit too overwhelming to play.
- * Possible score implementation can be made via snakeParts.size()
- * -
- * It will be very hard to implement a map-background image on this game.
- * The important things such as pixel size are mentioned in MinigamePresets.
- * -
- * Have we decided whether if we will play the games using WASD or not btw?
- * We may declare it in MinigamePresets to make these look cooler idk
- * -
- * remove all of the comments if it overwhelms, it is enough if at least 1 human red all of the things.
- * I can't because Akmuhammed happened to me.
- * -
- * snake should not tp to other side of the box whenever it reaches a side right?
- * -
- * check MinigamePresets class.
- * -Ü
- */
+//check minigame presets.
 
 public class SnakeScreen implements Screen{
 
     private ShapeRenderer shapeRenderer;
     public static SnakeScreen currentScreen;
 	final ImmuneWars game;
+    Random random = new Random();
 	
 	int cameraX = GameConfig.resolutionX; 
 	int cameraY = GameConfig.resolutionY;
@@ -59,12 +37,12 @@ public class SnakeScreen implements Screen{
 	Viewport viewport;
 	Stage stage;
 	SpriteBatch batch;
-    int mehmetcan = 31;
 	
     snakeBody snakePart;
+    ArrayList<Pixel> snakeParts; // hmmmmmmmmm
 	snakeHead theSnakeHead;
+    SnakeTail theSnakeTail;
     Apple theApple;
-    ArrayList<Pixel> snakeParts;
     final int PIXEL_SIZE = MinigamePresets.Snake.PIXEL_SIZE;
     final int BOARD_WIDTH = MinigamePresets.Snake.xBound;
     final int BOARD_HEIGHT = MinigamePresets.Snake.yBound;
@@ -72,15 +50,23 @@ public class SnakeScreen implements Screen{
     int tempX, tempY;
     float tick;
     Pixel currPixel, targetPixel;
+    private boolean gameTerminated;
 	
     /**
      * Constructor of the snake game
      * @param game , in our case immunewars
      */
+
+    /* set speed pixel size etc. 
+       colors change according the whichever turn it is?
+       kaan has a a lot of work to do.
+       set score = snakeParts.size()
+     */
     public SnakeScreen(ImmuneWars game) {
         snakeParts = new ArrayList<Pixel>();
 		currentScreen = this;
 		this.game = game;
+        gameTerminated = false;
 		
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, cameraX, cameraY);
@@ -92,8 +78,9 @@ public class SnakeScreen implements Screen{
 		stage.setViewport(viewport);
 		Gdx.input.setInputProcessor(stage);
 		
-		theSnakeHead = new snakeHead(1,1, PIXEL_SIZE); // snakeHead declare
-        theApple = new Apple(10 ,10); // Apple declare
+		theSnakeHead = new snakeHead(1,1, PIXEL_SIZE, this); // snakeHead declare
+        theSnakeTail = new SnakeTail(theSnakeHead.getPixelX() - 1, theSnakeHead.getPixelY()); // snakeTail declare
+        theApple = new Apple(random.nextInt(HORIZONTAL_PIXELS) ,random.nextInt(VERTICAL_PIXELS)); // Apple declare
 
 		stage.addActor(theSnakeHead); // add snakeHead
         this.create(); //calls the func create which creates shape renderer, and possibly more ¯\_(ツ)_/¯
@@ -107,13 +94,7 @@ public class SnakeScreen implements Screen{
     @Override
     public void render(float delta) {
 
-        Random rand = new Random();
-        if(theSnakeHead.intersects(theApple)){
-            System.out.println("interact apple!");
-            Pixel memApple = new Pixel(theApple.getPixel());
-            snakeParts.add(memApple);
-            theApple.moveElse(rand.nextInt(VERTICAL_PIXELS), rand.nextInt(HORIZONTAL_PIXELS));
-        }
+        if(checkTermination()){this.terminateGame();}
 
         Gdx.gl.glClearColor(0, 0, 0, 1); // set color to black
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -132,40 +113,52 @@ public class SnakeScreen implements Screen{
 
         //SnakeHead
         currPixel = new Pixel(theSnakeHead.getPixel());
-        targetPixel = new Pixel(theSnakeHead.getPixel());
+        targetPixel = new Pixel(currPixel);
 
         stage.act(delta); // the only thing that acts is snakeHead which does it at the slowed tick rate!!!
 
-        shapeRenderer.rect(theSnakeHead.getPixelX() * PIXEL_SIZE, theSnakeHead.getPixelY() * PIXEL_SIZE, PIXEL_SIZE, PIXEL_SIZE);
-
-        /*snake body
-         * Updates its cordinates whenever head moves, which moves at a slower tick rate at his own class
-         */
-        if(theSnakeHead.didHeadMove()){
-            for(Pixel element: snakeParts){
-                currPixel.setPixel(element);
-                element.setPixel(targetPixel);
-                targetPixel.setPixel(currPixel);
+        if(theSnakeHead.didHeadMove()){        // for every snake-game-tick
+            if(theSnakeHead.intersects(theApple.getPixel())){
+                System.out.println("interact apple!");
+                Pixel memApple = new Pixel(theApple.getPixel());
+                snakeParts.add(memApple);
+                theApple.moveElse(randomMoveablePixel());
             }
+
+            if(snakeParts.size() != 0){
+                for(Pixel element: snakeParts){
+                    currPixel.setPixel(element);
+                    element.setPixel(targetPixel);
+                    targetPixel.setPixel(currPixel);
+                }
+            }
+            theSnakeTail.setPixel(currPixel);
         }
+
+        //TODO -------------SKINS-----
+
         // render snake body
         for(Pixel element: snakeParts){
             System.out.println("renders" + element.getX() + " " + element.getY() + "while head is at" + theSnakeHead.getPixelX() + " " + theSnakeHead.getPixelY());
             System.out.println();
             shapeRenderer.rect(element.getX() * PIXEL_SIZE, element.getY() * PIXEL_SIZE, PIXEL_SIZE, PIXEL_SIZE);
         }
-
+        //tail
+        shapeRenderer.setColor(1, 0, 0, 1); // Set color to blue
+        shapeRenderer.rect(theSnakeTail.getPixelX() * PIXEL_SIZE, theSnakeTail.getPixelY() * PIXEL_SIZE, PIXEL_SIZE, PIXEL_SIZE);
+        
         //Apple
         shapeRenderer.setColor(1, 0, 0, 1); // Set color to red
         shapeRenderer.rect(theApple.getPixelX() * PIXEL_SIZE, theApple.getPixelY() * PIXEL_SIZE, PIXEL_SIZE, PIXEL_SIZE);
 
+        //head
+        shapeRenderer.setColor(0, 1, 0, 1); // Set color to green
+        shapeRenderer.rect(theSnakeHead.getPixelX() * PIXEL_SIZE, theSnakeHead.getPixelY() * PIXEL_SIZE, PIXEL_SIZE, PIXEL_SIZE);
+        
+        
         shapeRenderer.end(); // useless..? i am too afraid to delete it.
 
     }
-    
-    /* --------------  Useless ones for now.
-     * 
-     */
 
     @Override
     public void pause() {
@@ -174,6 +167,27 @@ public class SnakeScreen implements Screen{
         // cant we just throw a new stage for menu?
         //does the pause method actually pause?
     }
+
+    public Pixel randomMoveablePixel(){
+        Pixel result = new Pixel(random.nextInt(VERTICAL_PIXELS), random.nextInt(HORIZONTAL_PIXELS));
+        for(Pixel element: snakeParts){
+            if(result.equals(element)){
+                return randomMoveablePixel();
+            }
+        }
+        return result;
+    }
+
+    public boolean checkTermination(){
+        for(Pixel element: snakeParts){
+            if(theSnakeHead.intersects(element)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void terminateGame(){gameTerminated = true;}
 
     @Override
     public void resize(int width, int height) {}

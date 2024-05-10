@@ -9,13 +9,12 @@ public class Apple extends Actor{
         appleTile = new Pixel(x, y);
     }
 
-    /**
-     * to move the apple at the given pixel cordinate
-     * @param x new x
-     * @param y new y
-     */
     public void moveElse(int x, int y){
         appleTile.setPixel(x, y);
+    }
+
+    public void moveElse(Pixel x){
+        appleTile.setPixel(x);
     }
 
     public int getPixelX() {return appleTile.getX();}

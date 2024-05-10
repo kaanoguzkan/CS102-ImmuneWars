@@ -4,21 +4,20 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 
 
 public class snakeBody extends Actor{
-    int x, y;
-    Pixel snakeBody;
+    private int x, y;
+    private Pixel snakeBody;
     public snakeBody(int x, int y){
         this.x = x;
         this.y = y;
         snakeBody = new Pixel(x, y);
     }
     
-    /**
-     * sets the pixel at the given new x and y.
-     * @param x new x
-     * @param y new y
-     */
     public void setPixel(int x , int y){
         this.x = x;
         this.y = y;
+    }
+
+    public void setPixel(Pixel x){
+        this.snakeBody = x;
     }
 }

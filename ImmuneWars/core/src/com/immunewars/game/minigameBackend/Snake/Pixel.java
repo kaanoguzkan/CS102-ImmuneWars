@@ -5,7 +5,7 @@ package com.immunewars.game.minigameBackend.Snake;
  */
 
 public class Pixel {
-    int x, y;
+    private int x, y;
     public Pixel(int x, int y) {
         this.x = x;
         this.y = y;
@@ -16,11 +16,6 @@ public class Pixel {
         this.y = e.getY();
     }
 
-    /**
-     * sets the pixel at the given new x and y.
-     * @param x new x
-     * @param y new y
-     */
     public void setPixel(int x , int y){
         this.x = x;
         this.y = y;
@@ -33,5 +28,7 @@ public class Pixel {
     
     public int getX() {return x;}
     public int getY() {return y;}
-
+    public String toString(){
+        return x + y + "";
+    }
 }

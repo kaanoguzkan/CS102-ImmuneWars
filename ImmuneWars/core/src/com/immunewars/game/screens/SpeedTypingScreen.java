@@ -20,6 +20,7 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.badlogic.gdx.graphics.Texture;
 import com.immunewars.game.ImmuneWars;
+import com.immunewars.game.minigameBackend.MinigamePresets;
 import com.immunewars.game.minigameBackend.SpeedTyping.Box;
 import com.immunewars.game.GameConfig;
 
@@ -35,20 +36,27 @@ public class SpeedTypingScreen implements Screen
 	SpriteBatch batch;
     final int SPACE_BETWEEN_BOXES = 10;
     ArrayList<Box> boxes = new ArrayList<Box>();
-    public TextField textField; 
+    TextField textField; 
     String word;
     Label label;
     Group boxGroup;
     Group letters;
-    String wordList[] = {"carbohydrate", "aminoacid", "protein", "bacteria", "nucleicacid"};
+    String wordList[] = MinigamePresets.SpeedTyping.wordList;
     int score = 0;
     Label scoreLabel;
+
+    private float timeCount;
+    private int gameTimer;
+    private Label timerLabel;
+
+    private Label meaningLabel;
 
     public SpeedTypingScreen(ImmuneWars game)
     {
         this.game = game;
+        gameTimer = 50;
 
-        Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
+        Skin skin = new Skin(Gdx.files.internal("uiskin.json")); // sets the font and all; across all letter-related-elements
 
         boxGroup = new Group();
         letters = new Group();
@@ -57,7 +65,12 @@ public class SpeedTypingScreen implements Screen
         textField.setVisible(false);
 
         label = new Label("", skin);
-        label.setPosition(500, 700);
+        label.setPosition(600, 700);
+
+        timerLabel = new Label((" TIME REMAINING: "+ String.valueOf(gameTimer)), skin);
+        timerLabel.setPosition(0, cameraY - 50);
+
+        meaningLabel = new Label("mehmetcan", skin);
         
         
         camera = new OrthographicCamera();
@@ -79,35 +92,19 @@ public class SpeedTypingScreen implements Screen
         stage.addActor(letters);
         stage.addActor(scoreLabel);
         stage.setKeyboardFocus(textField);
+        stage.addActor(timerLabel);
 
         Random rand = new Random();
         int a = rand.nextInt(wordList.length);
         newWord(wordList[a]);
     }
 
-    public void newWord(String  newWord)
-    {
-        word = newWord;
-        label.setText(word);
-        int indent = (GameConfig.resolutionX -(word.length() * Box.BOX_WIDTH + (word.length() - 1) * SPACE_BETWEEN_BOXES)) / 2;
-        boxes = new ArrayList<Box>();
-        for (int i = 0; i <  word.length(); i++)
-        {
-            Box box = new Box(indent + i * (Box.BOX_WIDTH + SPACE_BETWEEN_BOXES) , letters, word, i);
-            boxes.add(box);
-            boxGroup.addActor(box);
-        }
-
-    }
-
-    @Override
-    public void show() {
-       
-    }
-
     @Override
     public void render(float delta) 
     {
+        this.update(delta);
+        this.terminateGame();
+        System.out.println(textField.getText());
         scoreLabel.setText("Score: " + score);
         Gdx.gl.glClearColor(.1f, .12f, .16f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -121,14 +118,14 @@ public class SpeedTypingScreen implements Screen
         }
         for (int i = textField.getText().length(); i < word.length(); i++)
         {
-            boxes.get(i).updateLetter();
+            boxes.get(i).resetLetter();
         }
 
-        if (check())
+        if (checkWord())
         {
             score++;
 
-            textField.setText("");;
+            textField.setText("");
             
             for(int i = 0; i < boxes.size(); i++)
             {
@@ -143,7 +140,7 @@ public class SpeedTypingScreen implements Screen
         stage.draw();
     }
 
-    public boolean check()
+    public boolean checkWord()
     {
         for (Box box : boxes)
         {
@@ -155,10 +152,43 @@ public class SpeedTypingScreen implements Screen
         return true;
     }
 
+    
+    public void newWord(String  newWord)
+    {
+        word = newWord;
+        label.setText(word);
+        int indent = (GameConfig.resolutionX -(word.length() * Box.BOX_WIDTH + (word.length() - 1) * SPACE_BETWEEN_BOXES)) / 2;
+        boxes = new ArrayList<Box>();
+        for (int i = 0; i <  word.length(); i++)
+        {
+            Box box = new Box(indent + i * (Box.BOX_WIDTH + SPACE_BETWEEN_BOXES) , letters, word, i);
+            boxes.add(box);
+            boxGroup.addActor(box);
+        }
+        textField.setMaxLength(word.length());
+    }
+
+    public void update(float dt){
+        timeCount += dt;
+        if(timeCount >= 1){ // 1 second
+            gameTimer--;
+            timerLabel.setText(" TIME REMAINING: " + String.format("%02d", gameTimer));
+            timeCount = 0;
+        }
+    }
+
+    public boolean terminateGame(){
+        if(gameTimer <= 0){return true;} //TODO idk do something with it
+        else{return false;}
+    }
+
     @Override
     public void resize(int width, int height) {
         viewport.update(width, height);
     }
+
+    @Override
+    public void show() {}
 
     @Override
     public void pause() {

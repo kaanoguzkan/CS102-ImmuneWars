@@ -7,20 +7,22 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.immunewars.game.minigameBackend.Minigame;
+import com.immunewars.game.minigameBackend.MinigamePresets;
 
 public class Box extends Actor{
 
-    public static final int BOX_HEIGHT = 100;
-    public static final int BOX_WIDTH = 50;
-    public String letter = "A";
+    public static final int BOX_HEIGHT = MinigamePresets.SpeedTyping.BOX_HEIGHT;
+    public static final int BOX_WIDTH = MinigamePresets.SpeedTyping.BOX_WIDTH;
+    public String letter = " "; //temporary value
     Texture texture;
     Label label;
     String word;
-    int boxNumber;
+    int boxIndex;
 
     public Box (int x, Group letters, String word, int boxNumber)
     {
-        this.boxNumber = boxNumber;
+        this.boxIndex = boxNumber;
         this.word = word;
         Label.LabelStyle labelStyle = new Label.LabelStyle();
         BitmapFont myFont = new BitmapFont();
@@ -37,20 +39,18 @@ public class Box extends Actor{
     public void act (float delta)
     {
         label.setText(letter);
-        if (word.substring(boxNumber, boxNumber + 1).equals(letter) )
-        {
+        
+        if(this.check()){
             label.setColor(Color.GREEN);
-        }
-        else
-        {
-            
+        }else{
             label.setColor(Color.RED);
-        }
+        } 
+
     }
 
     public boolean check()
     {
-        if (word.substring(boxNumber, boxNumber + 1).equals(letter) )
+        if (word.substring(boxIndex, boxIndex + 1).equals(letter) )
         {
             return true;
         }
@@ -67,13 +67,14 @@ public class Box extends Actor{
     }
     public void updateLetter(String input)
     {
-        letter = input.substring(boxNumber, boxNumber + 1);
+        letter = input.substring(boxIndex, boxIndex + 1);
     }
 
-    public void updateLetter()
+    public void resetLetter()
     {
         letter = "";
     }
+
     public void draw (Batch batch) {
 		batch.draw(texture, getX(), getY(), getWidth(), getHeight());
         
