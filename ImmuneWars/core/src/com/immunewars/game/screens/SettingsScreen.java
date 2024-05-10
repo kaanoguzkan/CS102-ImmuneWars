@@ -13,20 +13,23 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.immunewars.game.ImmuneWars;
 
 
 public class SettingsScreen extends ScreenAdapter
 {
     private Stage stage;
     
-    public SettingsScreen()
+    public SettingsScreen(ImmuneWars game) 
     {
-        stage = new Stage(new ScreenViewport());
-
-        Gdx.input.setInputProcessor(stage);
-        createUI();  
-     
+        stage = new Stage(new ScreenViewport()); // Create a stage with a screen-fitting viewport
+        Gdx.input.setInputProcessor(stage); // Start taking input from the stage
+        createUI(); // Create the UI
     }
+    
+        
+     
+    
 
     private void createUI() {
         // Create a table for layout

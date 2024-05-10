@@ -1,5 +1,7 @@
 package com.immunewars.game.screens;
 
+import org.w3c.dom.Text;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
@@ -34,6 +36,10 @@ public class MainMenuScreen implements Screen {
 		
 		stage = new Stage();
 		stage.setViewport(viewport);
+
+		DynamicBackground db = new DynamicBackground(new Texture("title screen.png"), 0, 0, GameConfig.resolutionX, GameConfig.resolutionY);
+
+		stage.addActor(db);
 		
 		Gdx.input.setInputProcessor(stage);	
 		TextButton.TextButtonStyle buttonStyle = new TextButton.TextButtonStyle();
@@ -56,6 +62,9 @@ public class MainMenuScreen implements Screen {
 
 		TextButton button5 = new TextButton ("ImagesImagesImages", buttonStyle);
 		button5.setBounds(0, 400, 200, 100);
+
+		TextButton button6 = new TextButton ("Settings", buttonStyle);
+		button6.setBounds(0, 500, 200, 100);
 
 		button1.addListener(new ChangeListener() {
 			@Override
@@ -95,12 +104,20 @@ public class MainMenuScreen implements Screen {
 				game.setScreen(new ImageMatchingScreen(game,3));
 			}
 		});
+		button6.addListener(new ChangeListener() {
+			@Override
+			public void changed (ChangeEvent event, Actor actor) {
+				System.out.println("Button6 pressed");
+				game.setScreen(new SettingsScreen(game));
+			}
+		});
 		
 		stage.addActor(button1);
 		stage.addActor(button2);
 		stage.addActor(button3);
 		stage.addActor(button4);
 		stage.addActor(button5);
+		stage.addActor(button6);
 	}
 
 	@Override
@@ -112,6 +129,8 @@ public class MainMenuScreen implements Screen {
 	@Override
 	public void render(float delta) {
 		stage.draw();
+
+		stage.act();
 	}
 
 	@Override
