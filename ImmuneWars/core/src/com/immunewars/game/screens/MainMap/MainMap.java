@@ -33,8 +33,6 @@ public class MainMap implements Screen
     Node footNode = new Node(12, 0, 0, "Foot", 0, new ArrayList<Node>(), 2);
     Node handNode = new Node(13, 0, 0, "Hand", 0, new ArrayList<Node>(), 4);
 
-
-
     Edge brainEyesEdge = new Edge(brainNode, eyesNode);
     Edge brainMouthEdge = new Edge(brainNode, mouthNode);
     Edge brainNoseEdge = new Edge(brainNode, noseNode);
