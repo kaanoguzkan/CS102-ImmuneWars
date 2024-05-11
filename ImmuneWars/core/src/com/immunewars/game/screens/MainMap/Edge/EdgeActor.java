@@ -30,10 +30,7 @@ public class EdgeActor extends Actor
 
         if (node1 != null && node2 != null) 
         {
-            shapeRenderer.line(node1.getX() + node1.getY(), 
-                               node1.getY() + node1.getY(),
-                               node2.getX() + node2.getY(), 
-                               node2.getY() + node2.getY());
+            shapeRenderer.line(node1.getX(), node1.getY() , node2.getX(), node2.getY() );
         } 
 
         shapeRenderer.end();
