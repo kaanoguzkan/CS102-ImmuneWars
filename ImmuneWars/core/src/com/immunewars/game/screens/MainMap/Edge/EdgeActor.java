@@ -6,53 +6,48 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.immunewars.game.screens.MainMap.Node.NodeActor;
+import com.immunewars.game.screens.MainMap.Node.Node;
 
 public class EdgeActor extends Actor 
 {
-    private NodeActor nodeActor1, nodeActor2;
+    private Edge edgeData;
+    private ShapeRenderer shapeRenderer;
+    private Color lineColor = Color.WHITE; // Default color
 
-    public EdgeActor(NodeActor nodeActor1, NodeActor nodeActor2)
-    {
-        this.nodeActor1 = nodeActor1;
-        this.nodeActor2 = nodeActor2;
+    public EdgeActor(ShapeRenderer shapeRenderer, Edge edgeData) {
+        this.shapeRenderer = shapeRenderer;
+        this.edgeData = edgeData;
     }
-    
+
     @Override
-    public void draw(Batch batch, float parentAlpha)
-    {
-        ShapeRenderer shapeRenderer = new ShapeRenderer();
-        shapeRenderer.setProjectionMatrix(batch.getProjectionMatrix());
+    public void draw(Batch batch, float parentAlpha) {
+        batch.end(); // End SpriteBatch
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Line); 
+        shapeRenderer.setColor(lineColor);
 
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-        shapeRenderer.setColor(Color.BLACK); // Set desired color
-        shapeRenderer.line(
-            nodeActor1.getX() + nodeActor1.getWidth() / 2, 
-            nodeActor1.getY() + nodeActor1.getHeight() / 2,
-            nodeActor2.getX() + nodeActor2.getWidth() / 2,
-            nodeActor2.getY() + nodeActor2.getHeight() / 2
-        );
+        NodeActor node1 = findNodeActor(edgeData.getStart());
+        NodeActor node2 = findNodeActor(edgeData.getEnd());
+
+        if (node1 != null && node2 != null) 
+        {
+            shapeRenderer.line(node1.getX() + node1.getY(), 
+                               node1.getY() + node1.getY(),
+                               node2.getX() + node2.getY(), 
+                               node2.getY() + node2.getY());
+        } 
+
         shapeRenderer.end();
+        batch.begin(); // Restart SpriteBatch
     }
 
-    public NodeActor getNodeActor1() 
-    {
-        return nodeActor1;
+    private NodeActor findNodeActor(Node node) {
+        for (Actor actor : getStage().getActors()) {
+            if (actor instanceof NodeActor && ((NodeActor) actor).getNodeData() == node) {
+                return (NodeActor) actor;
+            }
+        }
+        return null;
     }
 
-    public void setNodeActor1(NodeActor nodeActor1) 
-    {
-        this.nodeActor1 = nodeActor1;
-    }
-
-    public NodeActor getNodeActor2() 
-    {
-        return nodeActor2;
-    }
-
-    public void setNodeActor2(NodeActor nodeActor2) 
-    {
-        this.nodeActor2 = nodeActor2;
-    }
-
-    
+    // Add getters and setters for lineColor if needed
 }

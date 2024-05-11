@@ -17,7 +17,7 @@ public class NodeActor extends Actor {
 
     public NodeActor(ShapeRenderer shapeRenderer, Node nodeData) {
         this.shapeRenderer = shapeRenderer;
-        this.nodeData = nodeData;
+        this.nodeData = nodeData.getNode();
         setWidth(2 * radius);
         setHeight(2 * radius);
         setPosition(getOriginX(), getOriginY());

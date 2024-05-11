@@ -12,15 +12,19 @@ public class Node
     private ArrayList<Node> neighbors;
     private int weight;
 
-    public Node(int id, int x, int y, String name, int type, ArrayList<Node> neighbors, int weight)
+    public Node(int id, int x, int y, String name, int type, int weight)
     {
         this.id = id;
         this.x = x;
         this.y = y;
         this.name = name;
         this.type = type;
-        this.neighbors = neighbors;
         this.weight = weight;
+    }
+
+    public Node getNode()
+    {
+        return this;
     }
 
     public int getId() 

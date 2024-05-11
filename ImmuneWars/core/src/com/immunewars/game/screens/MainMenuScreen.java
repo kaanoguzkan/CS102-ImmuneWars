@@ -16,6 +16,7 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.badlogic.gdx.graphics.Texture;
 import com.immunewars.game.ImmuneWars;
+import com.immunewars.game.screens.MainMap.MainMap;
 import com.immunewars.game.GameConfig;
 
 public class MainMenuScreen implements Screen {
@@ -66,6 +67,9 @@ public class MainMenuScreen implements Screen {
 		TextButton button6 = new TextButton ("Settings", buttonStyle);
 		button6.setBounds(0, 500, 200, 100);
 
+		TextButton button7 = new TextButton ("Map", buttonStyle);
+		button7.setBounds(0, 600, 200, 100);
+
 		button1.addListener(new ChangeListener() {
 			@Override
 			public void changed (ChangeEvent event, Actor actor) {
@@ -111,6 +115,13 @@ public class MainMenuScreen implements Screen {
 				game.setScreen(new SettingsScreen(game));
 			}
 		});
+		button7.addListener(new ChangeListener() {
+			@Override
+			public void changed (ChangeEvent event, Actor actor) {
+				System.out.println("Button7 pressed");
+				game.setScreen(new MainMap(game));
+			}
+		});
 		
 		stage.addActor(button1);
 		stage.addActor(button2);
@@ -118,6 +129,7 @@ public class MainMenuScreen implements Screen {
 		stage.addActor(button4);
 		stage.addActor(button5);
 		stage.addActor(button6);
+		stage.addActor(button7);
 	}
 
 	@Override

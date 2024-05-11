@@ -2,11 +2,16 @@ package com.immunewars.game.screens.MainMap;
 
 import java.util.ArrayList;
 
+import javax.swing.text.StyledEditorKit.ForegroundAction;
+
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.immunewars.game.screens.MainMap.Node.Node;
+import com.immunewars.game.ImmuneWars;
 import com.immunewars.game.screens.MainMap.Edge.Edge;
 import com.immunewars.game.screens.MainMap.Node.NodeActor;
 import com.immunewars.game.screens.MainMap.Edge.EdgeActor;
@@ -15,23 +20,24 @@ public class MainMap implements Screen
 {
     private ShapeRenderer shapeRenderer;
     private Stage stage;
+    private Image background;
     
     ArrayList<Node> nodes = new ArrayList<Node>();
     ArrayList<Edge> edges = new ArrayList<Edge>();
-    Node brainNode = new Node(0, 0, 0, "Brain", 0, new ArrayList<Node>(), 10);
-    Node eyesNode = new Node(1, 0, 0, "Eyes", 0, new ArrayList<Node>(), 2);
-    Node mouthNode = new Node(2, 0, 0, "Mouth", 0, new ArrayList<Node>(), 4);
-    Node noseNode = new Node(3, 0, 0, "Nose", 0, new ArrayList<Node>(), 3);
-    Node hearthNode = new Node(4, 0, 0, "Hearth", 0, new ArrayList<Node>(), 9);
-    Node lungsNode = new Node(5, 0, 0, "Lungs", 0, new ArrayList<Node>(), 9);
-    Node stomachNode = new Node(6, 0, 0, "Stomach", 0, new ArrayList<Node>(), 3);
-    Node liverNode = new Node(7, 0, 0, "Liver", 0, new ArrayList<Node>(), 6);
-    Node kidneysNode = new Node(8, 0, 0, "Kidneys", 0, new ArrayList<Node>(), 6);
-    Node intestinesNode = new Node(9, 0, 0, "Intestines", 0, new ArrayList<Node>(), 3);
-    Node armNode = new Node(10, 0, 0, "Arm", 0, new ArrayList<Node>(), 3);
-    Node legNode = new Node(11, 0, 0, "Leg", 0, new ArrayList<Node>(), 3);
-    Node footNode = new Node(12, 0, 0, "Foot", 0, new ArrayList<Node>(), 2);
-    Node handNode = new Node(13, 0, 0, "Hand", 0, new ArrayList<Node>(), 4);
+    Node brainNode = new Node(0, 0, 0, "Brain", 0, 10);
+    Node eyesNode = new Node(1, 0, 0, "Eyes", 0, 2);
+    Node mouthNode = new Node(2, 0, 0, "Mouth", 0, 4);
+    Node noseNode = new Node(3, 0, 0, "Nose", 0, 3);
+    Node hearthNode = new Node(4, 0, 0, "Hearth", 0, 9);
+    Node lungsNode = new Node(5, 0, 0, "Lungs", 0, 9);
+    Node stomachNode = new Node(6, 0, 0, "Stomach", 0, 3);
+    Node liverNode = new Node(7, 0, 0, "Liver", 0, 6);
+    Node kidneysNode = new Node(8, 0, 0, "Kidneys", 0, 6);
+    Node intestinesNode = new Node(9, 0, 0, "Intestines", 0, 3);
+    Node armNode = new Node(10, 0, 0, "Arm", 0, 3);
+    Node legNode = new Node(11, 0, 0, "Leg", 0, 3);
+    Node footNode = new Node(12, 0, 0, "Foot", 0, 2);
+    Node handNode = new Node(13, 0, 0, "Hand", 0, 4);
 
     Edge brainEyesEdge = new Edge(brainNode, eyesNode);
     Edge brainMouthEdge = new Edge(brainNode, mouthNode);
@@ -57,7 +63,9 @@ public class MainMap implements Screen
     Edge legFootEdge = new Edge(legNode, footNode);
     Edge intestinesLegEdge = new Edge(intestinesNode, legNode);
 
-    public MainMap() 
+    
+
+    public MainMap(ImmuneWars game) 
     {
         nodes.add(brainNode);
         nodes.add(eyesNode);
@@ -100,46 +108,50 @@ public class MainMap implements Screen
 
         stage = new Stage();
         shapeRenderer = new ShapeRenderer();
+
+        paintMap();
+        render(0);
     }
 
 
     // method that paints this nodes and edges to the map 
     public void paintMap()
     {
+        // paint background
+        background = new Image(new Texture("mapBackground.png"));
+        stage.addActor(background);
         // paint nodes
-        for (Node node : nodes)
+        for (Node node : nodes) 
         {
-            // paint node do it for nodeActor
-        
-
+            NodeActor nodeActor = new NodeActor(shapeRenderer, node);
+            stage.addActor(nodeActor);
         }
-
-        // paint edges
-        for (Edge edge : edges)
+        for(Edge edge : edges)
         {
-            // paint edge
+            EdgeActor edgeActor = new EdgeActor(shapeRenderer, edge);
+            stage.addActor(edgeActor);
         }
     }
 
 
     @Override
     public void show() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'show'");
     }
 
 
     @Override
     public void render(float delta) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'render'");
+        // renders the stage
+        stage.act();
+        stage.draw();
+
+
     }
 
 
     @Override
     public void resize(int width, int height) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'resize'");
+        
     }
 
 
