@@ -24,16 +24,16 @@ public class MainMapScreen implements Screen
     
     ArrayList<Node> nodes = new ArrayList<Node>();
     ArrayList<Edge> edges = new ArrayList<Edge>();
-    Node brainNode = new Node(0, 0, 0, "Brain", 0, 10);
-    Node eyesNode = new Node(1, 0, 0, "Eyes", 0, 2);
-    Node mouthNode = new Node(2, 0, 0, "Mouth", 0, 4);
-    Node noseNode = new Node(3, 0, 0, "Nose", 0, 3);
-    Node hearthNode = new Node(4, 0, 0, "Hearth", 0, 9);
-    Node lungsNode = new Node(5, 0, 0, "Lungs", 0, 9);
-    Node stomachNode = new Node(6, 0, 0, "Stomach", 0, 3);
-    Node liverNode = new Node(7, 0, 0, "Liver", 0, 6);
-    Node kidneysNode = new Node(8, 0, 0, "Kidneys", 0, 6);
-    Node intestinesNode = new Node(9, 0, 0, "Intestines", 0, 3);
+    Node brainNode = new Node(0, 10, 20, "Brain", 0, 100);
+    Node eyesNode = new Node(1, 0, 0, "Eyes", 0, 20);
+    Node mouthNode = new Node(2, 0, 0, "Mouth", 0, 40);
+    Node noseNode = new Node(3, 0, 0, "Nose", 0, 30);
+    Node hearthNode = new Node(4, 0, 0, "Hearth", 0, 90);
+    Node lungsNode = new Node(5, 0, 0, "Lungs", 0, 90);
+    Node stomachNode = new Node(6, 0, 0, "Stomach", 0, 30);
+    Node liverNode = new Node(7, 0, 0, "Liver", 0, 60);
+    Node kidneysNode = new Node(8, 0, 0, "Kidneys", 0, 60);
+    Node intestinesNode = new Node(9, 0, 0, "Intestines", 0, 30);
     Node armNode = new Node(10, 0, 0, "Arm", 0, 3);
     Node legNode = new Node(11, 0, 0, "Leg", 0, 3);
     Node footNode = new Node(12, 0, 0, "Foot", 0, 2);

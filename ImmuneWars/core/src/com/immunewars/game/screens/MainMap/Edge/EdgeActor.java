@@ -12,7 +12,7 @@ public class EdgeActor extends Actor
 {
     private Edge edgeData;
     private ShapeRenderer shapeRenderer;
-    private Color lineColor = Color.WHITE; // Default color
+    private Color lineColor = Color.PURPLE; // Default color
 
     public EdgeActor(ShapeRenderer shapeRenderer, Edge edgeData) {
         this.shapeRenderer = shapeRenderer;
@@ -50,4 +50,5 @@ public class EdgeActor extends Actor
     }
 
     // Add getters and setters for lineColor if needed
+    
 }

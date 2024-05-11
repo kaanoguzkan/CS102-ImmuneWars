@@ -41,7 +41,7 @@ public class NodeActor extends Actor {
     {
         batch.end(); // End the SpriteBatch 
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-        shapeRenderer.setColor(Color.BLACK); // Or any color you prefer
+        shapeRenderer.setColor(Color.WHITE); // Or any color you prefer
         shapeRenderer.circle(getX() + radius, getY() + radius, radius);
         shapeRenderer.end();
         batch.begin(); // Restart the SpriteBatch
