@@ -8,6 +8,8 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.List;
+import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -40,14 +42,17 @@ public class SettingsScreen extends ScreenAdapter
         // Background Music Section
         Label musicLabel = new Label("Background Music", new Label.LabelStyle(new BitmapFont(), Color.WHITE)); // Default font and white color
         SelectBox<String> musicSelectBox = new SelectBox<>(new SelectBox.SelectBoxStyle()); // Default style
-        musicSelectBox.setItems("Music 1", "Music 2", "Music 3", "Music 4", "Music 5"); // Add music options
-        musicSelectBox.addListener(new ChangeListener() {
+        String[] musicFiles = {"music1.mp3", "music2.ogg", "music3.wav"}; // Your music files
+        SelectBox<String> musicSelect = new SelectBox<>(new SelectBox.SelectBoxStyle(new BitmapFont(), Color.WHITE, null, new ScrollPane.ScrollPaneStyle(), new List.ListStyle())); // Default style without Skin
+        musicSelect.setItems(musicFiles);
+        musicSelect.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                // Handle music selection change (e.g., play the selected music) 
-               
+                String selectedMusic = musicSelect.getSelected();
+                // ... (Load and play the selected music) ...
             }
         });
+
 
         
         // Add music label and select box to the table

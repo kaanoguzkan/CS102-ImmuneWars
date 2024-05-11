@@ -110,7 +110,7 @@ public class MainMap implements Screen
         for (Node node : nodes)
         {
             // paint node do it for nodeActor
-            
+        
 
         }
 
