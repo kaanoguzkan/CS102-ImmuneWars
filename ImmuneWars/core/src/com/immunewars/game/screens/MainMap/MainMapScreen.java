@@ -16,7 +16,7 @@ import com.immunewars.game.screens.MainMap.Edge.Edge;
 import com.immunewars.game.screens.MainMap.Node.NodeActor;
 import com.immunewars.game.screens.MainMap.Edge.EdgeActor;
 
-public class MainMap implements Screen 
+public class MainMapScreen implements Screen 
 {
     private ShapeRenderer shapeRenderer;
     private Stage stage;
@@ -65,7 +65,7 @@ public class MainMap implements Screen
 
     
 
-    public MainMap(ImmuneWars game) 
+    public MainMapScreen(ImmuneWars game) 
     {
         nodes.add(brainNode);
         nodes.add(eyesNode);
@@ -110,26 +110,37 @@ public class MainMap implements Screen
         shapeRenderer = new ShapeRenderer();
 
         paintMap();
+        System.out.println("no sorun.");
         render(0);
+        System.out.println("constructed.");
     }
 
 
     // method that paints this nodes and edges to the map 
     public void paintMap()
     {
+
         // paint background
         background = new Image(new Texture("mapBackground.png"));
         stage.addActor(background);
         // paint nodes
+        NodeActor nodeActor;
         for (Node node : nodes) 
-        {
-            NodeActor nodeActor = new NodeActor(shapeRenderer, node);
-            stage.addActor(nodeActor);
+        {   
+            try {
+                nodeActor = new NodeActor(shapeRenderer, node);
+                stage.addActor(nodeActor);
+            } catch (Exception e) {
+                System.out.println("retard");
+                e.printStackTrace();
+            }
         }
+        System.out.println("nodes painted");
         for(Edge edge : edges)
         {
             EdgeActor edgeActor = new EdgeActor(shapeRenderer, edge);
             stage.addActor(edgeActor);
+            System.out.println("edged to calculus class");
         }
     }
 

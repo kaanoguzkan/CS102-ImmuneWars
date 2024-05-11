@@ -1,0 +1,128 @@
+Cell
+DNA
+Gene
+Protein
+Enzyme
+Mitochondria
+Chloroplast
+Nucleus
+Cytoplasm
+Ribosome
+Photosynthesis
+Respiration
+Mitosis
+Meiosis
+Evolution
+Natural selection
+Mutation
+Adaptation
+Ecosystem
+Food chain
+Trophic level
+Biodiversity
+Biome
+Community
+Population
+Habitat
+Niche
+Species
+Kingdom
+Phylum
+Class
+Order
+Family
+Genus
+Species
+Taxonomy
+Bacteria
+Virus
+Fungi
+Protist
+Archaea
+Prokaryote
+Eukaryote
+Cell membrane
+Cell wall
+Organelle
+Endoplasmic reticulum
+Golgi apparatus
+Lysosome
+Vacuole
+Cytoskeleton
+Diffusion
+Osmosis
+Active transport
+Passive transport
+ATP
+Fermentation
+pH
+Acid
+Base
+Carbon cycle
+Nitrogen cycle
+Water cycle
+Chlorophyll
+Carbohydrate
+Lipid
+Protein
+Nucleic acid
+RNA
+Messenger RNA
+Transfer RNA
+Ribosomal RNA
+DNA replication
+Transcription
+Translation
+Codon
+Anticodon
+Allele
+Dominant
+Recessive
+Homozygous
+Heterozygous
+Phenotype
+Genotype
+Mendelian inheritance
+Punnett square
+Pedigree
+Mutation
+Genetic engineering
+Cloning
+Biotechnology
+Stem cell
+Ecology
+Parasitism
+Mutualism
+Commensalism
+Symbiosis
+Homeostasis
+Antigen
+Antibody
+Immune system
+Immunity
+Innate immunity
+Adaptive immunity
+Cytokines
+Inflammation
+Phagocytosis
+Complement system
+Autoimmune disease
+Allergy
+Immunodeficiency
+Histamine
+Humoral immunity
+Interferons
+Natural killer cells
+Helper T cells
+Cytotoxic T cells
+Regulatory T cells
+Opsonization
+Memory B cells
+Memory T cells
+Granulocytes
+Mast cells
+Dendritic cells
+Phagosome
+Acquired immunity
+Immunosuppression
+Psoriasis

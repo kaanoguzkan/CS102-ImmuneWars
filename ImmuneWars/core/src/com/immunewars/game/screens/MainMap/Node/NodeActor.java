@@ -13,15 +13,18 @@ import com.badlogic.gdx.scenes.scene2d.EventListener;
 public class NodeActor extends Actor {
     private Node nodeData;
     private ShapeRenderer shapeRenderer;
-    private float radius = nodeData.getWeight(); // Set your desired radius
+    private float radius; // Set your desired radius
 
     public NodeActor(ShapeRenderer shapeRenderer, Node nodeData) {
+        System.out.println("trying to construct node");
         this.shapeRenderer = shapeRenderer;
         this.nodeData = nodeData.getNode();
+        radius = nodeData.getWeight();
         setWidth(2 * radius);
         setHeight(2 * radius);
         setPosition(getOriginX(), getOriginY());
         // input listener for touch events
+        System.out.println("adding listeeer");
         addListener(new EventListener() {
             @Override
             public boolean handle(Event event) {
@@ -30,6 +33,7 @@ public class NodeActor extends Actor {
                 return false;
             }
         });
+        System.out.println("screen node constructed");
     }
 
     @Override
