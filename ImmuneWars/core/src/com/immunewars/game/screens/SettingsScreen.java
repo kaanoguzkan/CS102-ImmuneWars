@@ -43,36 +43,25 @@ public class SettingsScreen extends ScreenAdapter
         
         Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
 
-        try {
             musicSelectBox = new SelectBox<>(skin); // Default style
-            System.out.println("no exception");
-        } catch (Exception e) {
-            System.out.println("exception! retard.");
-            e.printStackTrace();
-        }
+            System.out.println("nothing wrong here");
 
         System.out.println("-------------------------");
 
         String[] musicFiles = {"music1.mp3", "music2.ogg", "music3.wav"}; // Your music files
-        System.out.println("music files cons.");
+
         SelectBox<String> musicSelect;
-        try {
-            musicSelect = new SelectBox<>(skin); // Default style without Skin
-            System.out.println("musicSelect constrcuted");
-            musicSelect.setItems(musicFiles);
-            musicSelect.addListener(new ChangeListener() {
-                @Override
-                public void changed(ChangeEvent event, Actor actor) {
-                    String selectedMusic = musicSelect.getSelected();
-                    // ... (Load and play the selected music) ...
-                }
-            });
+        musicSelect = new SelectBox<>(skin); // Default style without Skin
+        System.out.println("musicSelect constrcuted");
+        musicSelect.setItems(musicFiles);
+        musicSelect.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                String selectedMusic = musicSelect.getSelected();
+                // ... (Load and play the selected music) ...
+            }
+        });
     
-        } catch (Exception e) {
-            System.out.println("exception 2 Retard!");
-            e.printStackTrace();
-        }
-        
         System.out.println("naaaaaaah ");
         
 
@@ -83,41 +72,30 @@ public class SettingsScreen extends ScreenAdapter
         table.add(musicSelectBox);
         table.row(); // Move to the next row 
 
-        try {
-            Label resolutionLabel = new Label("Resolution", new Label.LabelStyle(new BitmapFont(), Color.WHITE)); // Default font and white color
-            SelectBox<String> resolutionSelectBox = new SelectBox<>(skin); // Default style
-            resolutionSelectBox.setItems("800x600", "1024x768", "1280x720", "1920x1080"); // Add resolution options
-            resolutionSelectBox.addListener(new ChangeListener() {
-                @Override
-                public void changed(ChangeEvent event, Actor actor) {
-                    // Handle resolution selection change (e.g., change the game resolution) 
-    
-                }
-            });
-        } catch (Exception e) {
-            System.out.println("exception 3 Reatardé!");
-            e.printStackTrace();
-        }
+
+        Label resolutionLabel = new Label("Resolution", new Label.LabelStyle(new BitmapFont(), Color.WHITE)); // Default font and white color
+        SelectBox<String> resolutionSelectBox = new SelectBox<>(skin); // Default style
+        resolutionSelectBox.setItems("800x600", "1024x768", "1280x720", "1920x1080"); // Add resolution options
+        resolutionSelectBox.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                // Handle resolution selection change (e.g., change the game resolution) 
+            }
+        });
         // Change Resolution Section
 
-        System.out.println("nothing wrong.");
-        // Quit Button
-        try {
-            TextButton quitButton = new TextButton("Quit", skin); // Default style
-            System.out.println("quit button cons.");
-            quitButton.addListener(new ChangeListener() 
-            {
-                @Override
-                public void changed(ChangeEvent event, Actor actor) {
-                    Gdx.app.exit(); // Exit the game
-                }
-            });
-            table.add(quitButton);
-        } catch (Exception e) {
-            System.out.println("exception chitri(russian) Retardi!");
-            e.printStackTrace();
-        }
 
+        // Quit Button
+        TextButton quitButton = new TextButton("Quit", skin); // Default style
+        System.out.println("quit button cons.");
+        quitButton.addListener(new ChangeListener() 
+        {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+            Gdx.app.exit(); // Exit the game
+            }
+        });
+        table.add(quitButton);
     }
 
     @Override
