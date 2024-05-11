@@ -22,7 +22,8 @@ public class NodeActor extends Actor {
         radius = nodeData.getWeight();
         setWidth(2 * radius);
         setHeight(2 * radius);
-        setPosition(getOriginX(), getOriginY());
+        setX(nodeData.getX());
+        setY(nodeData.getY());
         // input listener for touch events
         System.out.println("adding listeeer");
         addListener(new EventListener() {
