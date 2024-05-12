@@ -18,20 +18,21 @@ import com.badlogic.gdx.graphics.Texture;
 import com.immunewars.game.ImmuneWars;
 import com.immunewars.game.screens.DynamicBackground;
 import com.immunewars.game.screens.ImageMatchingScreen;
-import com.immunewars.game.screens.MainMap.MainMapScreen;
 import com.immunewars.game.GameConfig;
 
 public class MainMenuScreen implements Screen {
-	float cameraX = GameConfig.resolutionX;
-	float cameraY = GameConfig.resolutionY;
-	Stage stage;
-	Viewport viewport;
+	private float cameraX = GameConfig.resolutionX;
+	private float cameraY = GameConfig.resolutionY;
+	private Stage stage;
+	private Viewport viewport;
 	final ImmuneWars game;
-	OrthographicCamera camera;
-	
+	private OrthographicCamera camera;
+	private MainMenuScreen curr;
+
 	public MainMenuScreen(final ImmuneWars game) {
 		this.game = game;
-		
+		curr = this;
+
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, GameConfig.resolutionX, GameConfig.resolutionY);
 		viewport = new StretchViewport(cameraX, cameraY, camera);
@@ -71,6 +72,9 @@ public class MainMenuScreen implements Screen {
 
 		TextButton button7 = new TextButton ("Map", buttonStyle);
 		button7.setBounds(0, 600, 200, 100);
+
+		TextButton button8 = new TextButton ("Mehmetcan", buttonStyle);
+		button8.setBounds(0, 700, 200, 100);
 
 		button1.addListener(new ChangeListener() {
 			@Override
@@ -121,7 +125,23 @@ public class MainMenuScreen implements Screen {
 			@Override
 			public void changed (ChangeEvent event, Actor actor) {
 				System.out.println("Button7 pressed");
-				game.setScreen(new MainMapScreen(game));
+				game.setScreen(new TheMapScreen(game));
+
+			}
+		});
+
+		button8.addListener(new ChangeListener() {
+			@Override
+			public void changed (ChangeEvent event, Actor actor) {
+				try{
+					System.out.println("Button8 pressed");
+					game.setScreen(new LoadingScreen(game,0));
+				}
+				catch(Exception e){
+					System.out.println("eaehfbsejfbkjwefbkweöbgeo");
+					e.printStackTrace();
+				}
+
 			}
 		});
 		
@@ -132,6 +152,7 @@ public class MainMenuScreen implements Screen {
 		stage.addActor(button5);
 		stage.addActor(button6);
 		stage.addActor(button7);
+		stage.addActor(button8);
 	}
 
 	@Override
