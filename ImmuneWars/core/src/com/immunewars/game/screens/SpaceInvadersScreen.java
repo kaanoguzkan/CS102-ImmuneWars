@@ -16,7 +16,7 @@ import com.immunewars.game.ImmuneWars;
 import com.immunewars.game.minigameBackend.MinigamePresets;
 import com.immunewars.game.minigameBackend.spaceinvaders.*;
 
-public class SpaceInvadersScreen implements Screen {
+public class SpaceInvadersScreen extends TransitionableScreen {
 	public static SpaceInvadersScreen currentScreen;
 	final ImmuneWars game;
 	
@@ -24,11 +24,10 @@ public class SpaceInvadersScreen implements Screen {
 	int cameraY = GameConfig.resolutionY;
 	OrthographicCamera camera;
 	Viewport viewport;
-	Stage stage;
 	SpriteBatch batch;
 	
 	Ship playerShip;
-	float spawnCounter = 0;
+	float spawnCounter = 3f;
 	float spawnInterval = 1f;
 	
 	public SpaceInvadersScreen(ImmuneWars game) {
@@ -60,7 +59,7 @@ public class SpaceInvadersScreen implements Screen {
 	public void render(float delta) {
 		spawnCounter -= delta;
 		if (spawnCounter <= 0) {
-			Enemy newEnemy = new Enemy((float)Math.random()*MinigamePresets.SpaceInvaders.xBound,
+			Enemy newEnemy = new Enemy((float)Math.random()* (MinigamePresets.SpaceInvaders.xBound - 80),
 					MinigamePresets.SpaceInvaders.yBound - 80,
 					80, 80);
 			stage.addActor(newEnemy);
@@ -68,14 +67,14 @@ public class SpaceInvadersScreen implements Screen {
 		}
 		
 		Actor[] actors = stage.getActors().toArray();
-		System.out.println(actors.length);
+		//System.out.println(actors.length);
 		ArrayList<Actor> destroyedActors = new ArrayList<Actor>();
 		ArrayList<Bullet> friendlyBullets = new ArrayList<Bullet>();
 		ArrayList<Enemy> enemies = new ArrayList<Enemy>();
 		
 		for (Actor actor : actors) {
 			if (actor != playerShip) {
-				if (((SIElement)actor).collidesWith(playerShip)) {
+				if (actor instanceof SIElement && ((SIElement)actor).collidesWith(playerShip)) {
 					playerShip.damage();
 					destroyedActors.add(actor);
 					

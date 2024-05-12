@@ -53,8 +53,8 @@ public class MainMenuScreen implements Screen {
 		buttonStyle.up = drawableButtonUpTexture;
 		buttonStyle.down = drawableButtonDownTexture;
 		
-		TextButton button1 = new TextButton("TicTacToe", buttonStyle);
-		TextButton button2 = new TextButton("SpaceInvaders", buttonStyle);
+		TextButton button1 = new TextButton("SpaceInvaders", buttonStyle);
+		TextButton button2 = new TextButton("TicTacToe", buttonStyle);
 		button2.setBounds(0, 100, 200, 100);
 		
 		TextButton button3 = new TextButton ("SpeedTyping", buttonStyle);
@@ -76,14 +76,18 @@ public class MainMenuScreen implements Screen {
 			@Override
 			public void changed (ChangeEvent event, Actor actor) {
 				System.out.println("Button1 pressed");
-				game.setScreen(new TicTacToeScreen(game));
+				//game.setScreen(new TicTacToeScreen(game));
+				TransitionableScreen newScreen = new SpaceInvadersScreen(game);
+				TransitionGenerator tg = new TransitionGenerator(game, stage, newScreen);
+				tg.startTransition();
+				
 			}
 		});
 		button2.addListener(new ChangeListener() {
 			@Override
 			public void changed (ChangeEvent event, Actor actor) {
 				System.out.println("Button2 pressed");
-				game.setScreen(new SpaceInvadersScreen(game));
+				game.setScreen(new TicTacToeScreen(game));
 			}
 		});
 
@@ -142,9 +146,8 @@ public class MainMenuScreen implements Screen {
 
 	@Override
 	public void render(float delta) {
-		stage.draw();
-
 		stage.act();
+		stage.draw();
 	}
 
 	@Override

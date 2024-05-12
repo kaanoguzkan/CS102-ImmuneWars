@@ -26,7 +26,7 @@ import com.immunewars.game.minigameBackend.MinigamePresets;
 import com.immunewars.game.minigameBackend.TicTacToe;
 import com.immunewars.game.GameConfig;
 
-public class TicTacToeScreen implements Screen {
+public class TicTacToeScreen extends TransitionableScreen {
 	static TicTacToeScreen currentScreen;
 	final ImmuneWars game;
 	TicTacToe backend;
@@ -35,7 +35,6 @@ public class TicTacToeScreen implements Screen {
 	int cameraY = cameraX;
 	OrthographicCamera camera;
 	Viewport viewport;
-	Stage stage;
 	
 	int gameSize;
 	int winLength;
@@ -108,6 +107,7 @@ public class TicTacToeScreen implements Screen {
 
 	@Override
 	public void render(float delta) {
+		stage.act();
 		stage.draw();
 		float lineSpacingX = ((float)(cameraX - lineThickness)) / gameSize;
 		float lineSpacingY = ((float)(cameraY - lineThickness)) / gameSize;
