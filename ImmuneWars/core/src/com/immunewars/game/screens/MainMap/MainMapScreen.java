@@ -33,11 +33,11 @@ public class MainMapScreen implements Screen
     Node stomachNode = new Node(6, 680, 500, "Stomach", 0, 30);
     Node liverNode = new Node(7, 800, 550, "Liver", 0, 60);
     Node kidneysNode = new Node(8, 600, 650, "Kidneys", 0, 60);
-    Node intestinesNode = new Node(9, 728, 600, "Intestines", 0, 30);
+    Node intestinesNode = new Node(9, 600, 728, "Intestines", 0, 30);
     Node armNode = new Node(10, 850, 450, "Arm", 0, 30);
     Node legNode = new Node(11, 800, 700, "Leg", 0, 30);
     Node footNode = new Node(12, 800, 780, "Foot", 0, 20);
-    Node handNode = new Node(13, 900, 550, "Hand", 0, 40);
+    Node handNode = new Node(13,725 , 600, "Hand", 0, 30);
 
     Edge brainEyesEdge = new Edge(brainNode, eyesNode);
     Edge brainMouthEdge = new Edge(brainNode, mouthNode);
@@ -119,7 +119,6 @@ public class MainMapScreen implements Screen
     // method that paints this nodes and edges to the map 
     public void paintMap()
     {
-
         // paint background
         background = new Image(new Texture("mapBackground.png"));
         stage.addActor(background);

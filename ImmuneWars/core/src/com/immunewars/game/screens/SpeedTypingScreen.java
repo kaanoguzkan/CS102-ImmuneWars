@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Random;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -41,15 +42,13 @@ public class SpeedTypingScreen implements Screen
     Label label;
     Group boxGroup;
     Group letters;
-    String wordList[] = MinigamePresets.SpeedTyping.wordList;
     int score = 0;
     Label scoreLabel;
+    Label meaningLabel;
 
     private float timeCount;
     private int gameTimer;
     private Label timerLabel;
-
-    private Label meaningLabel;
 
     public SpeedTypingScreen(ImmuneWars game)
     {
@@ -72,7 +71,7 @@ public class SpeedTypingScreen implements Screen
 
         meaningLabel = new Label("mehmetcan", skin);
         
-        
+
         camera = new OrthographicCamera();
 		camera.setToOrtho(false, cameraX, cameraY);
 		
@@ -98,6 +97,32 @@ public class SpeedTypingScreen implements Screen
         int a = rand.nextInt(wordList.length);
         newWord(wordList[a]);
     }
+
+    Random rand = new Random();
+    int a = rand.nextInt(wordList.length);
+
+  
+        // this function reads the word definition and word list files and stores them in arrays
+        FileHandle wordDefinitionFile = Gdx.files.internal("wordDefinitionList.txt");
+
+        String wordDefinitionList = wordDefinitionFile.readString();
+        // and shows the word on screen
+        String[] wordDefinitionListArray = wordDefinitionList.split("\n");
+
+    
+
+   
+        // this function reads the word definition and word list files and stores them in arrays
+        // and shows the word on screen
+        FileHandle wordListFile = Gdx.files.internal("wordList.txt");
+
+        String wordListValue = wordListFile.readString();
+
+        String[] wordListArray = wordListValue.split("\n");
+
+
+
+
 
     @Override
     public void render(float delta) 
@@ -133,7 +158,7 @@ public class SpeedTypingScreen implements Screen
             }
             Random rand = new Random();
             int a = rand.nextInt(wordList.length);
-            newWord(wordList[a]);
+            newWord(processTextFile2(wordList[a]));
         }
         
         stage.act();
