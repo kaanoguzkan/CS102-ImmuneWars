@@ -44,10 +44,10 @@ public abstract class SIElement extends Actor {
 	}
 	
 	protected boolean isOutOfBounds() {
-		return getX() < 0
-				|| getY() < 0
-				|| getX() + getWidth() > MinigamePresets.SpaceInvaders.xBound
-				|| getY() + getHeight() > MinigamePresets.SpaceInvaders.yBound;
+		return getX() > MinigamePresets.SpaceInvaders.xBound
+				|| getY() > MinigamePresets.SpaceInvaders.yBound
+				|| getX() + getWidth() < 0
+				|| getY() + getHeight() < 0;
 	}
 	
 	public boolean collidesWith(SIElement element) {
