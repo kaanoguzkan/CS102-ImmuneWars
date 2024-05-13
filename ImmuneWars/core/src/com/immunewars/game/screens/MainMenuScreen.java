@@ -158,6 +158,20 @@ public class MainMenuScreen implements Screen {
 
 			}
 		});
+		button9.addListener(new ChangeListener()
+		{
+			@Override
+			public void changed (ChangeEvent event, Actor actor) {
+				try{
+					 game.setScreen(new startScreen(game));
+				}
+				catch(Exception e){
+					System.out.println("eaehfbsejfbkjwefbkweöbgeo");
+					e.printStackTrace();
+				}
+
+			}
+		});
 		
 		stage.addActor(button1);
 		stage.addActor(button2);
