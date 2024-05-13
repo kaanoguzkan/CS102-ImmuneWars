@@ -123,7 +123,7 @@ public class TheMapScreen implements Screen
     public void paintMap()
     {
         // paint background
-        Texture a = new Texture("ImmuneWars\\assets\\mapBackground.png");
+        Texture a = new Texture("mapBackground.png");
         background = new Image(a);
         background.setSize(1280, 800);
         stage.addActor(background);
@@ -135,7 +135,7 @@ public class TheMapScreen implements Screen
                 nodeActor = new Node(shapeRenderer, node);
                 stage.addActor(nodeActor);
             } catch (Exception e) {
-                System.out.println("retard");
+                System.out.println("failed node!");
                 e.printStackTrace();
             }
         }
@@ -144,7 +144,7 @@ public class TheMapScreen implements Screen
         {
             Edge edgeActor = new Edge(shapeRenderer, edge);
             stage.addActor(edgeActor);
-            System.out.println("edged to calculus class");
+            System.out.println("successul edge!");
         }
     }
 
@@ -159,8 +159,7 @@ public class TheMapScreen implements Screen
         // renders the stage
         stage.act();
         stage.draw();
-
-
+        
     }
 
 
