@@ -28,18 +28,18 @@ public class TheMapScreen implements Screen
     ArrayList<EdgeData> edges = new ArrayList<EdgeData>();
     NodeData brainNode = new NodeData(0,80 , 390, "Brain", 0, 70 / i);
     NodeData eyesNode = new NodeData(1, 120, 470, "Eyes", 0, 20 / i);
-    NodeData mouthNode = new NodeData(2, 170, 480, "Mouth", 0, 40 / i);
+    NodeData mouthNode = new NodeData(2, 170, 450, "Mouth", 0, 35 / i);
     NodeData noseNode = new NodeData(3, 150,510 , "Nose", 0, 30 / i);
-    NodeData heartNode = new NodeData(4, 360, 480, "Heart", 0, 90 / i);
-    NodeData lungsNode = new NodeData(5, 300, 450, "Lungs", 0, 90 / i);
-    NodeData stomachNode = new NodeData(6, 570, 430, "Stomach", 0, 30 / i);
-    NodeData liverNode = new NodeData(7, 500, 500, "Liver", 0, 60 / i);
+    NodeData heartNode = new NodeData(4, 360, 480, "Heart", 0, 50 / i);
+    NodeData lungsNode = new NodeData(5, 300, 450, "Lungs", 0, 50 / i);
+    NodeData stomachNode = new NodeData(6, 570, 480, "Stomach", 0, 50 / i);
+    NodeData liverNode = new NodeData(7, 500, 400, "Liver", 0, 40 / i);
     NodeData kidneysNode = new NodeData(8, 600, 350, "Kidneys", 0, 60 / i);
     NodeData intestinesNode = new NodeData(9, 650, 460, "Intestines", 0, 30 / i);
-    NodeData armNode = new NodeData(10, 850, 450, "Arm", 0, 30 / i);
+    NodeData armNode = new NodeData(10, 500, 600, "Arm", 0, 30 / i);
     NodeData legNode = new NodeData(11, 850, 400, "Leg", 0, 30 / i);
-    NodeData footNode = new NodeData(12, 800, 780, "Foot", 0, 20 / i);
-    NodeData handNode = new NodeData(13,725 , 600, "Hand", 0, 30 / i);
+    NodeData footNode = new NodeData(12, 1000, 400, "Foot", 0, 20 / i);
+    NodeData handNode = new NodeData(13,600 , 600, "Hand", 0, 30 / i);
 
     EdgeData brainEyesEdge = new EdgeData(brainNode, eyesNode);
     EdgeData brainMouthEdge = new EdgeData(brainNode, mouthNode);
