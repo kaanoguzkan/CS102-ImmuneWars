@@ -1,10 +1,13 @@
 package com.immunewars.game.screens;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -17,7 +20,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.immunewars.game.ImmuneWars;
 
 
@@ -29,6 +35,7 @@ public class SettingsScreen extends ScreenAdapter
      * bütün oyunu applicationlistenera bağlamak?
      */
     private Stage stage;
+    private Viewport viewport;
     SelectBox<String> musicSelectBox, musicLevelSelect;
     Table table;
     Label musicLabel, musicLevelLabel;
@@ -36,7 +43,7 @@ public class SettingsScreen extends ScreenAdapter
     String[] musicFiles = {"explosion.mp3", "badApple.mp3","maoZedongYoldasim.mp3"}; // Your music files
     Music[] musics = new Music[musicFiles.length];
     Music currMusic, tempMusic;
-
+    
     public SettingsScreen(ImmuneWars game) 
     {   
         for(int i = 0; i < musicFiles.length; i++){
@@ -46,13 +53,11 @@ public class SettingsScreen extends ScreenAdapter
         tempMusic = currMusic;
         currMusic.setLooping(true);
 
-
-
         stage = new Stage(new ScreenViewport()); // Create a stage with a screen-fitting viewport
         Gdx.input.setInputProcessor(stage); // Start taking input from the stage
         createUI(); // Create the UI
         System.out.println("screen constructed");
-
+        viewport = new FitViewport(800, 600, new OrthographicCamera());
     }
     
     private void createUI() {
@@ -125,18 +130,6 @@ public class SettingsScreen extends ScreenAdapter
         table.add(slider);
         table.row();
 
-        // resolution??????????????????????????????????
-        Label resolutionLabel = new Label("Resolution", new Label.LabelStyle(new BitmapFont(), Color.WHITE)); // Default font and white color
-        SelectBox<String> resolutionSelectBox = new SelectBox<>(skin); // Default style
-        resolutionSelectBox.setItems("800x600", "1024x768", "1280x720", "1920x1080"); // Add resolution options
-        resolutionSelectBox.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                // Handle resolution selection change (e.g., change the game resolution) 
-            }
-        });
-        // Change Resolution Section
-
 
         // Quit Button
         TextButton quitButton = new TextButton("Quit", skin);
@@ -168,5 +161,6 @@ public class SettingsScreen extends ScreenAdapter
     {
         stage.dispose(); 
     }
+
     
 }
