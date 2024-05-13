@@ -1,9 +1,15 @@
 package com.immunewars.game.screens;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Random;
+import java.util.Scanner;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -41,11 +47,10 @@ public class SpeedTypingScreen implements Screen
     Label label;
     Group boxGroup;
     Group letters;
-    String wordList[] = MinigamePresets.SpeedTyping.wordList;
-    String wordDefinitionList[] = MinigamePresets.SpeedTyping.wordDefinitions;
+    String wordList[];
+    String wordDefinitionList[];
     int score = 0;
     Label scoreLabel;
-    Label meaningLabel;
     int randomIndex = new Random().nextInt(127);
 
     private float timeCount;
@@ -99,7 +104,10 @@ public class SpeedTypingScreen implements Screen
         stage.addActor(timerLabel);
         stage.addActor(meaningLabel);
 
-
+        loadWordList("wordList.txt");
+        loadWordDefinitions("wordDefinitionList.txt");
+        System.out.print("");
+        
     }
 
     @Override
@@ -177,6 +185,49 @@ public class SpeedTypingScreen implements Screen
             boxGroup.addActor(box);
         }
         textField.setMaxLength(word.length());
+    }
+   
+    public void loadWordList(String filepath) {
+    	FileHandle fileHandle = Gdx.files.internal(filepath);
+    	Scanner fileIn;
+    	
+		fileIn = new Scanner(fileHandle.read());
+		LinkedList<String> words = new LinkedList<String>();
+	    	
+	    while (fileIn.hasNextLine()) {
+	    	words.add(fileIn.nextLine());
+	    }
+	    
+	    String[] wordList = new String[words.size()];
+	    for (int i = 0; i < words.size(); i++) {
+	    	wordList[i] = words.get(i);
+	    }
+	    	
+	    this.wordList = wordList;
+	    	
+	    fileIn.close();
+    }
+    
+    
+    public void loadWordDefinitions(String filepath) {
+    	FileHandle fileHandle = Gdx.files.internal(filepath);
+    	Scanner fileIn;
+    	
+		fileIn = new Scanner(fileHandle.read());
+		LinkedList<String> definitions = new LinkedList<String>();
+	    	
+	    while (fileIn.hasNextLine()) {
+	    	definitions.add(fileIn.nextLine());
+	    }
+	    
+	    String[] wordDefinitionList = new String[definitions.size()];
+	    for (int i = 0; i < definitions.size(); i++) {
+	    	wordDefinitionList[i] = definitions.get(i);
+	    }
+	    	
+	    this.wordDefinitionList = wordDefinitionList;
+	    	
+	    fileIn.close();
     }
 
     public void update(float dt){
