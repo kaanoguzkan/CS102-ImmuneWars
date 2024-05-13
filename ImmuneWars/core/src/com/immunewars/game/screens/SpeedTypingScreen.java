@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Random;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -27,6 +26,7 @@ import com.immunewars.game.GameConfig;
 
 public class SpeedTypingScreen implements Screen
 {
+
     ImmuneWars game;
     int cameraX = GameConfig.resolutionX; 
 	int cameraY = GameConfig.resolutionY;
@@ -37,17 +37,20 @@ public class SpeedTypingScreen implements Screen
     final int SPACE_BETWEEN_BOXES = 10;
     ArrayList<Box> boxes = new ArrayList<Box>();
     TextField textField; 
-    String word = MinigamePresets.SpeedTyping.wordList[new Random().nextInt(MinigamePresets.SpeedTyping.wordList.length)];
+    String word;
     Label label;
     Group boxGroup;
     Group letters;
+    String wordList[] = MinigamePresets.SpeedTyping.wordList;
+    String wordDefinitionList[] = MinigamePresets.SpeedTyping.wordDefinitions;
     int score = 0;
     Label scoreLabel;
-    Label meaningLabel;
 
     private float timeCount;
     private int gameTimer;
     private Label timerLabel;
+
+    private Label meaningLabel;
 
     public SpeedTypingScreen(ImmuneWars game)
     {
@@ -69,9 +72,9 @@ public class SpeedTypingScreen implements Screen
         timerLabel.setPosition(0, cameraY - 50);
 
         meaningLabel = new Label("mehmetcan", skin);
+        meaningLabel.setPosition(0, 100);
         
         
-
         camera = new OrthographicCamera();
 		camera.setToOrtho(false, cameraX, cameraY);
 		
@@ -92,9 +95,12 @@ public class SpeedTypingScreen implements Screen
         stage.addActor(scoreLabel);
         stage.setKeyboardFocus(textField);
         stage.addActor(timerLabel);
+        stage.addActor(meaningLabel);
 
         Random rand = new Random();
-
+        int a = rand.nextInt(wordList.length);
+        newWord(wordList[a]);
+        meaningLabel.setText( "Meaning: " + wordDefinitionList[a]);
     }
 
     @Override
@@ -130,6 +136,8 @@ public class SpeedTypingScreen implements Screen
                 boxes.get(i).delete();
             }
             Random rand = new Random();
+            int a = rand.nextInt(wordList.length);
+            newWord(wordList[a]);
         }
         
         stage.act();
