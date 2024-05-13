@@ -48,6 +48,7 @@ public class MainMenuScreen implements Screen {
 		Gdx.input.setInputProcessor(stage);	
 		TextButton.TextButtonStyle buttonStyle = new TextButton.TextButtonStyle();
 		buttonStyle.font = new BitmapFont();
+		// ugly as fuck btw
 		TextureRegionDrawable drawableButtonUpTexture = new TextureRegionDrawable(new TextureRegion(new Texture("button.png")));
 		drawableButtonUpTexture.setMinSize(200, 100);
 		Drawable drawableButtonDownTexture = drawableButtonUpTexture.tint(new Color(1f,1f,1f,0.5f));
@@ -75,6 +76,9 @@ public class MainMenuScreen implements Screen {
 
 		TextButton button8 = new TextButton ("Mehmetcan", buttonStyle);
 		button8.setBounds(0, 700, 200, 100);
+
+		TextButton button9 = new TextButton("START", buttonStyle);
+		button9.setBounds(cameraX / 2 - 100, cameraY / 2 - 75, 200, 150);
 
 		button1.addListener(new ChangeListener() {
 			@Override
@@ -121,8 +125,14 @@ public class MainMenuScreen implements Screen {
 		button6.addListener(new ChangeListener() {
 			@Override
 			public void changed (ChangeEvent event, Actor actor) {
-				System.out.println("Button6 pressed");
-				game.setScreen(new SettingsScreen(game));
+				try {
+					System.out.println("Button6 pressed");
+					game.setScreen(new SettingsScreen(game));
+				} catch (Exception e) {
+					System.out.println("retard");
+					e.printStackTrace();
+				}
+
 			}
 		});
 		button7.addListener(new ChangeListener() {
@@ -157,6 +167,7 @@ public class MainMenuScreen implements Screen {
 		stage.addActor(button6);
 		stage.addActor(button7);
 		stage.addActor(button8);
+		stage.addActor(button9);
 	}
 
 	@Override

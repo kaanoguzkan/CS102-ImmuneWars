@@ -1,147 +1,155 @@
 package com.immunewars.game.screens;
 
+import java.util.ArrayList;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.viewport.Viewport;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener.ChangeEvent;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
-import com.badlogic.gdx.scenes.scene2d.utils.*;
-import com.badlogic.gdx.utils.viewport.StretchViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
+import com.badlogic.gdx.utils.viewport.*;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.immunewars.game.ImmuneWars;
 import com.immunewars.game.minigameBackend.MinigamePresets;
+import com.immunewars.game.minigameBackend.TicTacToe;
 import com.immunewars.game.minigameBackend.anImage;
 import com.immunewars.game.GameConfig;
 
-
-public class ImageMatchingScreen implements Screen{
-    public static ImageMatchingScreen currentScreen;
+public class ImageMatchingScreen implements Screen {
+	/*
+	 * I have just learned that we can just add clickListener to Image classes
+	 * :D
+	 * 
+	 */
+	static ImageMatchingScreen currentScreen;
 	final ImmuneWars game;
+
+	int gameScreenX = Math.min(GameConfig.resolutionX, GameConfig.resolutionY); 
+	int gameScreenY = gameScreenX;
+	OrthographicCamera camera;
+	Viewport viewport;
+	Stage stage;
 	
-	float cameraX = GameConfig.resolutionX; 
-	float cameraY = GameConfig.resolutionY;
-    Stage stage;
-    Viewport viewport;
-    OrthographicCamera theCamera;
-    
-    int option;
-    Table mainTable, leftTable, rightTable;
-    Stage mainStage;
+	int gameSize;
+	int winLength;
+	
+	float buttonLengthX, buttonLengthY;
+	float lineThickness;
+    String[] imagePaths = MinigamePresets.ImageMatching.images;
+	public ImageMatchingScreen(ImmuneWars game, int gameSize){
+		currentScreen = this;
+		this.game = game;
+		
+		this.gameSize = gameSize;
 
-    Texture buttonTexture;
-    Drawable buttonDrawable;
-    int currPressedButtonPair = -1; // just in case.
-    anImage currAnImage = null;
+		camera = new OrthographicCamera();
+		camera.setToOrtho(false, gameScreenX, gameScreenY);
+		viewport = new StretchViewport(gameScreenX, gameScreenY, camera);
+		viewport.apply();
+		
+		stage = new Stage();
+		stage.setViewport(viewport);
+		Gdx.input.setInputProcessor(stage);
+		
+		lineThickness = Math.max(Math.min(40 / (gameSize + 1), 10), 5);
+		buttonLengthX = ((float)(gameScreenX - lineThickness)/gameSize - lineThickness);
+		buttonLengthY = ((float)(gameScreenY - lineThickness)/gameSize - lineThickness);
+		
+		for (int i = 0; i < gameSize; i++) {
+			for (int j = 0; j < gameSize; j++) {
+                anImage button = new anImage(new TextureRegionDrawable(new Texture(imagePaths[i + j])), i + j);
 
-    String[] images = MinigamePresets.ImageMatching.images;
-    anImage[] buttons = new anImage[images.length];
-    boolean[] checkers = new boolean[buttons.length];
-    Texture temp = new Texture(MinigamePresets.ImageMatching.backOfCard); // declares back of the card from presets
-    Drawable backOfTheCard = new TextureRegionDrawable(temp);
-    Texture curr;
+				button.setX(lineThickness + i*(buttonLengthX + lineThickness));
+				button.setY(lineThickness + j*(buttonLengthY + lineThickness));
+				button.setSize(buttonLengthX, buttonLengthY);
+				button.setColor(new Color(1.0f,1.0f,1.0f,1.0f));
+				
+				button.addListener(new ClickListener() {
+					@Override
+					public void clicked (InputEvent event, float x, float y) {
+						int xIndex = (int) Math.round((button.getX() - lineThickness)/(buttonLengthX+lineThickness));
+						int yIndex = (int) Math.round((button.getY() - lineThickness)/(buttonLengthY+lineThickness));
+						TicTacToe backend = TicTacToeScreen.currentScreen.backend;
+						System.out.println("---------");
+						
+						backend.setTile(xIndex, yIndex);
+						if (backend.getTile(xIndex, yIndex) == 'p') {
+							button.setColor(Color.RED);
+						} else {
+							button.setColor(Color.BLACK);
+						}
+						System.out.println(backend.winCheck());
+						backend.switchChar();
+					}
+				});
+				
+				stage.addActor(button);
+			}
+		}
+	}
 
-    boolean a1 = false;
+	@Override
+	public void show() {
+		// TODO Auto-generated method stub
 
-    public ImageMatchingScreen(ImmuneWars game, int sideLength){
-        mainTable = new Table();
-        theCamera = new OrthographicCamera();
-        theCamera.setToOrtho(false, GameConfig.resolutionX, GameConfig.resolutionY);
-		viewport = new StretchViewport(cameraX, cameraY, theCamera);
-        stage = new Stage(viewport);
-        System.out.println("mehmetcan");
-        
-        this.option = sideLength;// 3 side length means 3x3 square; hence 9 images.
+	}
 
-        Gdx.input.setInputProcessor(stage);	
-        this.game = game;
-        currentScreen = this;
+	@Override
+	public void render(float delta) {
+		stage.draw();
+		float lineSpacingX = ((float)(gameScreenX - lineThickness)) / gameSize;
+		float lineSpacingY = ((float)(gameScreenY - lineThickness)) / gameSize;
+		for (int i = 0; i <= gameSize; i++) {
+			ShapeRenderer newLine = new ShapeRenderer();
+			newLine.setProjectionMatrix(camera.combined);
+			newLine.begin(ShapeType.Filled);
+			newLine.setColor(Color.BLUE);
+			newLine.rect(lineSpacingX*i, 0, lineThickness, gameScreenX);
+			newLine.rect(0, lineSpacingY*i, gameScreenY, lineThickness);
+			newLine.end();
+		}
+	}
 
-        mainTable.setFillParent(true);
-        mainTable.setDebug(true);
+	@Override
+	public void resize(int width, int height) {
+		viewport.update(width, height);
 
-        for(int i = 0; i < images.length; i++){
-            buttonTexture = new Texture(images[i]);
-            buttonDrawable = new TextureRegionDrawable(buttonTexture);
-            anImage button = new anImage(buttonDrawable, i / 2, backOfTheCard);
-            button.setBounds(100,100,200,400); // bounds!!!!! the png file's bound matters.
-            // in other words, it does not work.
-            button.setSize(255, 25);
+	}
 
-            button.addListener(new ClickListener() {
-                @Override
-                public void clicked(InputEvent event, float x, float y) {
-                    System.out.println("pressed." + button.getPair());
-                    if(currPressedButtonPair == button.getPair() && currAnImage != button){
-                        System.out.println("it works!");
-                        //1 sec bekle
-                        for(anImage element: buttons){
-                            if(element.isSamePair(button)){
-                                element.remove();
-                                button.remove();
-                                break;
-                            }
-                        }
-                    }
-                    currPressedButtonPair = button.getPair();
-                    currAnImage = button;
-                }
-            }
-            );
-            
-            mainTable.add(button);
-            if(((i + 1) % sideLength) == 0 && (i != 0)){
-                mainTable.row();
-                System.out.println("row");
-            }
+	@Override
+	public void pause() {
+		// TODO Auto-generated method stub
 
-            buttons[i] = button;
-            checkers[i] = false;
-        }
-        System.out.println("yea2");
-        stage.addActor(mainTable);
-    }
+	}
 
-    @Override
-    public void show() {
-    }
+	@Override
+	public void resume() {
+		// TODO Auto-generated method stub
 
-    @Override
-    public void render(float delta) {
-        stage.draw();
-    }
+	}
 
-    @Override
-    public void resize(int width, int height) {
+	@Override
+	public void hide() {
+		// TODO Auto-generated method stub
 
-    }
+	}
 
-    @Override
-    public void pause() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'pause'");
-    }
+	@Override
+	public void dispose() {
+		// TODO Auto-generated method stub
 
-    @Override
-    public void resume() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'resume'");
-    }
+	}
 
-    @Override
-    public void hide() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'hide'");
-    }
-
-    @Override
-    public void dispose() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'dispose'");
-    }
-    
 }

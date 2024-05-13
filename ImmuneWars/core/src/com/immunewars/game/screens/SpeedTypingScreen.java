@@ -27,7 +27,6 @@ import com.immunewars.game.GameConfig;
 
 public class SpeedTypingScreen implements Screen
 {
-
     ImmuneWars game;
     int cameraX = GameConfig.resolutionX; 
 	int cameraY = GameConfig.resolutionY;
@@ -94,12 +93,9 @@ public class SpeedTypingScreen implements Screen
         stage.addActor(timerLabel);
 
         Random rand = new Random();
-        int a = rand.nextInt(wordList.length);
-        newWord(wordList[a]);
+
     }
 
-    Random rand = new Random();
-    int a = rand.nextInt(wordList.length);
 
   
         // this function reads the word definition and word list files and stores them in arrays
@@ -157,8 +153,6 @@ public class SpeedTypingScreen implements Screen
                 boxes.get(i).delete();
             }
             Random rand = new Random();
-            int a = rand.nextInt(wordList.length);
-            newWord(processTextFile2(wordList[a]));
         }
         
         stage.act();

@@ -2,8 +2,11 @@ package com.immunewars.game.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -17,6 +20,17 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.immunewars.game.ImmuneWars;
 
 public class LoadingScreen implements Screen{
+    public static Texture backgroundTexture;
+    public static Sprite backgroundSprite;
+    private SpriteBatch spriteBatch = new SpriteBatch();
+    BitmapFont font = new BitmapFont();
+
+    /*
+     * https://javadoc.io/doc/com.badlogicgames.gdx/gdx/latest/com/badlogic/gdx/scenes/scene2d/ui/ProgressBar.html
+     * 
+     * use progress bar
+     */
+    Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
     SpriteBatch batch;
     Texture backgroundImage;
     LoadingScreen screen;
@@ -28,32 +42,28 @@ public class LoadingScreen implements Screen{
     3 = snake
     4 = imageMatching
      */
+    Stage satge;
     public LoadingScreen(ImmuneWars game, int option){
+        backgroundTexture = new Texture("title screen.png");
+        backgroundSprite =new Sprite(backgroundTexture);
         screen = this;
-        Stage satge = new Stage();
-        Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
- // Replace with your background image path
-        Label tip = new Label("null", skin);
-        satge.addActor(tip);
-        Button deneme = new Button(skin); 
+    }
+
+    public void renderBackground() {
+        backgroundSprite.draw(spriteBatch);
+    }
+
+    @Override
+    public void render(float delta) {
+        spriteBatch.begin();
+        renderBackground(); 
+
+        font.draw(spriteBatch, "YYYYOOOOOOOOOOOOOOOOOOOO", 100, 100);
+        spriteBatch.end();
     }
 
     @Override
     public void show() {}
-
-    @Override
-    public void render(float delta) {
-        batch = new SpriteBatch();
-        backgroundImage = new Texture("logo.png");
-        // Clear screen
-        Gdx.gl.glClearColor(0, 0, 0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        // Draw background image
-        batch.begin();
-        batch.draw(backgroundImage, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        batch.end();
-    }
 
     @Override
     public void resize(int width, int height) {}
