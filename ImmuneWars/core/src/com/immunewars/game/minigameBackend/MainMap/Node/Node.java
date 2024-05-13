@@ -46,12 +46,14 @@ public class Node extends Actor {
     @Override
     public void draw(Batch batch, float parentAlpha) 
     {
-        batch.end();
         shapeRenderer.begin(ShapeType.Filled);
         shapeRenderer.setColor(Color.GREEN);
-        shapeRenderer.circle(getX(),getY(), radius);
+        shapeRenderer.circle(getX() + radius, getY() + radius, radius);
         shapeRenderer.end();
-        batch.begin();
+        
+
+
+        
     }
 
     public NodeData getNodeData() {

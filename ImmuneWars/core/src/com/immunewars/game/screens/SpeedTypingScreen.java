@@ -1,15 +1,9 @@
 package com.immunewars.game.screens;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.Random;
-import java.util.Scanner;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -43,15 +37,14 @@ public class SpeedTypingScreen implements Screen
     final int SPACE_BETWEEN_BOXES = 10;
     ArrayList<Box> boxes = new ArrayList<Box>();
     TextField textField; 
-    String word = MinigamePresets.SpeedTyping.wordList[new Random().nextInt(MinigamePresets.SpeedTyping.wordList.length)];
+    String word;
     Label label;
     Group boxGroup;
     Group letters;
-    String wordList[];
-    String wordDefinitionList[];
+    String wordList[] = MinigamePresets.SpeedTyping.wordList;
+    String wordDefinitionList[] = MinigamePresets.SpeedTyping.wordDefinitions;
     int score = 0;
     Label scoreLabel;
-    int randomIndex = new Random().nextInt(127);
 
     private float timeCount;
     private int gameTimer;
@@ -81,7 +74,7 @@ public class SpeedTypingScreen implements Screen
         meaningLabel = new Label("mehmetcan", skin);
         meaningLabel.setPosition(0, 100);
         
-
+        
         camera = new OrthographicCamera();
 		camera.setToOrtho(false, cameraX, cameraY);
 		
@@ -104,59 +97,54 @@ public class SpeedTypingScreen implements Screen
         stage.addActor(timerLabel);
         stage.addActor(meaningLabel);
 
-        loadWordList("wordList.txt");
-        loadWordDefinitions("wordDefinitionList.txt");
-        System.out.print("");
-        
+        Random rand = new Random();
+        int a = rand.nextInt(wordList.length);
+        newWord(wordList[a]);
+        meaningLabel.setText( "Meaning: " + wordDefinitionList[a]);
     }
 
     @Override
     public void render(float delta) 
     {
-        try {
-            word = MinigamePresets.SpeedTyping.wordList[randomIndex]; 
-            this.update(delta);
-            this.terminateGame();
-            System.out.println(textField.getText());
-            scoreLabel.setText("Score: " + score);
-            Gdx.gl.glClearColor(.1f, .12f, .16f, 1);
-            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-            for (int i = 0; i < textField.getText().length(); i++)
-            {
-                if (i >= boxes.size())
-                {
-                    break;
-                }
-                boxes.get(i).updateLetter(textField.getText());
-            }
-            for (int i = textField.getText().length(); i < word.length(); i++)
-            {   
-                System.out.println(i);
-                if(i < boxes.size() && i >= 0){
-                    boxes.get(i).resetLetter();
-                }
-            }
-    
-            if (checkWord())
-            {
-                score++;
-    
-                textField.setText("");
-                
-                for(int i = 0; i < boxes.size(); i++)
-                {
-                    boxes.get(i).delete();
-                }
-                Random rand = new Random();
-            }
-            
-            stage.act();
-            stage.draw();
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("SRLGNMRDKJGNDRKJLGNKJDRLNGKJLDRNGHLGNDLNB");
+        this.update(delta);
+        if(this.isTerminateGame()){
+        
         }
 
+        System.out.println(textField.getText());
+        scoreLabel.setText("Score: " + score);
+        Gdx.gl.glClearColor(.1f, .12f, .16f, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        for (int i = 0; i < textField.getText().length(); i++)
+        {
+            if (i >= boxes.size())
+            {
+                break;
+            }
+            boxes.get(i).updateLetter(textField.getText());
+        }
+        for (int i = textField.getText().length(); i < word.length(); i++)
+        {
+            boxes.get(i).resetLetter();
+        }
+
+        if (checkWord())
+        {
+            score++;
+
+            textField.setText("");
+            
+            for(int i = 0; i < boxes.size(); i++)
+            {
+                boxes.get(i).delete();
+            }
+            Random rand = new Random();
+            int a = rand.nextInt(wordList.length);
+            newWord(wordList[a]);
+        }
+        
+        stage.act();
+        stage.draw();
     }
 
     public boolean checkWord()
@@ -186,49 +174,6 @@ public class SpeedTypingScreen implements Screen
         }
         textField.setMaxLength(word.length());
     }
-   
-    public void loadWordList(String filepath) {
-    	FileHandle fileHandle = Gdx.files.internal(filepath);
-    	Scanner fileIn;
-    	
-		fileIn = new Scanner(fileHandle.read());
-		LinkedList<String> words = new LinkedList<String>();
-	    	
-	    while (fileIn.hasNextLine()) {
-	    	words.add(fileIn.nextLine());
-	    }
-	    
-	    String[] wordList = new String[words.size()];
-	    for (int i = 0; i < words.size(); i++) {
-	    	wordList[i] = words.get(i);
-	    }
-	    	
-	    this.wordList = wordList;
-	    	
-	    fileIn.close();
-    }
-    
-    
-    public void loadWordDefinitions(String filepath) {
-    	FileHandle fileHandle = Gdx.files.internal(filepath);
-    	Scanner fileIn;
-    	
-		fileIn = new Scanner(fileHandle.read());
-		LinkedList<String> definitions = new LinkedList<String>();
-	    	
-	    while (fileIn.hasNextLine()) {
-	    	definitions.add(fileIn.nextLine());
-	    }
-	    
-	    String[] wordDefinitionList = new String[definitions.size()];
-	    for (int i = 0; i < definitions.size(); i++) {
-	    	wordDefinitionList[i] = definitions.get(i);
-	    }
-	    	
-	    this.wordDefinitionList = wordDefinitionList;
-	    	
-	    fileIn.close();
-    }
 
     public void update(float dt){
         timeCount += dt;
@@ -239,8 +184,8 @@ public class SpeedTypingScreen implements Screen
         }
     }
 
-    public boolean terminateGame(){
-        if(gameTimer <= 0){return true;} //TODO idk do something with it
+    public boolean isTerminateGame(){
+        if(gameTimer <= 0){return true;}
         else{return false;}
     }
 
