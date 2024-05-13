@@ -107,7 +107,10 @@ public class SpeedTypingScreen implements Screen
     public void render(float delta) 
     {
         this.update(delta);
-        this.terminateGame();
+        if(this.isTerminateGame()){
+        
+        }
+
         System.out.println(textField.getText());
         scoreLabel.setText("Score: " + score);
         Gdx.gl.glClearColor(.1f, .12f, .16f, 1);
@@ -181,8 +184,8 @@ public class SpeedTypingScreen implements Screen
         }
     }
 
-    public boolean terminateGame(){
-        if(gameTimer <= 0){return true;} //TODO idk do something with it
+    public boolean isTerminateGame(){
+        if(gameTimer <= 0){return true;}
         else{return false;}
     }
 

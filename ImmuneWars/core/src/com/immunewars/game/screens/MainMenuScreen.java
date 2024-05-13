@@ -102,8 +102,14 @@ public class MainMenuScreen implements Screen {
 		button3.addListener(new ChangeListener() {
 			@Override
 			public void changed (ChangeEvent event, Actor actor) {
-				System.out.println("Button3 pressed");
-				game.setScreen(new SpeedTypingScreen(game));
+				try {
+					System.out.println("Button3 pressed");
+					game.setScreen(new SpeedTypingScreen(game));
+				} catch (Exception e) {
+					System.out.println("snsrelnfkjerlfnrekjlgnreklgntl");
+					e.printStackTrace();
+				}
+
 			}
 		});
 
@@ -152,7 +158,6 @@ public class MainMenuScreen implements Screen {
 					game.setScreen(new LoadingScreen(game,0));
 				}
 				catch(Exception e){
-					System.out.println("eaehfbsejfbkjwefbkweöbgeo");
 					e.printStackTrace();
 				}
 

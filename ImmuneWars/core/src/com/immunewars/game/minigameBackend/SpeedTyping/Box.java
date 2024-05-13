@@ -65,6 +65,7 @@ public class Box extends Actor{
         remove();
         label.remove();
     }
+
     public void updateLetter(String input)
     {
         letter = input.substring(boxIndex, boxIndex + 1);

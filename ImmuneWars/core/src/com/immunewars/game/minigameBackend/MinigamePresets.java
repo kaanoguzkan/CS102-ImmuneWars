@@ -98,11 +98,13 @@ public abstract class MinigamePresets {
     }
 
 
-	public abstract static class SpeedTyping{ //when x bound 1280, the limit is 21 letters
+	public abstract static class SpeedTyping
+	{ //when x bound 1280, the limit is 21 letters
 		public static final int BOX_WIDTH = 50;
 		public static final int BOX_HEIGHT = 100;
 
-		public static final String[] wordList = {
+		public static final String[] wordList = 
+		{
 			"Cell",
 			"DNA",
 			"Gene",
