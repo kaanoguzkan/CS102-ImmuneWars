@@ -37,7 +37,7 @@ public class SpeedTypingScreen implements Screen
     final int SPACE_BETWEEN_BOXES = 10;
     ArrayList<Box> boxes = new ArrayList<Box>();
     TextField textField; 
-    String word;
+    String word = MinigamePresets.SpeedTyping.wordList[new Random().nextInt(MinigamePresets.SpeedTyping.wordList.length)];
     Label label;
     Group boxGroup;
     Group letters;
@@ -70,6 +70,7 @@ public class SpeedTypingScreen implements Screen
 
         meaningLabel = new Label("mehmetcan", skin);
         
+        
 
         camera = new OrthographicCamera();
 		camera.setToOrtho(false, cameraX, cameraY);
@@ -95,30 +96,6 @@ public class SpeedTypingScreen implements Screen
         Random rand = new Random();
 
     }
-
-
-  
-        // this function reads the word definition and word list files and stores them in arrays
-        FileHandle wordDefinitionFile = Gdx.files.internal("wordDefinitionList.txt");
-
-        String wordDefinitionList = wordDefinitionFile.readString();
-        // and shows the word on screen
-        String[] wordDefinitionListArray = wordDefinitionList.split("\n");
-
-    
-
-   
-        // this function reads the word definition and word list files and stores them in arrays
-        // and shows the word on screen
-        FileHandle wordListFile = Gdx.files.internal("wordList.txt");
-
-        String wordListValue = wordListFile.readString();
-
-        String[] wordListArray = wordListValue.split("\n");
-
-
-
-
 
     @Override
     public void render(float delta) 
