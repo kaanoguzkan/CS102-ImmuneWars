@@ -123,7 +123,7 @@ public class TheMapScreen implements Screen
     public void paintMap()
     {
         // paint background
-        Texture a = new Texture("ImmuneWars\\assets\\mapBackground.png");
+        Texture a = new Texture("mapBackground.png");
         background = new Image(a);
         background.setSize(1280, 800);
         stage.addActor(background);

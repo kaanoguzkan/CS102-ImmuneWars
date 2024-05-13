@@ -37,14 +37,13 @@ public class SpeedTypingScreen implements Screen
     final int SPACE_BETWEEN_BOXES = 10;
     ArrayList<Box> boxes = new ArrayList<Box>();
     TextField textField; 
-    String word;
+    String word = MinigamePresets.SpeedTyping.wordList[new Random().nextInt(MinigamePresets.SpeedTyping.wordList.length)];
     Label label;
     Group boxGroup;
     Group letters;
     int score = 0;
     Label scoreLabel;
     Label meaningLabel;
-    int randomIndex = new Random().nextInt(127);
 
     private float timeCount;
     private int gameTimer;
@@ -71,6 +70,7 @@ public class SpeedTypingScreen implements Screen
 
         meaningLabel = new Label("mehmetcan", skin);
         
+        
 
         camera = new OrthographicCamera();
 		camera.setToOrtho(false, cameraX, cameraY);
@@ -93,60 +93,47 @@ public class SpeedTypingScreen implements Screen
         stage.setKeyboardFocus(textField);
         stage.addActor(timerLabel);
 
+        Random rand = new Random();
 
     }
-
-
-
-
 
     @Override
     public void render(float delta) 
     {
-        try {
-            word = MinigamePresets.SpeedTyping.wordList[randomIndex]; 
-            this.update(delta);
-            this.terminateGame();
-            System.out.println(textField.getText());
-            scoreLabel.setText("Score: " + score);
-            Gdx.gl.glClearColor(.1f, .12f, .16f, 1);
-            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-            for (int i = 0; i < textField.getText().length(); i++)
+        this.update(delta);
+        this.terminateGame();
+        System.out.println(textField.getText());
+        scoreLabel.setText("Score: " + score);
+        Gdx.gl.glClearColor(.1f, .12f, .16f, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        for (int i = 0; i < textField.getText().length(); i++)
+        {
+            if (i >= boxes.size())
             {
-                if (i >= boxes.size())
-                {
-                    break;
-                }
-                boxes.get(i).updateLetter(textField.getText());
+                break;
             }
-            for (int i = textField.getText().length(); i < word.length(); i++)
-            {   
-                System.out.println(i);
-                if(i < boxes.size() && i >= 0){
-                    boxes.get(i).resetLetter();
-                }
-            }
-    
-            if (checkWord())
-            {
-                score++;
-    
-                textField.setText("");
-                
-                for(int i = 0; i < boxes.size(); i++)
-                {
-                    boxes.get(i).delete();
-                }
-                Random rand = new Random();
-            }
-            
-            stage.act();
-            stage.draw();
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("SRLGNMRDKJGNDRKJLGNKJDRLNGKJLDRNGHLGNDLNB");
+            boxes.get(i).updateLetter(textField.getText());
+        }
+        for (int i = textField.getText().length(); i < word.length(); i++)
+        {
+            boxes.get(i).resetLetter();
         }
 
+        if (checkWord())
+        {
+            score++;
+
+            textField.setText("");
+            
+            for(int i = 0; i < boxes.size(); i++)
+            {
+                boxes.get(i).delete();
+            }
+            Random rand = new Random();
+        }
+        
+        stage.act();
+        stage.draw();
     }
 
     public boolean checkWord()
@@ -162,9 +149,9 @@ public class SpeedTypingScreen implements Screen
     }
 
     
-    public void newWord(String newWord)
+    public void newWord(String  newWord)
     {
-        word = MinigamePresets.SpeedTyping.wordList[randomIndex];
+        word = newWord;
         label.setText(word);
         int indent = (GameConfig.resolutionX -(word.length() * Box.BOX_WIDTH + (word.length() - 1) * SPACE_BETWEEN_BOXES)) / 2;
         boxes = new ArrayList<Box>();
