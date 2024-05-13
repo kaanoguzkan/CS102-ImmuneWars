@@ -176,10 +176,10 @@ public abstract class MinigamePresets {
 			"Acquired immunity",
 			"Immunosuppression",
 			"Psoriasis"
-		};
-	}	
-	public static final String[] wordDefinitions = 
-	{
+		};	
+
+		public static final String[] wordDefinitions = 
+		{
 		"The basic structural and functional unit of all living organisms.",
 		"Deoxyribonucleic acid, a molecule that carries genetic instructions for the development, functioning, growth, and reproduction of organisms.",
 		"A unit of heredity that is transferred from a parent to offspring and is held to determine some characteristic of the offspring.",
@@ -308,6 +308,6 @@ public abstract class MinigamePresets {
 		"Immunity that develops after exposure to a pathogen or through vaccination, involving the production of specific antibodies and memory cells.",
 		"The suppression or weakening of the immune system, either naturally or as a result of medical treatment, to prevent rejection of transplanted organs or to treat autoimmune diseases.",
 		"An easter egg. Also, it is a disease when the immune system mistakenly attacks healthy skin cells, causing rapid turnover of skin cells."
-	};
-	
+		};
+	}
 }
