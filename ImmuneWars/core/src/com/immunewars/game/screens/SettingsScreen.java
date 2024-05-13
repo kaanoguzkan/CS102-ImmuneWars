@@ -33,7 +33,7 @@ public class SettingsScreen extends ScreenAdapter
     Table table;
     Label musicLabel, musicLevelLabel;
     Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
-    String[] musicFiles = {"explosion.mp3", "badApple.mp3"}; // Your music files
+    String[] musicFiles = {"explosion.mp3", "badApple.mp3","maoZedongYoldasim.mp3"}; // Your music files
     Music[] musics = new Music[musicFiles.length];
     Music currMusic, tempMusic;
 
@@ -64,7 +64,7 @@ public class SettingsScreen extends ScreenAdapter
         // Background Music Section
         musicLabel = new Label("Background Music", new Label.LabelStyle(new BitmapFont(), Color.WHITE)); // Default font and white color
         musicSelectBox = new SelectBox<String>(skin); 
-        musicSelectBox.setItems("XYZ","ABC","PQR","LMN");
+        musicSelectBox.setItems("XYZ","ABC","PQR","LMN","Yoldas Mao");
         musicSelectBox.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -78,10 +78,17 @@ public class SettingsScreen extends ScreenAdapter
                     currMusic.stop();
                     currMusic = musics[1];
                     tempMusic = currMusic;
-                }else if(selectedMusic.equals("XYZ") && tempMusic != musics[0]){
+                }
+                else if(selectedMusic.equals("XYZ") && tempMusic != musics[0]){
                     System.out.println("deltarune");
                     currMusic.stop();
                     currMusic = musics[0];
+                    tempMusic = currMusic;
+                }
+                else if(selectedMusic.equals("Yoldas Mao")&& tempMusic != musics[2]){
+                    System.out.println("mao");
+                    currMusic.stop();
+                    currMusic = musics[2];
                     tempMusic = currMusic;
                 }
                 currMusic.play();
