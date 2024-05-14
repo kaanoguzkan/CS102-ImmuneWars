@@ -21,9 +21,9 @@ public abstract class SIElement extends Actor {
 			newXMin = 180;
 		}
 		
-		if (newXMax > MinigamePresets.SpaceInvaders.xBound) {
-			newXMin = MinigamePresets.SpaceInvaders.xBound - getWidth();
-			newXMax = MinigamePresets.SpaceInvaders.xBound;
+		if (newXMax > MinigamePresets.SpaceInvaders.xUpperBound) {
+			newXMin = MinigamePresets.SpaceInvaders.xUpperBound - getWidth();
+			newXMax = MinigamePresets.SpaceInvaders.xUpperBound;
 		}
 		
 		if (newYMin < 0) {
@@ -31,9 +31,9 @@ public abstract class SIElement extends Actor {
 			newYMin = 0;
 		}
 		
-		if (newYMax > MinigamePresets.SpaceInvaders.yBound) {
-			newYMin = MinigamePresets.SpaceInvaders.yBound - getHeight();
-			newYMax = MinigamePresets.SpaceInvaders.yBound;
+		if (newYMax > MinigamePresets.SpaceInvaders.yUpperBound) {
+			newYMin = MinigamePresets.SpaceInvaders.yUpperBound - getHeight();
+			newYMax = MinigamePresets.SpaceInvaders.yUpperBound;
 		}
 		
 		this.setBounds(newXMin, newYMin, this.getWidth(), this.getHeight());
@@ -44,8 +44,8 @@ public abstract class SIElement extends Actor {
 	}
 	
 	protected boolean isOutOfBounds() {
-		return getX() > MinigamePresets.SpaceInvaders.xBound
-				|| getY() > MinigamePresets.SpaceInvaders.yBound
+		return getX() > MinigamePresets.SpaceInvaders.xUpperBound
+				|| getY() > MinigamePresets.SpaceInvaders.yUpperBound
 				|| getX() + getWidth() < 0
 				|| getY() + getHeight() < 0;
 	}

@@ -32,10 +32,12 @@ public class Ship extends SIElement {
 	}
 	
 	public void act(float delta) {
-		if (Gdx.input.isKeyPressed(Keys.A)) {moveBounded(-delta*speed,0);}
-		if (Gdx.input.isKeyPressed(Keys.D)) {moveBounded(delta*speed,0);}
-		if (Gdx.input.isKeyPressed(Keys.W)) {moveBounded(0,delta*speed);}
-		if (Gdx.input.isKeyPressed(Keys.S)) {moveBounded(0,-delta*speed);}
+		float sprint = 1;
+		if (Gdx.input.isKeyPressed(Keys.SHIFT_LEFT)) {sprint = 1.50f;}
+		if (Gdx.input.isKeyPressed(Keys.A)) {moveBounded(-delta*speed*sprint,0);}
+		if (Gdx.input.isKeyPressed(Keys.D)) {moveBounded(delta*speed*sprint,0);}
+		if (Gdx.input.isKeyPressed(Keys.W)) {moveBounded(0,delta*speed*sprint);}
+		if (Gdx.input.isKeyPressed(Keys.S)) {moveBounded(0,-delta*speed*sprint);}
 		fireCooldown -= delta;
 		if (Gdx.input.isKeyPressed(Keys.SPACE)) {fire(this.getStage(), delta);}
 	}
