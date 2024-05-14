@@ -21,7 +21,7 @@ import com.immunewars.game.minigameBackend.MainMap.Node.NodeData;
 
 public class TheMapScreen implements Screen 
 {
-    private static ImmuneWars ImmuneWars;
+    private ImmuneWars game;
     private ShapeRenderer shapeRenderer;
     private Stage stage;
     private Image background;
@@ -33,19 +33,19 @@ public class TheMapScreen implements Screen
     ArrayList<NodeData> nodes = new ArrayList<NodeData>();
     ArrayList<EdgeData> edges = new ArrayList<EdgeData>();
     ArrayList<NodeData> enemyNodes = new ArrayList<NodeData>();
-    NodeData brainNode = new NodeData(0,80 , 390, "Brain", 0, 70 / i);
+    NodeData brainNode = new NodeData(0,60 , 350, "Brain", 0, 70 / i);
     NodeData mouthNode = new NodeData(2, 170, 450, "Mouth", 0, 35 / i);
-    NodeData noseNode = new NodeData(3, 150,510 , "Nose", 0, 30 / i);
-    NodeData heartNode = new NodeData(4, 360, 480, "Heart", 0, 50 / i);
-    NodeData lungsNode = new NodeData(5, 300, 450, "Lungs", 0, 50 / i);
-    NodeData stomachNode = new NodeData(6, 570, 480, "Stomach", 0, 50 / i);
-    NodeData liverNode = new NodeData(7, 500, 400, "Liver", 0, 40 / i);
+    NodeData noseNode = new NodeData(3, 130,490 , "Nose", 0, 30 / i);
+    NodeData heartNode = new NodeData(4, 300, 480, "Heart", 0, 50 / i);
+    NodeData lungsNode = new NodeData(5, 300, 350, "Lungs", 0, 50 / i);
+    NodeData stomachNode = new NodeData(6, 550, 440, "Stomach", 0, 50 / i);
+    NodeData liverNode = new NodeData(7, 500, 350, "Liver", 0, 40 / i);
     NodeData kidneysNode = new NodeData(8, 600, 350, "Kidneys", 0, 60 / i);
     NodeData intestinesNode = new NodeData(9, 650, 460, "Intestines", 0, 30 / i);
-    NodeData armNode = new NodeData(10, 500, 600, "Arm", 0, 30 / i);
-    NodeData legNode = new NodeData(11, 850, 400, "Leg", 0, 30 / i);
-    NodeData footNode = new NodeData(12, 1000, 400, "Foot", 0, 20 / i);
-    NodeData handNode = new NodeData(13,600 , 600, "Hand", 0, 30 / i);
+    NodeData armNode = new NodeData(10, 500, 530, "Arm", 0, 30 / i);
+    NodeData legNode = new NodeData(11, 850, 420, "Leg", 0, 30 / i);
+    NodeData footNode = new NodeData(12, 1200, 400, "Foot", 0, 20 / i);
+    NodeData handNode = new NodeData(13,600 , 570, "Hand", 0, 30 / i);
 
     EdgeData brainMouthEdge = new EdgeData(brainNode, mouthNode);
     EdgeData brainNoseEdge = new EdgeData(brainNode, noseNode);
@@ -71,6 +71,7 @@ public class TheMapScreen implements Screen
 
     public TheMapScreen(ImmuneWars game) 
     {
+        this.game = game;
         nodes.add(brainNode);
         nodes.add(mouthNode);
         nodes.add(noseNode);
@@ -109,9 +110,9 @@ public class TheMapScreen implements Screen
         mouthNode.setNeighbors(new ArrayList<NodeData>(){{add(lungsNode); add(noseNode); add(stomachNode); add(brainNode);}});
         noseNode.setNeighbors(new ArrayList<NodeData>(){{add(lungsNode); add(mouthNode); add(brainNode);}});
         heartNode.setNeighbors(new ArrayList<NodeData>(){{add(lungsNode); add(stomachNode); add(brainNode); add(armNode);}});
-        lungsNode.setNeighbors(new ArrayList<NodeData>(){{add(heartNode); add(stomachNode); add(mouthNode); add(noseNode);}});
+        lungsNode.setNeighbors(new ArrayList<NodeData>(){{add(heartNode); add(mouthNode); add(noseNode);}});
         stomachNode.setNeighbors(new ArrayList<NodeData>(){{add(lungsNode); add(heartNode); add(mouthNode); add(intestinesNode);}});
-        liverNode.setNeighbors(new ArrayList<NodeData>(){{add(stomachNode); add(kidneysNode);}});
+        liverNode.setNeighbors(new ArrayList<NodeData>(){{add(stomachNode); add(intestinesNode);}});
         kidneysNode.setNeighbors(new ArrayList<NodeData>(){{add(stomachNode); add(liverNode); add(intestinesNode); add(legNode);}});
         intestinesNode.setNeighbors(new ArrayList<NodeData>(){{add(stomachNode); add(kidneysNode); add(liverNode); add(legNode);}});
         armNode.setNeighbors(new ArrayList<NodeData>(){{add(heartNode); add(handNode);}});
@@ -122,7 +123,7 @@ public class TheMapScreen implements Screen
         stage = new Stage();
         shapeRenderer = new ShapeRenderer();
 
-        giveEnemyTwoNodes();
+       
         paintMap();
         System.out.println("no sorun.");
         render(0);
@@ -181,7 +182,7 @@ public class TheMapScreen implements Screen
      
         stage.draw();
 
-
+        enemyChooseAndAttack();
         
     }
 
@@ -211,8 +212,8 @@ public class TheMapScreen implements Screen
 
     @Override
     public void hide() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'hide'");
+        // hides the map screen
+        
     }
 
 
@@ -231,7 +232,6 @@ public class TheMapScreen implements Screen
 
         randomMinigameTrigger();
 
-        endGame();
     }
 
 
@@ -288,29 +288,39 @@ public class TheMapScreen implements Screen
 
     public void randomMinigameTrigger()
     {
-        // triggers a random minigame
+        // triggers a random minigame and switches to that screen
 
         Double a = Math.random();
 
         if ((0 < a) && (a < 0.2))
         {
-            TicTacToeScreen ticTacToeScreen = new TicTacToeScreen(ImmuneWars);
+            // pops a screen for the player to play the minigame
+
+            TicTacToeScreen ticTacToeScreen = new TicTacToeScreen(game);
+            game.setScreen(ticTacToeScreen);
+          
         }
         else if ((0.2 < a) && (a < 0.4))
         {
-            SpaceInvadersScreen spaceInvadersScreen = new SpaceInvadersScreen(ImmuneWars);
+            SpaceInvadersScreen spaceInvadersScreen = new SpaceInvadersScreen(game);
+            game.setScreen(spaceInvadersScreen);
+            
         }
         else if ((0.4 < a) && (a < 0.6))
         {
-            SnakeScreen snakeScreen = new SnakeScreen(ImmuneWars);
+            SnakeScreen snakeScreen = new SnakeScreen(game);
+            game.setScreen(snakeScreen);
+            
         }
         else if ((0.6 < a) && (a < 0.8))
         {
-            ImageMatchingScreen imageMatchingScreen = new ImageMatchingScreen(ImmuneWars, 16);
+            ImageMatchingScreen imageMatchingScreen = new ImageMatchingScreen(game, 16);
+            game.setScreen(imageMatchingScreen);
         }
         else if ((0.8 < a) && (a < 1))
         {
-            SpaceInvadersScreen spaceInvadersScreen = new SpaceInvadersScreen(ImmuneWars);
+            SpaceInvadersScreen spaceInvadersScreen = new SpaceInvadersScreen(game);
+            game.setScreen(spaceInvadersScreen);
         }
     }
 

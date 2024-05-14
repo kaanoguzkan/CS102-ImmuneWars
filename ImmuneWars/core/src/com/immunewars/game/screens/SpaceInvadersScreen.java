@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -25,6 +26,7 @@ public class SpaceInvadersScreen extends TransitionableScreen {
 	OrthographicCamera camera;
 	Viewport viewport;
 	SpriteBatch batch;
+	Texture texture;
 	
 	Ship playerShip;
 	float spawnCounter = 3f;
@@ -33,7 +35,8 @@ public class SpaceInvadersScreen extends TransitionableScreen {
 	public SpaceInvadersScreen(ImmuneWars game) {
 		currentScreen = this;
 		this.game = game;
-		
+		// adds the background picture 
+
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, cameraX, cameraY);
 		viewport = new StretchViewport(cameraX, cameraY, camera);

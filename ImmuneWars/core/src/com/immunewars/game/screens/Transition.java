@@ -9,7 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.immunewars.game.ImmuneWars;
 
 public class Transition extends Actor {
-	float speed = 3000;
+	float speed = 2000;
 	float x, y;
 	float width, height;
 	Texture texture;

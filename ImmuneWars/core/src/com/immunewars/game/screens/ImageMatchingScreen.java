@@ -29,7 +29,7 @@ import com.immunewars.game.ImmuneWars;
 import com.immunewars.game.minigameBackend.MinigamePresets;
 import com.immunewars.game.minigameBackend.TicTacToe;
 import com.immunewars.game.minigameBackend.ImageMatching.ImageMatching;
-import com.immunewars.game.minigameBackend.anImage;
+import com.immunewars.game.minigameBackend.ImageMatching.anImage;
 import com.immunewars.game.GameConfig;
 
 public class ImageMatchingScreen implements Screen {
