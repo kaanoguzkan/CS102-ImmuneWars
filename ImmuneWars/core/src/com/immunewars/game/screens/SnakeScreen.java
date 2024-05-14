@@ -5,6 +5,7 @@ import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch; 
@@ -80,7 +81,7 @@ public class SnakeScreen implements Screen{
 		
 		theSnakeHead = new snakeHead(1,1, PIXEL_SIZE, this); // snakeHead declare
         theSnakeTail = new SnakeTail(theSnakeHead.getPixelX() - 1, theSnakeHead.getPixelY()); // snakeTail declare
-        theApple = new Apple(random.nextInt(HORIZONTAL_PIXELS) ,random.nextInt(VERTICAL_PIXELS)); // Apple declare
+        theApple = new Apple(random.nextInt(HORIZONTAL_PIXELS - 1) ,random.nextInt(VERTICAL_PIXELS - 1)); // Apple declare
 
 		stage.addActor(theSnakeHead); // add snakeHead
         this.create(); //calls the func create which creates shape renderer, and possibly more ¯\_(ツ)_/¯
@@ -102,7 +103,7 @@ public class SnakeScreen implements Screen{
         //grid lines
         shapeRenderer.begin(ShapeType.Line);
         shapeRenderer.setColor(0, 1, 0, 1); // Set color to green
-        for(int i = 0; i < BOARD_WIDTH / PIXEL_SIZE; i++) {
+        for(int i = 0; i <= BOARD_WIDTH / PIXEL_SIZE; i++) {
             shapeRenderer.line(i*PIXEL_SIZE, 0, i*PIXEL_SIZE, BOARD_HEIGHT); // vertical pixels
             shapeRenderer.line(0, i*PIXEL_SIZE, BOARD_WIDTH, i*PIXEL_SIZE); // horizontal pixels
         }
@@ -134,25 +135,24 @@ public class SnakeScreen implements Screen{
             }
             theSnakeTail.setPixel(currPixel);
         }
-
-        //TODO -------------SKINS-----
-
+        
         // render snake body
+        shapeRenderer.setColor(new Color(Color.OLIVE));
         for(Pixel element: snakeParts){
-            System.out.println("renders" + element.getX() + " " + element.getY() + "while head is at" + theSnakeHead.getPixelX() + " " + theSnakeHead.getPixelY());
-            System.out.println();
+            //System.out.println("renders" + element.getX() + " " + element.getY() + "while head is at" + theSnakeHead.getPixelX() + " " + theSnakeHead.getPixelY());
+            //System.out.println();
             shapeRenderer.rect(element.getX() * PIXEL_SIZE, element.getY() * PIXEL_SIZE, PIXEL_SIZE, PIXEL_SIZE);
         }
         //tail
-        shapeRenderer.setColor(1, 0, 0, 1); // Set color to blue
+        shapeRenderer.setColor(new Color(Color.OLIVE));
         shapeRenderer.rect(theSnakeTail.getPixelX() * PIXEL_SIZE, theSnakeTail.getPixelY() * PIXEL_SIZE, PIXEL_SIZE, PIXEL_SIZE);
         
         //Apple
-        shapeRenderer.setColor(1, 0, 0, 1); // Set color to red
+        shapeRenderer.setColor(new Color(Color.RED)); // Set color to red
         shapeRenderer.rect(theApple.getPixelX() * PIXEL_SIZE, theApple.getPixelY() * PIXEL_SIZE, PIXEL_SIZE, PIXEL_SIZE);
 
         //head
-        shapeRenderer.setColor(0, 1, 0, 1); // Set color to green
+        shapeRenderer.setColor(new Color(Color.GREEN)); // Set color to green
         shapeRenderer.rect(theSnakeHead.getPixelX() * PIXEL_SIZE, theSnakeHead.getPixelY() * PIXEL_SIZE, PIXEL_SIZE, PIXEL_SIZE);
         
         

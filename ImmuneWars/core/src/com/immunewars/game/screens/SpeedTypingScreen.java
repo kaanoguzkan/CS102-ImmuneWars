@@ -100,17 +100,14 @@ public class SpeedTypingScreen implements Screen
         Random rand = new Random();
         int a = rand.nextInt(wordList.length);
         newWord(wordList[a]);
-        meaningLabel.setText( "Meaning: " + wordDefinitionList[a]);
+        meaningLabel.setText( "Meaning: " + wordDefinitionList[a]); //TODO
     }
 
     @Override
     public void render(float delta) 
     {
         this.update(delta);
-        if(this.isTerminateGame()){
-        
-        }
-
+        this.terminateGame();
         System.out.println(textField.getText());
         scoreLabel.setText("Score: " + score);
         Gdx.gl.glClearColor(.1f, .12f, .16f, 1);
@@ -141,6 +138,7 @@ public class SpeedTypingScreen implements Screen
             Random rand = new Random();
             int a = rand.nextInt(wordList.length);
             newWord(wordList[a]);
+            meaningLabel.setText( "Meaning: " + wordDefinitionList[a]); 
         }
         
         stage.act();
@@ -184,8 +182,8 @@ public class SpeedTypingScreen implements Screen
         }
     }
 
-    public boolean isTerminateGame(){
-        if(gameTimer <= 0){return true;}
+    public boolean terminateGame(){
+        if(gameTimer <= 0){return true;} //TODO idk do something with it
         else{return false;}
     }
 

@@ -47,7 +47,7 @@ public class snakeHead extends Actor{
         }
 
         //tick-slowing-mechanism to make it proper, otherwise it is too fast.
-        if(tick > 0.1){
+        if(tick > 0.05){
             if(this.headCanMoveAtDirection(option)){
                 this.moveDirection(option);
             }
@@ -61,28 +61,28 @@ public class snakeHead extends Actor{
     public boolean headCanMoveAtDirection(int option){ // check presets
         boolean result = false;
         if(option == 1){ // W
-            if(this.y <= MinigamePresets.Snake.yBound / MinigamePresets.Snake.PIXEL_SIZE){
+            if(this.y < MinigamePresets.Snake.yBound / MinigamePresets.Snake.PIXEL_SIZE){
                 result = true;
             }else{
                 gameScreen.terminateGame();
                 result = false;
             }
         }else if(option == 2){ // A
-            if(this.x >= 0){
+            if(this.x > 0){
                 result = true;
             }else{
                 gameScreen.terminateGame();
                 result = false;
             }
         }else if(option == 3){ // S
-            if(this.y >= 0){
+            if(this.y > 0){
                 result = true;
             }else{
                 gameScreen.terminateGame();
                 result = false;
             }
         }else if(option == 4){ // D
-            if(this.x <= MinigamePresets.Snake.xBound / MinigamePresets.Snake.PIXEL_SIZE){
+            if(this.x < MinigamePresets.Snake.xBound / MinigamePresets.Snake.PIXEL_SIZE){
                 result = true;
             }else{
                 gameScreen.terminateGame();
