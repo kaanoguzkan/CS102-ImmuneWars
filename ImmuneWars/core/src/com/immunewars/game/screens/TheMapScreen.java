@@ -1,9 +1,9 @@
 package com.immunewars.game.screens;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import javax.swing.text.StyledEditorKit.ForegroundAction;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
@@ -19,15 +19,17 @@ import com.immunewars.game.minigameBackend.MainMap.Node.NodeData;
 
 public class TheMapScreen implements Screen 
 {
+    private static ImmuneWars ImmuneWars;
     private ShapeRenderer shapeRenderer;
     private Stage stage;
     private Image background;
+    private Random random = new Random();
     int i = 2;
     
     ArrayList<NodeData> nodes = new ArrayList<NodeData>();
     ArrayList<EdgeData> edges = new ArrayList<EdgeData>();
+    ArrayList<NodeData> enemyNodes = new ArrayList<NodeData>();
     NodeData brainNode = new NodeData(0,80 , 390, "Brain", 0, 70 / i);
-    NodeData eyesNode = new NodeData(1, 120, 470, "Eyes", 0, 20 / i);
     NodeData mouthNode = new NodeData(2, 170, 450, "Mouth", 0, 35 / i);
     NodeData noseNode = new NodeData(3, 150,510 , "Nose", 0, 30 / i);
     NodeData heartNode = new NodeData(4, 360, 480, "Heart", 0, 50 / i);
@@ -41,14 +43,12 @@ public class TheMapScreen implements Screen
     NodeData footNode = new NodeData(12, 1000, 400, "Foot", 0, 20 / i);
     NodeData handNode = new NodeData(13,600 , 600, "Hand", 0, 30 / i);
 
-    EdgeData brainEyesEdge = new EdgeData(brainNode, eyesNode);
     EdgeData brainMouthEdge = new EdgeData(brainNode, mouthNode);
     EdgeData brainNoseEdge = new EdgeData(brainNode, noseNode);
     EdgeData brainHeartEdge = new EdgeData(brainNode, heartNode);
     EdgeData heartLungsEdge = new EdgeData(heartNode, lungsNode);
     EdgeData heartStomachEdge = new EdgeData(heartNode, stomachNode);
     EdgeData mouthLungEdge = new EdgeData(mouthNode, lungsNode);
-    EdgeData mouthEyesEdge = new EdgeData(mouthNode, eyesNode);
     EdgeData mouthNoseEdge = new EdgeData(mouthNode, noseNode);
     EdgeData stomachIntestinesEdge = new EdgeData(stomachNode, intestinesNode);
     EdgeData stomachLiverEdge = new EdgeData(stomachNode, liverNode);
@@ -57,8 +57,6 @@ public class TheMapScreen implements Screen
     EdgeData intestinesKidneysEdge = new EdgeData(intestinesNode, kidneysNode);
     EdgeData noseLungEdge = new EdgeData(noseNode, lungsNode);
     EdgeData mouthStomachEdge = new EdgeData(mouthNode, stomachNode);
-    EdgeData eyesHeartEdge = new EdgeData(eyesNode, heartNode);
-    EdgeData eyesArmEdge = new EdgeData(eyesNode, armNode);
     EdgeData armHandEdge = new EdgeData(armNode, handNode);
     EdgeData heartArmEdge = new EdgeData(heartNode, armNode);
     EdgeData kidneyLEdge = new EdgeData(kidneysNode, legNode);
@@ -70,7 +68,6 @@ public class TheMapScreen implements Screen
     public TheMapScreen(ImmuneWars game) 
     {
         nodes.add(brainNode);
-        nodes.add(eyesNode);
         nodes.add(mouthNode);
         nodes.add(noseNode);
         nodes.add(heartNode);
@@ -84,14 +81,12 @@ public class TheMapScreen implements Screen
         nodes.add(footNode);
         nodes.add(handNode);
 
-        edges.add(brainEyesEdge);
         edges.add(brainMouthEdge);
         edges.add(brainNoseEdge);
         edges.add(brainHeartEdge);
         edges.add(heartLungsEdge);
         edges.add(heartStomachEdge);
         edges.add(mouthLungEdge);
-        edges.add(mouthEyesEdge);
         edges.add(mouthNoseEdge);
         edges.add(stomachIntestinesEdge);
         edges.add(stomachLiverEdge);
@@ -100,17 +95,18 @@ public class TheMapScreen implements Screen
         edges.add(intestinesKidneysEdge);
         edges.add(noseLungEdge);
         edges.add(mouthStomachEdge);
-        edges.add(eyesHeartEdge);
-        edges.add(eyesArmEdge);
         edges.add(armHandEdge);
         edges.add(heartArmEdge);
         edges.add(kidneyLEdge);
         edges.add(legFootEdge);
         edges.add(intestinesLegEdge);
 
+        
+
         stage = new Stage();
         shapeRenderer = new ShapeRenderer();
 
+        giveEnemyTwoNodes();
         paintMap();
         System.out.println("no sorun.");
         render(0);
@@ -127,6 +123,8 @@ public class TheMapScreen implements Screen
         background = new Image(a);
         background.setSize(1280, 800);
         stage.addActor(background);
+        
+
         // paint nodes
         Node nodeActor;
         for (NodeData node : nodes) 
@@ -157,11 +155,18 @@ public class TheMapScreen implements Screen
     @Override
     public void render(float delta) {
         // renders the stage
+
         stage.act();
+     
         stage.draw();
+
+
         
     }
 
+    public ArrayList<NodeData> getNodes() {
+        return nodes;
+    }
 
     @Override
     public void resize(int width, int height) {
@@ -196,5 +201,96 @@ public class TheMapScreen implements Screen
         throw new UnsupportedOperationException("Unimplemented method 'dispose'");
     }
     
+    public void enemyChooseAndAttack()
+    {
+        giveEnemyTwoNodes();
+        // choose a node to attack, attack triggers a minigame
+        // if the player wins, the enemy loses the node
+        // if the player loses, the player loses the node
+
+
+
+        
+        
+    }
+
+
+    public void giveEnemyTwoNodes()
+    {
+        ArrayList<NodeData> avaiableNodes = new ArrayList<NodeData>();
+        ArrayList<NodeData> nodess = getNodes();
+        
+        for (int i = 0; i < nodess.size(); i++) 
+        {
+            NodeData node = nodes.get(i);
+            if (node.getId() != 0 && !node.getName().equals("Brain") && !node.getName().equals("Heart")) {
+                avaiableNodes.add(node);
+            }
+        }
+
+        int randomNode1Index = random.nextInt(avaiableNodes.size());
+        int randomNode2Index = random.nextInt(avaiableNodes.size());
+
+        NodeData randomNode1 = avaiableNodes.get(randomNode1Index);
+        NodeData randomNode2 = avaiableNodes.get(randomNode2Index);
+
+        randomNode1.setId(1);
+        randomNode2.setId(1);
+
+        enemyNodes.add(randomNode1);
+        enemyNodes.add(randomNode2);
+
+        System.out.println("enemy nodes are: " + randomNode1.getName() + " and " + randomNode2.getName());
+    }
+
+    public void randomMinigameTrigger()
+    {
+        // triggers a random minigame
+
+        Double a = Math.random();
+
+        if ((0 < a) && (a < 0.2))
+        {
+            TicTacToeScreen ticTacToeScreen = new TicTacToeScreen(ImmuneWars);
+        }
+        else if ((0.2 < a) && (a < 0.4))
+        {
+            SpaceInvadersScreen spaceInvadersScreen = new SpaceInvadersScreen(ImmuneWars);
+        }
+        else if ((0.4 < a) && (a < 0.6))
+        {
+            SnakeScreen snakeScreen = new SnakeScreen(ImmuneWars);
+        }
+        else if ((0.6 < a) && (a < 0.8))
+        {
+            ImageMatchingScreen imageMatchingScreen = new ImageMatchingScreen(ImmuneWars, 16);
+        }
+        else if ((0.8 < a) && (a < 1))
+        {
+            SpaceInvadersScreen spaceInvadersScreen = new SpaceInvadersScreen(ImmuneWars);
+        }
+    }
+
+    public void endGame()
+    {
+        ArrayList<NodeData> nodesss = getNodes();
+
+        if((nodesss.get(0).getId() == 1) && (nodesss.get(3).getId() == 1))
+        {
+            System.out.println("enemy wins");
+        }
+        else if(enemyNodes.isEmpty())
+        {
+            System.out.println("player wins");
+        }
+        else
+        {
+            System.out.println("game continues");
+        }
+    }
+
+
+
 }
+
 
