@@ -53,7 +53,14 @@ public class Node extends Actor {
             shapeRenderer.circle(getX() + radius, getY() + radius, radius);
             shapeRenderer.end();
         }
-        else
+        else if (nodeData.getId() == 1)
+        {
+            shapeRenderer.begin(ShapeType.Filled);
+            shapeRenderer.setColor(Color.RED);
+            shapeRenderer.circle(getX() + radius, getY() + radius, radius);
+            shapeRenderer.end();
+        }
+        else 
         {
             shapeRenderer.begin(ShapeType.Filled);
             shapeRenderer.setColor(Color.GREEN);

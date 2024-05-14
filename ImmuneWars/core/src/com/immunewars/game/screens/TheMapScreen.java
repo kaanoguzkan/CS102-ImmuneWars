@@ -28,7 +28,6 @@ public class TheMapScreen implements Screen
     ArrayList<NodeData> nodes = new ArrayList<NodeData>();
     ArrayList<EdgeData> edges = new ArrayList<EdgeData>();
     NodeData brainNode = new NodeData(0,80 , 390, "Brain", 0, 70 / i);
-    NodeData eyesNode = new NodeData(1, 120, 470, "Eyes", 0, 20 / i);
     NodeData mouthNode = new NodeData(2, 170, 450, "Mouth", 0, 35 / i);
     NodeData noseNode = new NodeData(3, 150,510 , "Nose", 0, 30 / i);
     NodeData heartNode = new NodeData(4, 360, 480, "Heart", 0, 50 / i);
@@ -42,14 +41,12 @@ public class TheMapScreen implements Screen
     NodeData footNode = new NodeData(12, 1000, 400, "Foot", 0, 20 / i);
     NodeData handNode = new NodeData(13,600 , 600, "Hand", 0, 30 / i);
 
-    EdgeData brainEyesEdge = new EdgeData(brainNode, eyesNode);
     EdgeData brainMouthEdge = new EdgeData(brainNode, mouthNode);
     EdgeData brainNoseEdge = new EdgeData(brainNode, noseNode);
     EdgeData brainHeartEdge = new EdgeData(brainNode, heartNode);
     EdgeData heartLungsEdge = new EdgeData(heartNode, lungsNode);
     EdgeData heartStomachEdge = new EdgeData(heartNode, stomachNode);
     EdgeData mouthLungEdge = new EdgeData(mouthNode, lungsNode);
-    EdgeData mouthEyesEdge = new EdgeData(mouthNode, eyesNode);
     EdgeData mouthNoseEdge = new EdgeData(mouthNode, noseNode);
     EdgeData stomachIntestinesEdge = new EdgeData(stomachNode, intestinesNode);
     EdgeData stomachLiverEdge = new EdgeData(stomachNode, liverNode);
@@ -58,8 +55,6 @@ public class TheMapScreen implements Screen
     EdgeData intestinesKidneysEdge = new EdgeData(intestinesNode, kidneysNode);
     EdgeData noseLungEdge = new EdgeData(noseNode, lungsNode);
     EdgeData mouthStomachEdge = new EdgeData(mouthNode, stomachNode);
-    EdgeData eyesHeartEdge = new EdgeData(eyesNode, heartNode);
-    EdgeData eyesArmEdge = new EdgeData(eyesNode, armNode);
     EdgeData armHandEdge = new EdgeData(armNode, handNode);
     EdgeData heartArmEdge = new EdgeData(heartNode, armNode);
     EdgeData kidneyLEdge = new EdgeData(kidneysNode, legNode);
@@ -71,7 +66,6 @@ public class TheMapScreen implements Screen
     public TheMapScreen(ImmuneWars game) 
     {
         nodes.add(brainNode);
-        nodes.add(eyesNode);
         nodes.add(mouthNode);
         nodes.add(noseNode);
         nodes.add(heartNode);
@@ -85,14 +79,12 @@ public class TheMapScreen implements Screen
         nodes.add(footNode);
         nodes.add(handNode);
 
-        edges.add(brainEyesEdge);
         edges.add(brainMouthEdge);
         edges.add(brainNoseEdge);
         edges.add(brainHeartEdge);
         edges.add(heartLungsEdge);
         edges.add(heartStomachEdge);
         edges.add(mouthLungEdge);
-        edges.add(mouthEyesEdge);
         edges.add(mouthNoseEdge);
         edges.add(stomachIntestinesEdge);
         edges.add(stomachLiverEdge);
@@ -101,19 +93,18 @@ public class TheMapScreen implements Screen
         edges.add(intestinesKidneysEdge);
         edges.add(noseLungEdge);
         edges.add(mouthStomachEdge);
-        edges.add(eyesHeartEdge);
-        edges.add(eyesArmEdge);
         edges.add(armHandEdge);
         edges.add(heartArmEdge);
         edges.add(kidneyLEdge);
         edges.add(legFootEdge);
         edges.add(intestinesLegEdge);
 
-        giveEnemyTwoNodes();
+        
 
         stage = new Stage();
         shapeRenderer = new ShapeRenderer();
 
+        giveEnemyTwoNodes();
         paintMap();
         System.out.println("no sorun.");
         render(0);
@@ -171,6 +162,9 @@ public class TheMapScreen implements Screen
         
     }
 
+    public ArrayList<NodeData> getNodes() {
+        return nodes;
+    }
 
     @Override
     public void resize(int width, int height) {
@@ -217,9 +211,11 @@ public class TheMapScreen implements Screen
     public void giveEnemyTwoNodes()
     {
         ArrayList<NodeData> avaiableNodes = new ArrayList<NodeData>();
+        ArrayList<NodeData> nodess = getNodes();
         
-        for (NodeData node : nodes) 
+        for (int i = 0; i < nodess.size(); i++) 
         {
+            NodeData node = nodes.get(i);
             if (node.getId() != 0 && !node.getName().equals("Brain") && !node.getName().equals("Heart")) {
                 avaiableNodes.add(node);
             }
@@ -233,6 +229,8 @@ public class TheMapScreen implements Screen
 
         randomNode1.setId(1);
         randomNode2.setId(1);
+
+        System.out.println("enemy nodes are: " + randomNode1.getName() + " and " + randomNode2.getName());
     }
 
 
