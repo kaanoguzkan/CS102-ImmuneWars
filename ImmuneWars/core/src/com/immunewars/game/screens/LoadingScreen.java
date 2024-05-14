@@ -36,7 +36,7 @@ public class LoadingScreen implements Screen{
     Texture blank;
     ShapeRenderer shapeRenderer = new ShapeRenderer();
     float timePassed = 0;
-    int progressOfBar = MinigamePresets.SpaceInvaders.xBound;
+    int progressOfBar = 1280;
 
     /*
      * https://javadoc.io/doc/com.badlogicgames.gdx/gdx/latest/com/badlogic/gdx/scenes/scene2d/ui/ProgressBar.html
@@ -77,7 +77,7 @@ public class LoadingScreen implements Screen{
     public void render(float delta) {
         shapeRenderer.begin(ShapeType.Line);
         shapeRenderer.setColor(Color.RED);
-        shapeRenderer.rect(0,0,MinigamePresets.SpaceInvaders.xBound, 10);
+        shapeRenderer.rect(0,0,1280, 10);
         shapeRenderer.end();
 
         shapeRenderer.begin(ShapeType.Filled);

@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.badlogic.gdx.utils.viewport.Viewport;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener.ChangeEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -21,6 +20,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.immunewars.game.ImmuneWars;
 import com.immunewars.game.minigameBackend.MinigamePresets;
 import com.immunewars.game.minigameBackend.TicTacToe;
@@ -41,12 +41,21 @@ public class TicTacToeScreen extends TransitionableScreen {
 	
 	float buttonLengthX, buttonLengthY;
 	float lineThickness;
+
+	boolean playerTurn;
+	Image[] buttons;
+	public boolean[] availableButtons;
 	
 	public TicTacToeScreen(ImmuneWars game) {
 		this(game, MinigamePresets.TicTacToe.gameSize, MinigamePresets.TicTacToe.winLength);
 	}
 	
 	public TicTacToeScreen(ImmuneWars game, int gameSize, int winLength) {
+		availableButtons = new boolean[gameSize * gameSize];
+		for(int i = 0; i < availableButtons.length; i++){
+			availableButtons[i] = true;
+		}
+		buttons = new Image[gameSize * gameSize];
 		currentScreen = this;
 		this.game = game;
 		this.backend = new TicTacToe(gameSize, winLength);
@@ -69,31 +78,34 @@ public class TicTacToeScreen extends TransitionableScreen {
 		
 		for (int i = 0; i < gameSize; i++) {
 			for (int j = 0; j < gameSize; j++) {
-				Image button = new Image(new Texture("pixel.png"));
+				int a = i; int b = j;
+				Image button = new Image(new Texture("mapBackground.png"));
 				button.setX(lineThickness + i*(buttonLengthX + lineThickness));
 				button.setY(lineThickness + j*(buttonLengthY + lineThickness));
 				button.setSize(buttonLengthX, buttonLengthY);
 				button.setColor(new Color(1.0f,1.0f,1.0f,1.0f));
+				button.setDrawable(new TextureRegionDrawable(new TextureRegion(new Texture("mapBackground.png"))));
 				
 				button.addListener(new ClickListener() {
 					@Override
 					public void clicked (InputEvent event, float x, float y) {
-						int xIndex = (int) Math.round((button.getX() - lineThickness)/(buttonLengthX+lineThickness));
-						int yIndex = (int) Math.round((button.getY() - lineThickness)/(buttonLengthY+lineThickness));
-						TicTacToe backend = TicTacToeScreen.currentScreen.backend;
-						System.out.println("---------");
-						
-						backend.setTile(xIndex, yIndex);
-						if (backend.getTile(xIndex, yIndex) == 'p') {
-							button.setColor(Color.RED);
-						} else {
-							button.setColor(Color.BLACK);
+						if(playerTurn){
+							int xIndex = (int) Math.round((button.getX() - lineThickness)/(buttonLengthX+lineThickness));
+							int yIndex = (int) Math.round((button.getY() - lineThickness)/(buttonLengthY+lineThickness));
+							int mehmetcan = a * 3 + b;
+							System.out.println(xIndex + " ASDASD " + yIndex + " DASDA " + mehmetcan);
+							TicTacToe backend = TicTacToeScreen.currentScreen.backend;
+							backend.setTile(xIndex, yIndex);
+							backend.switchChar(); // Böööööö!!!!!!!!!
+							availableButtons[mehmetcan] = false;
+							playerTurn = false;
+							for(boolean element: availableButtons){System.out.println(element);}
+							button.setDrawable(new TextureRegionDrawable(new TextureRegion(new Texture("logo.png"))));
 						}
-						System.out.println(backend.didSomeoneWin());
-						backend.switchChar(); // Böööööö!!!!!!!!!
 					}
 				});
 				
+				buttons[i * 3 + j] = button;
 				stage.addActor(button);
 			}
 		}
@@ -120,6 +132,39 @@ public class TicTacToeScreen extends TransitionableScreen {
 			newLine.rect(0, lineSpacingY*i, cameraY, lineThickness);
 			newLine.end();
 		}
+		if(!playerTurn){
+			this.computerPlay();
+		}
+		if(backend.didSomeoneWin()){Gdx.app.exit();}
+		if(this.isGameDraw()){Gdx.app.exit();}
+	}
+
+	public void computerPlay(){
+		int xIndex = (int) (Math.random() * 3);
+		int yIndex = (int) (Math.random() * 3);
+		System.out.println(availableButtons[xIndex * 3 + yIndex]);
+		if(availableButtons[xIndex * 3 + yIndex]){
+			System.out.println("haha" + availableButtons[xIndex * 3 + yIndex]);
+			backend.setTile(xIndex, yIndex);
+			buttons[xIndex * 3 + yIndex].setDrawable(new TextureRegionDrawable(new TextureRegion(new Texture("IMBackground.png"))));
+			availableButtons[xIndex * 3 + yIndex] = false;
+			System.out.println(xIndex + " " + yIndex);
+			backend.switchChar(); // Böööööö!!!!!!!!!
+			playerTurn = true;
+			for(boolean element: availableButtons){System.out.println(element);}
+		}else{
+			computerPlay();
+		}
+	}
+
+	public boolean isGameDraw(){
+		boolean result = true;
+		for(boolean element: availableButtons){
+			if(element){
+				return !element;
+			}
+		}
+		return result;
 	}
 
 	@Override

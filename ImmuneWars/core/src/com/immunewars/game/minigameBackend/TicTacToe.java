@@ -4,7 +4,7 @@ public class TicTacToe extends Minigame {
 	int gameSize;
 	int winLength;
 	char[][] gameGrid;
-	char currentChar;
+	char currentChar = 'p';
 	char char1, char2;
 	
 	public TicTacToe() {
@@ -18,7 +18,6 @@ public class TicTacToe extends Minigame {
 		
 		char1 = 'p';
 		char2 = 'c';
-		currentChar = char1;
 	}
 	
 	public boolean setTile(int x, int y) {
@@ -120,5 +119,18 @@ public class TicTacToe extends Minigame {
 	
 	public char getTile(int x, int y) {
 		return gameGrid[x][y];
+	}
+
+	public boolean isComputerTurn(){return currentChar == 'c';}
+
+	public void computerPlay(){
+		int x = (int) (Math.random() * 3);
+		int y = (int) (Math.random() * 3);
+		if(gameGrid[x][y] == '\u0000'){
+			this.setTile(x, y);
+			return;
+		}else{
+			computerPlay();
+		}
 	}
 }
