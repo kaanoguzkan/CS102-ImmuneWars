@@ -19,6 +19,7 @@ import com.immunewars.game.minigameBackend.MainMap.Node.NodeData;
 
 public class TheMapScreen implements Screen 
 {
+    private static ImmuneWars ImmuneWars;
     private ShapeRenderer shapeRenderer;
     private Stage stage;
     private Image background;
@@ -27,6 +28,7 @@ public class TheMapScreen implements Screen
     
     ArrayList<NodeData> nodes = new ArrayList<NodeData>();
     ArrayList<EdgeData> edges = new ArrayList<EdgeData>();
+    ArrayList<NodeData> enemyNodes = new ArrayList<NodeData>();
     NodeData brainNode = new NodeData(0,80 , 390, "Brain", 0, 70 / i);
     NodeData mouthNode = new NodeData(2, 170, 450, "Mouth", 0, 35 / i);
     NodeData noseNode = new NodeData(3, 150,510 , "Nose", 0, 30 / i);
@@ -202,6 +204,11 @@ public class TheMapScreen implements Screen
     public void enemyChooseAndAttack()
     {
         giveEnemyTwoNodes();
+        // choose a node to attack, attack triggers a minigame
+        // if the player wins, the enemy loses the node
+        // if the player loses, the player loses the node
+
+
 
         
         
@@ -230,7 +237,56 @@ public class TheMapScreen implements Screen
         randomNode1.setId(1);
         randomNode2.setId(1);
 
+        enemyNodes.add(randomNode1);
+        enemyNodes.add(randomNode2);
+
         System.out.println("enemy nodes are: " + randomNode1.getName() + " and " + randomNode2.getName());
+    }
+
+    public void randomMinigameTrigger()
+    {
+        // triggers a random minigame
+
+        Double a = Math.random();
+
+        if ((0 < a) && (a < 0.2))
+        {
+            TicTacToeScreen ticTacToeScreen = new TicTacToeScreen(ImmuneWars);
+        }
+        else if ((0.2 < a) && (a < 0.4))
+        {
+            SpaceInvadersScreen spaceInvadersScreen = new SpaceInvadersScreen(ImmuneWars);
+        }
+        else if ((0.4 < a) && (a < 0.6))
+        {
+            SnakeScreen snakeScreen = new SnakeScreen(ImmuneWars);
+        }
+        else if ((0.6 < a) && (a < 0.8))
+        {
+            ImageMatchingScreen imageMatchingScreen = new ImageMatchingScreen(ImmuneWars, 16);
+        }
+        else if ((0.8 < a) && (a < 1))
+        {
+            SpaceInvadersScreen spaceInvadersScreen = new SpaceInvadersScreen(ImmuneWars);
+        }
+    }
+
+    public void endGame()
+    {
+        ArrayList<NodeData> nodesss = getNodes();
+
+        if((nodesss.get(0).getId() == 1) && (nodesss.get(3).getId() == 1))
+        {
+            System.out.println("enemy wins");
+        }
+        else if(enemyNodes.isEmpty())
+        {
+            System.out.println("player wins");
+        }
+        else
+        {
+            System.out.println("game continues");
+        }
     }
 
 
