@@ -101,7 +101,19 @@ public class TheMapScreen implements Screen
         edges.add(legFootEdge);
         edges.add(intestinesLegEdge);
 
-        
+        brainNode.setNeighbors(new ArrayList<NodeData>(){{add(mouthNode); add(noseNode); add(heartNode);}});
+        mouthNode.setNeighbors(new ArrayList<NodeData>(){{add(lungsNode); add(noseNode); add(stomachNode); add(brainNode);}});
+        noseNode.setNeighbors(new ArrayList<NodeData>(){{add(lungsNode); add(mouthNode); add(brainNode);}});
+        heartNode.setNeighbors(new ArrayList<NodeData>(){{add(lungsNode); add(stomachNode); add(brainNode); add(armNode);}});
+        lungsNode.setNeighbors(new ArrayList<NodeData>(){{add(heartNode); add(stomachNode); add(mouthNode); add(noseNode);}});
+        stomachNode.setNeighbors(new ArrayList<NodeData>(){{add(lungsNode); add(heartNode); add(mouthNode); add(intestinesNode);}});
+        liverNode.setNeighbors(new ArrayList<NodeData>(){{add(stomachNode); add(kidneysNode);}});
+        kidneysNode.setNeighbors(new ArrayList<NodeData>(){{add(stomachNode); add(liverNode); add(intestinesNode); add(legNode);}});
+        intestinesNode.setNeighbors(new ArrayList<NodeData>(){{add(stomachNode); add(kidneysNode); add(liverNode); add(legNode);}});
+        armNode.setNeighbors(new ArrayList<NodeData>(){{add(heartNode); add(handNode);}});
+        legNode.setNeighbors(new ArrayList<NodeData>(){{add(kidneysNode); add(intestinesNode); add(footNode);}});
+        footNode.setNeighbors(new ArrayList<NodeData>(){{add(legNode);}});
+        handNode.setNeighbors(new ArrayList<NodeData>(){{add(armNode);}});
 
         stage = new Stage();
         shapeRenderer = new ShapeRenderer();
@@ -204,14 +216,13 @@ public class TheMapScreen implements Screen
     public void enemyChooseAndAttack()
     {
         giveEnemyTwoNodes();
-        // choose a node to attack, attack triggers a minigame
-        // if the player wins, the enemy loses the node
-        // if the player loses, the player loses the node
-
-
-
         
-        
+        NodeData targetNode = pickTargetNode();
+        System.out.println("enemy attacks: " + targetNode.getName());
+
+        randomMinigameTrigger();
+
+        endGame();
     }
 
 
@@ -242,6 +253,29 @@ public class TheMapScreen implements Screen
 
         System.out.println("enemy nodes are: " + randomNode1.getName() + " and " + randomNode2.getName());
     }
+
+
+    public NodeData pickTargetNode()
+    {
+        // picks a target node for the enemy to attack
+        ArrayList<NodeData> availableNodess = new ArrayList<NodeData>();
+        // nested for loop for finding available nodes of the all enemy nodes
+        for (NodeData enemyNode : enemyNodes) 
+        {
+            for (NodeData neighbor : enemyNode.getNeighbors()) 
+            {
+                if (neighbor.getId() != 1) 
+                {
+                    availableNodess.add(neighbor);
+                }
+            }
+        }
+        
+        int i = (int) ((Math.random() * (availableNodess.size()))-1);
+
+        return availableNodess.get(i);
+    }
+
 
     public void randomMinigameTrigger()
     {
