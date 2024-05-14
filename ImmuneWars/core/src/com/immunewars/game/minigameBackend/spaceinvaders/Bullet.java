@@ -38,5 +38,6 @@ public class Bullet extends SIElement {
 	}
 	
 	public boolean isEnemy() {return isEnemy;}
+	public void setSpeed(float speed) {this.speed = speed;}
 	
 }

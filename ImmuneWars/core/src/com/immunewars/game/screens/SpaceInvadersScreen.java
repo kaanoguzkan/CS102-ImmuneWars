@@ -31,21 +31,26 @@ public class SpaceInvadersScreen extends TransitionableScreen {
 	SpriteBatch batch;
 	
 	Ship playerShip;
-	float spawnCounter = 3f;
+	float spawnCounter = 1f;
 	float spawnInterval = 1f;
 	Sprite backgroundSprite;
 	SpriteBatch spriteBatch = new SpriteBatch();
 
 	int life;
+	int score;
+	float gameTime;
+	Label scoreLabel;
+	Label timeLabel;
 	Label livesLabel;
 	Label entityCountLabel;
 	Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
+	Stage foreground;
 
 	public SpaceInvadersScreen(ImmuneWars game) {
 		currentScreen = this;
 		this.game = game;
 
-		backgroundSprite = new Sprite(new Texture("spaceInvadersBackground.png"));
+		backgroundSprite = new Sprite(new Texture("spaceInvadersBackgroundTransparent.png"));
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, cameraX, cameraY);
 		viewport = new StretchViewport(cameraX, cameraY, camera);
@@ -53,18 +58,34 @@ public class SpaceInvadersScreen extends TransitionableScreen {
 		batch = new SpriteBatch();
 		
 		stage = new Stage();
+		foreground = new Stage();
 		stage.setViewport(viewport);
+		foreground.setViewport(viewport);
 		Gdx.input.setInputProcessor(stage);
 		
-		playerShip = new Ship(640, 0, 80, 80);
+		gameTime = 60;
+		playerShip = new Ship(640, 0, 40, 40);
+		
+		scoreLabel = new Label("Score: " + score, skin);
+		scoreLabel.setPosition(0, 100);
+		scoreLabel.setFontScale(2f);
+		
+		timeLabel = new Label("Time: " + gameTime, skin);
+		timeLabel.setPosition(0, 50);
+		timeLabel.setFontScale(2f);
+		
 		life  = playerShip.health;
-		livesLabel = new Label("lives: " + life, skin);
-		livesLabel.setPosition(800, 400);
+		livesLabel = new Label("Lives: " + life, skin);
+		livesLabel.setPosition(0, 0);
+		livesLabel.setFontScale(2f);
+		
 		entityCountLabel = new Label("" + 0, skin);
 		entityCountLabel.setPosition(700, 400);
 
-		stage.addActor(entityCountLabel);
-		stage.addActor(livesLabel);
+		//foreground.addActor(entityCountLabel);
+		foreground.addActor(scoreLabel);
+		foreground.addActor(livesLabel);
+		foreground.addActor(timeLabel);
 		stage.addActor(playerShip);
 	}
 
@@ -76,19 +97,17 @@ public class SpaceInvadersScreen extends TransitionableScreen {
 
 	@Override
 	public void render(float delta) {
+		
+		gameTime -= delta;
 
 		spawnCounter -= delta;
 		if (spawnCounter <= 0) {
-			Enemy newEnemy = new Enemy((float)(Math.random()) * (MinigamePresets.SpaceInvaders.xBound - (180 + 80)) + 180,
-					MinigamePresets.SpaceInvaders.yBound,
+			Enemy newEnemy = new Enemy((float)(MinigamePresets.SpaceInvaders.xLowerBound + Math.random() * (MinigamePresets.SpaceInvaders.xUpperBound - MinigamePresets.SpaceInvaders.xLowerBound - 80)),
+					MinigamePresets.SpaceInvaders.yUpperBound,
 					80, 80);
 			stage.addActor(newEnemy);
 			spawnCounter = spawnInterval;
 		}
-
-		spriteBatch.begin();
-		backgroundSprite.draw(spriteBatch);
-		spriteBatch.end();
 
 		Actor[] actors = stage.getActors().toArray();
 		//System.out.println(actors.length);
@@ -116,6 +135,7 @@ public class SpaceInvadersScreen extends TransitionableScreen {
 				if (b.collidesWith(e)) {
 					destroyedActors.add(b);
 					destroyedActors.add(e);
+					score++;
 				}
 			}
 		}
@@ -125,13 +145,23 @@ public class SpaceInvadersScreen extends TransitionableScreen {
 		}
 		
 		life = playerShip.health;
-		livesLabel.setText("lives: " + life);
+		scoreLabel.setText("Score: " + score);
+		timeLabel.setText(String.format("Time: %.1f", gameTime));
+		livesLabel.setText("Lives: " + life);
 		entityCountLabel.setText("entities to defeat: " + enemies.size());
 
 		stage.act(delta);
 		stage.draw();
-
-
+		
+		spriteBatch.begin();
+		backgroundSprite.draw(spriteBatch);
+		spriteBatch.end();
+		
+		foreground.act(delta);
+		foreground.draw();
+		
+		//System.out.println(GameConfig.resolutionX * Gdx.input.getX() / Gdx.graphics.getWidth());
+		//System.out.println(GameConfig.resolutionY * Gdx.input.getY() / Gdx.graphics.getHeight());
 	}
 
 	@Override
