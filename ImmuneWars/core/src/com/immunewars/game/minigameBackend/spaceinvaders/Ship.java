@@ -12,7 +12,7 @@ public class Ship extends SIElement {
 	int score = 0;
 	float speed = 300;
 	float fireCooldown = 0;
-	int health = MinigamePresets.SpaceInvaders.startHealth;
+	public int health = MinigamePresets.SpaceInvaders.startHealth;
 	
 	public Ship(int x, int y, int width, int height) {
 		setBounds(x, y, width*2, height*2);

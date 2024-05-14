@@ -89,8 +89,8 @@ public class TicTacToeScreen extends TransitionableScreen {
 						} else {
 							button.setColor(Color.BLACK);
 						}
-						System.out.println(backend.winCheck());
-						backend.switchChar();
+						System.out.println(backend.didSomeoneWin());
+						backend.switchChar(); // Böööööö!!!!!!!!!
 					}
 				});
 				

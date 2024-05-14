@@ -11,7 +11,7 @@ public abstract class MinigamePresets {
 	}
 	
 	public abstract static class SpaceInvaders {
-		public static int xBound = 1280;
+		public static int xBound = 1100;
 		public static int yBound = 800;
 		public static int startHealth = 5;
 		public static String bulletTexture = "bullet.png";
