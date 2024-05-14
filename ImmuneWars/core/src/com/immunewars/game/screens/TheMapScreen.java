@@ -191,6 +191,7 @@ public class TheMapScreen implements Screen
         stage.draw();
 
         enemyChooseAndAttack();
+
         
     }
 
@@ -235,15 +236,33 @@ public class TheMapScreen implements Screen
     public void enemyChooseAndAttack()
     {
         giveEnemyTwoNodes();
-        
         NodeData targetNode = pickTargetNode();
-        System.out.println("enemy attacks: " + targetNode.getName());
+        Timer.schedule(new Timer.Task() 
+        {
+            @Override
+            public void run() 
+            {
+                if (targetNode == null) 
+                {
+                    endGame();
+                }
+            }
+        }, 1, 1);
 
-        // pops a label for the player to tell the next minigame
-        Label label = new Label("Enemy attacks: " + targetNode.getName(), skin);
-        label.setPosition(600,600);
-        stage.addActor(label);
+        
+       
+        if (targetNode != null) 
+        {
+            System.out.println("enemy attacks: " + targetNode.getName());
+           // pops a label for the player to tell the next minigame
+            Label label = new Label("Enemy attacks: " + targetNode.getName(), skin);
+            label.setPosition(600,600);
+            stage.addActor(label);
+            randomMinigameTrigger();
+        }
+        
 
+        
         // pops a panel for asking the player to play the minigame or not, if not is chosen, body will lose the node
         Dialog dialog = new Dialog("Minigame Confirmation", skin);
         dialog.text("Do you want to play the minigame?");
@@ -290,33 +309,58 @@ public class TheMapScreen implements Screen
         enemyNodes.add(randomNode2);
 
         System.out.println("enemy nodes are: " + randomNode1.getName() + " and " + randomNode2.getName());
-    }
+        }
 
 
-    public NodeData pickTargetNode()
-    {
-        // picks a target node for the enemy to attack
-        ArrayList<NodeData> availableNodess = new ArrayList<NodeData>();
-        // nested for loop for finding available nodes of the all enemy nodes
-        for (NodeData enemyNode : enemyNodes) 
+        public NodeData pickTargetNode() 
         {
-            for (NodeData neighbor : enemyNode.getNeighbors()) 
+        if (enemyNodes.size() > 2) 
+        {
+            // Find nodes other than brain and heart
+            ArrayList<NodeData> otherNodes = new ArrayList<>();
+            for (NodeData node : enemyNodes) 
             {
-                if (neighbor.getId() != 1) 
+                if (!node.getName().equals("Brain") && !node.getName().equals("Heart")) 
                 {
-                    availableNodess.add(neighbor);
+                    otherNodes.add(node);
+                }
+            }
+
+            if (!otherNodes.isEmpty()) 
+            {
+                // Target other nodes if available
+                NodeData targetNode = otherNodes.get(0);
+                System.out.println("Attacking " + targetNode.getName());
+                return targetNode;
+            } 
+            else 
+            {
+                // Target heart if available
+                for (NodeData node : enemyNodes) 
+                {
+                    if (node.getName().equals("Heart")) 
+                    {
+                    System.out.println("Attacking Heart");
+                    return node;
+                    }
+                }
+                // Target brain if heart is not available
+                for (NodeData node : enemyNodes) 
+                {
+                    if (node.getName().equals("Brain")) 
+                    {
+                    System.out.println("Attacking Brain");
+                    return node;
+                    }
                 }
             }
         }
-        
-        int i = (int) ((Math.random() * (availableNodess.size()))-1);
-
-        return availableNodess.get(i);
-    }
+        return null;
+        }
 
 
-    public void randomMinigameTrigger()
-    {
+        public void randomMinigameTrigger()
+        {
         // triggers a random minigame and switches to that screen
 
         Double a = Math.random();
@@ -355,24 +399,9 @@ public class TheMapScreen implements Screen
 
     public void endGame()
     {
-        ArrayList<NodeData> nodesss = getNodes();
-
-        if((nodesss.get(0).getId() == 1) && (nodesss.get(3).getId() == 1))
-        {
-            System.out.println("enemy wins");
-            stage.clear();
-            // go back to the start screen
-            startScreen startScreen = new startScreen(game);
-            game.setScreen(startScreen);
-        }
-        else if(enemyNodes.isEmpty())
-        {
-            System.out.println("player wins");
-        }
-        else
-        {
-            System.out.println("game continues");
-        }
+        // terminates the game
+        System.out.println("Game Over");
+        System.exit(0);
     }
 
 
