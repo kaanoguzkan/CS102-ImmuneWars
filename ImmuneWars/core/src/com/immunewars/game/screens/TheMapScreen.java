@@ -1,9 +1,9 @@
 package com.immunewars.game.screens;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import javax.swing.text.StyledEditorKit.ForegroundAction;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
@@ -22,6 +22,7 @@ public class TheMapScreen implements Screen
     private ShapeRenderer shapeRenderer;
     private Stage stage;
     private Image background;
+    private Random random = new Random();
     int i = 2;
     
     ArrayList<NodeData> nodes = new ArrayList<NodeData>();
@@ -108,6 +109,8 @@ public class TheMapScreen implements Screen
         edges.add(legFootEdge);
         edges.add(intestinesLegEdge);
 
+        giveEnemyTwoNodes();
+
         stage = new Stage();
         shapeRenderer = new ShapeRenderer();
 
@@ -127,6 +130,8 @@ public class TheMapScreen implements Screen
         background = new Image(a);
         background.setSize(1280, 800);
         stage.addActor(background);
+        
+
         // paint nodes
         Node nodeActor;
         for (NodeData node : nodes) 
@@ -157,8 +162,12 @@ public class TheMapScreen implements Screen
     @Override
     public void render(float delta) {
         // renders the stage
+
         stage.act();
+     
         stage.draw();
+
+
         
     }
 
@@ -196,5 +205,38 @@ public class TheMapScreen implements Screen
         throw new UnsupportedOperationException("Unimplemented method 'dispose'");
     }
     
+    public void enemyChooseAndAttack()
+    {
+        giveEnemyTwoNodes();
+
+        
+        
+    }
+
+
+    public void giveEnemyTwoNodes()
+    {
+        ArrayList<NodeData> avaiableNodes = new ArrayList<NodeData>();
+        
+        for (NodeData node : nodes) 
+        {
+            if (node.getId() != 0 && !node.getName().equals("Brain") && !node.getName().equals("Heart")) {
+                avaiableNodes.add(node);
+            }
+        }
+
+        int randomNode1Index = random.nextInt(avaiableNodes.size());
+        int randomNode2Index = random.nextInt(avaiableNodes.size());
+
+        NodeData randomNode1 = avaiableNodes.get(randomNode1Index);
+        NodeData randomNode2 = avaiableNodes.get(randomNode2Index);
+
+        randomNode1.setId(1);
+        randomNode2.setId(1);
+    }
+
+
+
 }
+
 
