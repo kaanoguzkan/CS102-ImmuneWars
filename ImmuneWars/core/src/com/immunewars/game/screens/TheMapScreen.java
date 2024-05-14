@@ -1,5 +1,6 @@
 package com.immunewars.game.screens;
 
+import java.net.http.WebSocket.Listener;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -11,8 +12,14 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.List;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Window;
+import com.badlogic.gdx.utils.Timer;
 import com.immunewars.game.ImmuneWars;
 import com.immunewars.game.minigameBackend.MainMap.Edge.Edge;
 import com.immunewars.game.minigameBackend.MainMap.Edge.EdgeData;
@@ -29,6 +36,7 @@ public class TheMapScreen implements Screen
     int i = 2;
     private Sprite backgroundSprite;
     private SpriteBatch spriteBatch = new SpriteBatch();
+    Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
     
     ArrayList<NodeData> nodes = new ArrayList<NodeData>();
     ArrayList<EdgeData> edges = new ArrayList<EdgeData>();
@@ -111,7 +119,7 @@ public class TheMapScreen implements Screen
         noseNode.setNeighbors(new ArrayList<NodeData>(){{add(lungsNode); add(mouthNode); add(brainNode);}});
         heartNode.setNeighbors(new ArrayList<NodeData>(){{add(lungsNode); add(stomachNode); add(brainNode); add(armNode);}});
         lungsNode.setNeighbors(new ArrayList<NodeData>(){{add(heartNode); add(mouthNode); add(noseNode);}});
-        stomachNode.setNeighbors(new ArrayList<NodeData>(){{add(lungsNode); add(heartNode); add(mouthNode); add(intestinesNode);}});
+        stomachNode.setNeighbors(new ArrayList<NodeData>(){{add(lungsNode); add(heartNode); add(mouthNode);}});
         liverNode.setNeighbors(new ArrayList<NodeData>(){{add(stomachNode); add(intestinesNode);}});
         kidneysNode.setNeighbors(new ArrayList<NodeData>(){{add(stomachNode); add(liverNode); add(intestinesNode); add(legNode);}});
         intestinesNode.setNeighbors(new ArrayList<NodeData>(){{add(stomachNode); add(kidneysNode); add(liverNode); add(legNode);}});
@@ -213,7 +221,8 @@ public class TheMapScreen implements Screen
     @Override
     public void hide() {
         // hides the map screen
-        
+
+        stage.clear();
     }
 
 
@@ -230,8 +239,28 @@ public class TheMapScreen implements Screen
         NodeData targetNode = pickTargetNode();
         System.out.println("enemy attacks: " + targetNode.getName());
 
-        randomMinigameTrigger();
+        // pops a label for the player to tell the next minigame
+        Label label = new Label("Enemy attacks: " + targetNode.getName(), skin);
+        label.setPosition(600,600);
+        stage.addActor(label);
 
+        // pops a panel for asking the player to play the minigame or not, if not is chosen, body will lose the node
+        Dialog dialog = new Dialog("Minigame Confirmation", skin);
+        dialog.text("Do you want to play the minigame?");
+        dialog.button("Yes", new TextButton.TextButtonStyle());
+        dialog.button("No", new TextButton.TextButtonStyle());
+        ((Window) dialog.show(stage).padTop(100).padBottom(100).padLeft(200).padRight(200)).setModal(true);
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+            dialog.hide();
+            }
+        }, 10);
+
+        
+        
+        
+    
     }
 
 
@@ -331,6 +360,10 @@ public class TheMapScreen implements Screen
         if((nodesss.get(0).getId() == 1) && (nodesss.get(3).getId() == 1))
         {
             System.out.println("enemy wins");
+            stage.clear();
+            // go back to the start screen
+            startScreen startScreen = new startScreen(game);
+            game.setScreen(startScreen);
         }
         else if(enemyNodes.isEmpty())
         {
@@ -341,7 +374,6 @@ public class TheMapScreen implements Screen
             System.out.println("game continues");
         }
     }
-
 
 
 }
