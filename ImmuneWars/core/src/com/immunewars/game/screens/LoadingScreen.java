@@ -22,6 +22,7 @@ import com.immunewars.game.ImmuneWars;
 public class LoadingScreen implements Screen{
     public static Texture backgroundTexture;
     public static Sprite backgroundSprite;
+    public static Sprite a;
     private SpriteBatch spriteBatch = new SpriteBatch();
     BitmapFont font = new BitmapFont();
 
@@ -44,21 +45,29 @@ public class LoadingScreen implements Screen{
      */
     Stage satge;
     public LoadingScreen(ImmuneWars game, int option){
-        backgroundTexture = new Texture("title screen.png");
-        backgroundSprite =new Sprite(backgroundTexture);
+
+        backgroundSprite =new Sprite(new Texture("title screen.png"));
+
+        a = new Sprite(new Texture("IM_13.png"));
+        backgroundSprite.setBounds(100, 100, 200, 200);
+        a.setBounds(300, 300, 200, 200);
+
         screen = this;
     }
 
     public void renderBackground() {
         backgroundSprite.draw(spriteBatch);
+        a.draw(spriteBatch);
     }
 
     @Override
     public void render(float delta) {
         spriteBatch.begin();
+        
         renderBackground(); 
 
         font.draw(spriteBatch, "YYYYOOOOOOOOOOOOOOOOOOOO", 100, 100);
+
         spriteBatch.end();
     }
 

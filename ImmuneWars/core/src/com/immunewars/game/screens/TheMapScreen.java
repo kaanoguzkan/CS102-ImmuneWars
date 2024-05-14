@@ -7,6 +7,8 @@ import javax.swing.text.StyledEditorKit.ForegroundAction;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -25,6 +27,8 @@ public class TheMapScreen implements Screen
     private Image background;
     private Random random = new Random();
     int i = 2;
+    private Sprite backgroundSprite;
+    private SpriteBatch spriteBatch = new SpriteBatch();
     
     ArrayList<NodeData> nodes = new ArrayList<NodeData>();
     ArrayList<EdgeData> edges = new ArrayList<EdgeData>();
@@ -132,11 +136,12 @@ public class TheMapScreen implements Screen
     {
         // paint background
         Texture a = new Texture("mapBackground.png");
+        backgroundSprite = new Sprite(new Texture("mapBackground.png"));
+        backgroundSprite.setBounds(0, 0, 1280, 800);
         background = new Image(a);
         background.setSize(1280, 800);
         stage.addActor(background);
         
-
         // paint nodes
         Node nodeActor;
         for (NodeData node : nodes) 
@@ -163,11 +168,15 @@ public class TheMapScreen implements Screen
     public void show() {
     }
 
+    public void renderBackground(){
+        backgroundSprite.draw(spriteBatch);
+    }
 
     @Override
     public void render(float delta) {
-        // renders the stage
-
+        spriteBatch.begin();
+        renderBackground();
+        spriteBatch.end();
         stage.act();
      
         stage.draw();
