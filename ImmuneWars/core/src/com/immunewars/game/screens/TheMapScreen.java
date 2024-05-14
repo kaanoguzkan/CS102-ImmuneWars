@@ -262,7 +262,6 @@ public class TheMapScreen implements Screen
         }
         
 
-        
         // pops a panel for asking the player to play the minigame or not, if not is chosen, body will lose the node
         Dialog dialog = new Dialog("Minigame Confirmation", skin);
         dialog.text("Do you want to play the minigame?");
@@ -277,9 +276,6 @@ public class TheMapScreen implements Screen
         }, 10);
 
         
-        
-        
-    
     }
 
 
@@ -401,7 +397,7 @@ public class TheMapScreen implements Screen
     {
         // terminates the game
         System.out.println("Game Over");
-        System.exit(0);
+       
     }
 
 

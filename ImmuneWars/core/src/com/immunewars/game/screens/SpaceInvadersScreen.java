@@ -29,6 +29,7 @@ public class SpaceInvadersScreen extends TransitionableScreen {
 	OrthographicCamera camera;
 	Viewport viewport;
 	SpriteBatch batch;
+	int winTreshold = 10;
 	
 	Ship playerShip;
 	float spawnCounter = 1f;
@@ -149,7 +150,7 @@ public class SpaceInvadersScreen extends TransitionableScreen {
 		timeLabel.setText(String.format("Time: %.1f", gameTime));
 		livesLabel.setText("Lives: " + life);
 		entityCountLabel.setText("entities to defeat: " + enemies.size());
-
+  
 		stage.act(delta);
 		stage.draw();
 		

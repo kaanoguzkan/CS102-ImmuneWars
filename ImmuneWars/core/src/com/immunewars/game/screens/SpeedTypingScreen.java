@@ -23,10 +23,13 @@ import com.immunewars.game.ImmuneWars;
 import com.immunewars.game.minigameBackend.MinigamePresets;
 import com.immunewars.game.minigameBackend.SpeedTyping.Box;
 import com.immunewars.game.GameConfig;
+import com.immunewars.game.screens.*;
 
 public class SpeedTypingScreen implements Screen
 {
-
+    Boolean isGameTerminated = false;
+    int winTreshold = 10;
+    int winnerType;
     ImmuneWars game;
     int cameraX = GameConfig.resolutionX; 
 	int cameraY = GameConfig.resolutionY;
@@ -182,9 +185,31 @@ public class SpeedTypingScreen implements Screen
         }
     }
 
-    public boolean isGameTerminated(){
-        if(gameTimer <= 0){return true;} //TODO idk do something with it
-        else{return false;}
+    public boolean isGameTerminated()
+    {
+        if((gameTimer <= 0) || (score >= winTreshold))
+        {
+            if(score >= winTreshold)
+            {
+                winnerType = 0;
+
+                return true;
+            }
+            else
+            {
+                winnerType = 1;
+                return true;
+            }
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public int endGame()
+    {
+        return winnerType;
     }
 
     @Override

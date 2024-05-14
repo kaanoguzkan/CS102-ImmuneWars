@@ -38,6 +38,7 @@ public class SnakeScreen implements Screen{
 	Viewport viewport;
 	Stage stage;
 	SpriteBatch batch;
+    int winTreshold = 10;
 	
     snakeBody snakePart;
     ArrayList<Pixel> snakeParts; // hmmmmmmmmm
