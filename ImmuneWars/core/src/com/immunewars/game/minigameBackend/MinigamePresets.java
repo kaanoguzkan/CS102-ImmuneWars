@@ -38,7 +38,13 @@ public abstract class MinigamePresets {
         public static String[] images = {
             "IM_1.png", "IM_2.png", "IM_3.png",
             "IM_4.png", "IM_5.png", "IM_6.png",
-            "IM_7.png", "IM_8.png", "IM_9.png"
+            "IM_7.png", "IM_8.png", "IM_9.png",
+			"IM_10.png", "IM_11.png", "IM_12.png",
+			"IM_13.png", "IM_14.png", "IM_15.png", 
+			"IM_16.png", "IM_17.png", "IM_18.png", 
+			"IM_19.png","IM_20.png", "IM_21.png", 
+			"IM_22.png", "IM_23.png", "IM_24.png", 
+			"IM_25.png"
         };
 		
 		/*		for(anImage element: images){

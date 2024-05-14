@@ -33,19 +33,13 @@ public class LoadingScreen implements Screen{
     public static Sprite a;
     private SpriteBatch spriteBatch = new SpriteBatch();
     BitmapFont font = new BitmapFont();
-    Texture blank;
     ShapeRenderer shapeRenderer = new ShapeRenderer();
     float timePassed = 0;
     int progressOfBar = 1280;
+    String tip = "TIP:\n";
 
-    /*
-     * https://javadoc.io/doc/com.badlogicgames.gdx/gdx/latest/com/badlogic/gdx/scenes/scene2d/ui/ProgressBar.html
-     * 
-     * use progress bar
-     */
     Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
     SpriteBatch batch;
-    Texture backgroundImage;
     LoadingScreen screen;
     /*  
     option;
@@ -54,27 +48,52 @@ public class LoadingScreen implements Screen{
     2 = spedetype
     3 = snake
     4 = imageMatching
-     */
-    Stage satge;
+    */
+    int option;
     public LoadingScreen(ImmuneWars game, int option){
-        blank = new Texture("whitepixel.png");
-        Stage stage = new Stage();
-
-        backgroundSprite =new Sprite(new Texture("title screen.png"));
-
-        a = new Sprite(new Texture("IM_13.png"));
-        backgroundSprite.setBounds(100, 100, 200, 200);
-        a.setBounds(300, 300, 200, 200);
+        this.option = option;
+        this.option = 4;
         screen = this;
+        if(this.option == 0){
+            tip += "The following game is a basic tictactoe game\nPress on the tiles which you want to place your mark!";
+            backgroundSprite =new Sprite(new Texture("tictactoeLoadingBackground.jpeg"));
+        }else if(this.option == 1){
+            tip += "The following game is space invaders.\nUse 'w','a','s','d' keys to move and space to shoot!";
+            backgroundSprite =new Sprite(new Texture("SpaceInvadersLoadingBackground.jpeg"));
+        }else if(this.option == 2){
+            tip += "The following game is speedy typing.\nWrite the given word fast as you can!";
+            backgroundSprite =new Sprite(new Texture("speedTypingLoadingBackground.jpeg"));
+        }else if(this.option == 3){
+            tip += "The following game is a basic pixel snake game.\nEat the apples without hitting anything\nby using 'w','a','s','d' keys to move!";
+            backgroundSprite =new Sprite(new Texture("snakeLoadingBackground.jpeg"));
+        }else if(this.option == 4){
+            tip += "The following game is a basic image matching game.\nMemorize the images and press same images";
+            backgroundSprite =new Sprite(new Texture("ImageMatchingLoadingBackground.jpeg"));
+        }
+
+        backgroundSprite.setBounds(0, 0, 1280, 800);
     }
 
     public void renderBackground() {
         backgroundSprite.draw(spriteBatch);
-        a.draw(spriteBatch);
     }
 
     @Override
     public void render(float delta) {
+
+        spriteBatch.begin();
+        renderBackground(); 
+        if(option == 0){
+            font.draw(spriteBatch, tip, 1280 / 2 - 150, 800 / 2 + 150);
+        }else if(option == 1){
+            font.draw(spriteBatch, tip, 1280 / 2 - 100, 800 / 2 );
+        }else if(option == 2){
+            font.draw(spriteBatch, tip, 1280 / 2 - 100, 800 / 2 + 150);
+        }else if(option == 3){
+            font.draw(spriteBatch, tip, 1280 / 2 - 500, 800 / 2 + 50);
+        }else if(option == 4){
+            font.draw(spriteBatch, tip, 1280 / 2 - 200, 800 / 2);
+        }
         shapeRenderer.begin(ShapeType.Line);
         shapeRenderer.setColor(Color.RED);
         shapeRenderer.rect(0,0,1280, 10);
@@ -98,14 +117,7 @@ public class LoadingScreen implements Screen{
         }
         shapeRenderer.rect(0,0,progressOfBar, 10);
         shapeRenderer.end();
-
-        spriteBatch.begin();
-        renderBackground(); 
-
-        font.draw(spriteBatch, "YYYYOOOOOOOOOOOOOOOOOOOO", 100, 100);
-
         spriteBatch.end();
-
     }
 
 

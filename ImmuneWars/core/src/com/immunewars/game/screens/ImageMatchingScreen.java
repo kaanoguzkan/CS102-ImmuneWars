@@ -42,9 +42,15 @@ public class ImageMatchingScreen implements Screen {
 	Stage stage;
 
 	int gameSize;
+	int prevPressedButtonIndex = -3;
+	int currPressedButtons = 0;
+
+	public float inGameTime = 0;
+
 
 	String[] imagePathways = MinigamePresets.ImageMatching.images;
-	ImageButton[] theButtons = new ImageButton[imagePathways.length];
+	Image[] theButtons = new Image[imagePathways.length];
+	int row = 0;
 
 	public ImageMatchingScreen(ImmuneWars game, int gameSize){
 		stage = new Stage();
@@ -52,25 +58,38 @@ public class ImageMatchingScreen implements Screen {
 
 		String[] buttonCheckedPaths = imagePathways;
 		String buttonUpPath = MinigamePresets.ImageMatching.backOfCard;
-		TextureRegionDrawable drawableButtonUpTexture = new TextureRegionDrawable(new TextureRegion(new Texture(buttonUpPath)));
-		drawableButtonUpTexture.setMinSize(200, 100);
-
-		Drawable drawableButtonDownTexture = drawableButtonUpTexture.tint(new Color(1f,1f,1f,0.5f));
 
 			for (int i = 0; i < buttonCheckedPaths.length; i++) {
-				ImageButton.ImageButtonStyle style = new ImageButton.ImageButtonStyle();
-				style.up = drawableButtonUpTexture;
-				style.down = drawableButtonDownTexture;
-				style.checked = new TextureRegionDrawable(new TextureRegion(new Texture(buttonCheckedPaths[i])));
-		
-				theButtons[i] = new ImageButton(style);
+				int a = i;
+
+				theButtons[i] = new Image(new TextureRegionDrawable(new TextureRegion(new Texture("IM_6.png"))));
 				theButtons[i].setBounds((currentScreen.gameScreenX / imagePathways.length) * i, 0, 100, 100);
 
+				theButtons[i].addListener(new ClickListener() {
+					@Override
+					public void clicked (InputEvent event, float x, float y) {
+						theButtons[a].setDrawable(new TextureRegionDrawable(new TextureRegion(new Texture("logo.png"))));
+						currPressedButtons++;
+						System.out.println(currPressedButtons);
+						if(a / 2 == prevPressedButtonIndex / 2){
+							theButtons[a].remove();
+							theButtons[prevPressedButtonIndex].remove();
+						}
+						else if(currPressedButtons == 2){
+							System.out.print("lsemflsfmslıemslem\n");
+							System.out.println(prevPressedButtonIndex);
+							if(prevPressedButtonIndex != -3){
+								System.out.println("calismali");
+								theButtons[a].setDrawable(new TextureRegionDrawable(new TextureRegion(new Texture("IM_6.png"))));
+								theButtons[prevPressedButtonIndex].setDrawable(new TextureRegionDrawable(new TextureRegion(new Texture("IM_6.png"))));
+							}
+							currPressedButtons = 0;	
+						}
+						prevPressedButtonIndex = a;
+					}
+				});
 				stage.addActor(theButtons[i]);
 			}
-			
-			System.out.println("skdnfksdbfuksenfose");
-
 		currentScreen = this;
 		this.game = game;
 		
@@ -93,9 +112,12 @@ public class ImageMatchingScreen implements Screen {
 
 	@Override
 	public void render(float delta) {
+		inGameTime = delta;
 		stage.act();
 		stage.draw();
 	}
+
+	public float getDelta(float delta){return delta;}
 
 	@Override
 	public void resize(int width, int height) {
