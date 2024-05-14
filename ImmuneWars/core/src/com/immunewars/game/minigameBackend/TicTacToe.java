@@ -106,7 +106,7 @@ public class TicTacToe extends Minigame {
         return maxCount > winLength;
     }
 	
-	public boolean winCheck() {
+	public boolean didSomeoneWin() {
 		return verticalCheck() || horizontalCheck() || diagonalCheck();
 	}
 	

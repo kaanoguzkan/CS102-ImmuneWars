@@ -6,9 +6,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -26,17 +29,23 @@ public class SpaceInvadersScreen extends TransitionableScreen {
 	OrthographicCamera camera;
 	Viewport viewport;
 	SpriteBatch batch;
-	Texture texture;
 	
 	Ship playerShip;
 	float spawnCounter = 3f;
 	float spawnInterval = 1f;
-	
+	Sprite backgroundSprite;
+	SpriteBatch spriteBatch = new SpriteBatch();
+
+	int life;
+	Label livesLabel;
+	Label entityCountLabel;
+	Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
+
 	public SpaceInvadersScreen(ImmuneWars game) {
 		currentScreen = this;
 		this.game = game;
-		// adds the background picture 
 
+		backgroundSprite = new Sprite(new Texture("spaceInvadersBackground.png"));
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, cameraX, cameraY);
 		viewport = new StretchViewport(cameraX, cameraY, camera);
@@ -47,8 +56,15 @@ public class SpaceInvadersScreen extends TransitionableScreen {
 		stage.setViewport(viewport);
 		Gdx.input.setInputProcessor(stage);
 		
-		playerShip = new Ship(0, 0, 80, 80);
-		
+		playerShip = new Ship(640, 0, 80, 80);
+		life  = playerShip.health;
+		livesLabel = new Label("lives: " + life, skin);
+		livesLabel.setPosition(800, 400);
+		entityCountLabel = new Label("" + 0, skin);
+		entityCountLabel.setPosition(700, 400);
+
+		stage.addActor(entityCountLabel);
+		stage.addActor(livesLabel);
 		stage.addActor(playerShip);
 	}
 
@@ -60,15 +76,20 @@ public class SpaceInvadersScreen extends TransitionableScreen {
 
 	@Override
 	public void render(float delta) {
+
 		spawnCounter -= delta;
 		if (spawnCounter <= 0) {
-			Enemy newEnemy = new Enemy((float)Math.random()* (MinigamePresets.SpaceInvaders.xBound - 80),
-					MinigamePresets.SpaceInvaders.yBound - 80,
+			Enemy newEnemy = new Enemy((float)(Math.random()) * (MinigamePresets.SpaceInvaders.xBound - (180 + 80)) + 180,
+					MinigamePresets.SpaceInvaders.yBound,
 					80, 80);
 			stage.addActor(newEnemy);
 			spawnCounter = spawnInterval;
 		}
-		
+
+		spriteBatch.begin();
+		backgroundSprite.draw(spriteBatch);
+		spriteBatch.end();
+
 		Actor[] actors = stage.getActors().toArray();
 		//System.out.println(actors.length);
 		ArrayList<Actor> destroyedActors = new ArrayList<Actor>();
@@ -103,9 +124,14 @@ public class SpaceInvadersScreen extends TransitionableScreen {
 			actor.remove();
 		}
 		
+		life = playerShip.health;
+		livesLabel.setText("lives: " + life);
+		entityCountLabel.setText("entities to defeat: " + enemies.size());
+
 		stage.act(delta);
 		stage.draw();
-		
+
+
 	}
 
 	@Override

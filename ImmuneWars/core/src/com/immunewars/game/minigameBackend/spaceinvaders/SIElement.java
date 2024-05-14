@@ -16,9 +16,9 @@ public abstract class SIElement extends Actor {
 		float newYMin = this.getY() + y;
 		float newYMax = newYMin + this.getHeight();
 		
-		if (newXMin < 0) {
+		if (newXMin < 180) {
 			newXMax -= newXMin;
-			newXMin = 0;
+			newXMin = 180;
 		}
 		
 		if (newXMax > MinigamePresets.SpaceInvaders.xBound) {
