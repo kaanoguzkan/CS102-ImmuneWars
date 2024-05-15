@@ -43,13 +43,15 @@ public class SettingsScreen extends ScreenAdapter
     String[] musicFiles = {"explosion.mp3", "badApple.mp3","maoZedongYoldasim.mp3","gerudoValley.mp3"}; // Your music files
     Music[] musics = new Music[musicFiles.length];
     Music currMusic, tempMusic;
+    ImmuneWars game;
     
     public SettingsScreen(ImmuneWars game) 
     {   
+        this.game = game;
         for(int i = 0; i < musicFiles.length; i++){
             musics[i] =  Gdx.audio.newMusic(Gdx.files.internal(musicFiles[i])); 
         }
-        currMusic = musics[0];
+        currMusic = game.currMusic;
         tempMusic = currMusic;
         currMusic.setLooping(true);
 
@@ -69,25 +71,23 @@ public class SettingsScreen extends ScreenAdapter
         // Background Music Section
         musicLabel = new Label("Background Music", new Label.LabelStyle(new BitmapFont(), Color.WHITE)); // Default font and white color
         musicSelectBox = new SelectBox<String>(skin); 
-        musicSelectBox.setItems("XYZ","ABC","PQR","LMN","Yoldas Mao","Gerudo Valley");
+        musicSelectBox.setItems("XYZ","bad apple","PQR","LMN","Yoldas Mao","Gerudo Valley");
         musicSelectBox.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 String selectedMusic = musicSelectBox.getSelected();
                 System.out.println("mehemtcan");
-                /*
-                 * might as well do it a integer holding the indexes of the music
-                */
-                if(selectedMusic.equals("ABC") && tempMusic != musics[1]){
-                    System.out.println("bad apple");
-                    currMusic.stop();
-                    currMusic = musics[1];
-                    tempMusic = currMusic;
-                }
-                else if(selectedMusic.equals("XYZ") && tempMusic != musics[0]){
+                if(selectedMusic.equals("XYZ") && tempMusic != musics[0]){
                     System.out.println("deltarune");
                     currMusic.stop();
                     currMusic = musics[0];
+                    tempMusic = currMusic;
+                }
+                else if(selectedMusic.equals("ABC") && tempMusic != musics[1]){
+                    System.out.println("bad apple");
+                    currMusic.stop();
+                    game.changeMusic(currMusic);
+                    currMusic = musics[1];
                     tempMusic = currMusic;
                 }
                 else if(selectedMusic.equals("Yoldas Mao")&& tempMusic != musics[2]){
