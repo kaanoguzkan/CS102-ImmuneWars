@@ -3,6 +3,7 @@ package com.immunewars.game.screens;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
@@ -48,6 +49,7 @@ public class SettingsScreen extends ScreenAdapter
     public SettingsScreen(ImmuneWars game) 
     {   
         this.game = game;
+        
         for(int i = 0; i < musicFiles.length; i++){
             musics[i] =  Gdx.audio.newMusic(Gdx.files.internal(musicFiles[i])); 
         }
@@ -164,14 +166,27 @@ public class SettingsScreen extends ScreenAdapter
         table.row();
 
 
-        // Quit Button
-        TextButton quitButton = new TextButton("Quit", skin);
+        // Back Button
+        TextButton backButton = new TextButton("Back", skin);
+        System.out.println("quit button cons.");
+        backButton.addListener(new ChangeListener() 
+        {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+            game.setScreen(currentScreen);
+           
+            }
+        });
+        table.add(backButton);
+
+        // quit Button
+        TextButton quitButton = new TextButton("quit", skin);
         System.out.println("quit button cons.");
         quitButton.addListener(new ChangeListener() 
         {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-            Gdx.app.exit(); // Exit the game
+            Gdx.app.exit();// Exit the game
             }
         });
         table.add(quitButton);

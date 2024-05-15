@@ -145,7 +145,7 @@ public class MainMenuScreen implements Screen {
 			@Override
 			public void changed (ChangeEvent event, Actor actor) {
 				System.out.println("Button7 pressed");
-				game.setScreen(new TheMapScreen(game, false));
+				game.setScreen(new TheMapScreen(game));
 
 			}
 		});
