@@ -380,6 +380,15 @@ public class TheMapScreen implements Screen
 
             TicTacToeScreen ticTacToeScreen = new TicTacToeScreen(game);
             game.setScreen(ticTacToeScreen);
+            minigameResult = ticTacToeScreen.getBodyWin(); //TODO handle minigame result
+            if (minigameResult) 
+            {
+                handleMinigameResult(true);
+            } 
+            else 
+            {
+                handleMinigameResult(false);
+            }
 
           
         }
@@ -402,17 +411,44 @@ public class TheMapScreen implements Screen
         {
             SnakeScreen snakeScreen = new SnakeScreen(game);
             game.setScreen(snakeScreen);
+            snakeScreen.getBodyWin(); //TODO handle minigame result
+            if (minigameResult) 
+            {
+                handleMinigameResult(true);
+            } 
+            else 
+            {
+                handleMinigameResult(false);
+            }
             
         }
         else if ((0.6 < a) && (a < 0.8))
         {
             ImageMatchingScreen imageMatchingScreen = new ImageMatchingScreen(game, 16);
             game.setScreen(imageMatchingScreen);
+            imageMatchingScreen.getBodyWin(); //TODO handle minigame result
+            if (minigameResult) 
+            {
+                handleMinigameResult(true);
+            } 
+            else 
+            {
+                handleMinigameResult(false);
+            }
         }
         else if ((0.8 < a) && (a < 1))
         {
-            SpaceInvadersScreen spaceInvadersScreen = new SpaceInvadersScreen(game);
-            game.setScreen(spaceInvadersScreen);
+            SpeedTypingScreen speedTypingScreen = new SpeedTypingScreen(game);
+            game.setScreen(speedTypingScreen);
+            minigameResult = speedTypingScreen.getBodyWin();
+            if (minigameResult) 
+            {
+                handleMinigameResult(true);
+            } 
+            else 
+            {
+                handleMinigameResult(false);
+            }
         }
         
     }

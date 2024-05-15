@@ -48,6 +48,7 @@ public class SpeedTypingScreen implements Screen
     String wordDefinitionList[] = MinigamePresets.SpeedTyping.wordDefinitions;
     int score = 0;
     Label scoreLabel;
+    Boolean bodyWin;
 
     private float timeCount;
     private int gameTimer;
@@ -143,7 +144,12 @@ public class SpeedTypingScreen implements Screen
             newWord(wordList[a]);
             meaningLabel.setText( "Meaning: " + wordDefinitionList[a]); 
         }
-        
+
+        if (isGameTerminated())
+        {
+            game.setScreen(new MainMenuScreen(game));
+        }
+
         stage.act();
         stage.draw();
     }
@@ -191,13 +197,13 @@ public class SpeedTypingScreen implements Screen
         {
             if(score >= winTreshold)
             {
-                winnerType = 0;
+                bodyWin = true;
 
                 return true;
             }
             else
             {
-                winnerType = 1;
+                bodyWin = false;
                 return true;
             }
         }
@@ -207,11 +213,9 @@ public class SpeedTypingScreen implements Screen
         }
     }
 
-    public int endGame()
+   public boolean getBodyWin()
     {
-        
-        return winnerType;
-        
+        return bodyWin;
     }
 
     @Override
