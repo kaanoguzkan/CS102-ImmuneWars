@@ -46,6 +46,7 @@ public class SpaceInvadersScreen extends TransitionableScreen {
 	Label entityCountLabel;
 	Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
 	Stage foreground;
+	Boolean bodyWin;
 
 	public SpaceInvadersScreen(ImmuneWars game) {
 		currentScreen = this;
@@ -150,6 +151,10 @@ public class SpaceInvadersScreen extends TransitionableScreen {
 		timeLabel.setText(String.format("Time: %.1f", gameTime));
 		livesLabel.setText("Lives: " + life);
 		entityCountLabel.setText("entities to defeat: " + enemies.size());
+
+		if (isGameTerminated()) {
+			game.setScreen(new MainMenuScreen(game));
+		}
   
 		stage.act(delta);
 		stage.draw();
@@ -164,6 +169,8 @@ public class SpaceInvadersScreen extends TransitionableScreen {
 		//System.out.println(GameConfig.resolutionX * Gdx.input.getX() / Gdx.graphics.getWidth());
 		//System.out.println(GameConfig.resolutionY * Gdx.input.getY() / Gdx.graphics.getHeight());
 	}
+
+	
 
 	@Override
 	public void resize(int width, int height) {
@@ -194,4 +201,30 @@ public class SpaceInvadersScreen extends TransitionableScreen {
 		// TODO Auto-generated method stub
 		
 	}
+
+	public boolean isGameTerminated()
+	{
+		if((gameTime <= 0) || (life <= 0) || (score >= winTreshold))
+		{
+			if(score >= winTreshold)
+			{
+				bodyWin = true;
+				return true;
+			}
+			else
+			{
+				return true;
+			}
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	public boolean getBodyWin()
+	{
+		return bodyWin;
+	}
+
 }

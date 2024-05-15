@@ -33,10 +33,13 @@ public class TheMapScreen implements Screen
     private Stage stage;
     private Image background;
     private Random random = new Random();
-    int i = 2;
+    private int i = 2;
     private Sprite backgroundSprite;
+    private Boolean minigameResult;
     private SpriteBatch spriteBatch = new SpriteBatch();
     Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
+
+
     
     ArrayList<NodeData> nodes = new ArrayList<NodeData>();
     ArrayList<EdgeData> edges = new ArrayList<EdgeData>();
@@ -77,9 +80,10 @@ public class TheMapScreen implements Screen
 
     
 
-    public TheMapScreen(ImmuneWars game) 
+    public TheMapScreen(ImmuneWars game, Boolean minigameResult) 
     {
         this.game = game;
+        this.minigameResult = minigameResult;
         nodes.add(brainNode);
         nodes.add(mouthNode);
         nodes.add(noseNode);
@@ -258,7 +262,6 @@ public class TheMapScreen implements Screen
             Label label = new Label("Enemy attacks: " + targetNode.getName(), skin);
             label.setPosition(600,600);
             stage.addActor(label);
-            randomMinigameTrigger();
         }
         
 
@@ -287,7 +290,7 @@ public class TheMapScreen implements Screen
         for (int i = 0; i < nodess.size(); i++) 
         {
             NodeData node = nodes.get(i);
-            if (node.getId() != 0 && !node.getName().equals("Brain") && !node.getName().equals("Heart")) {
+            if (node.getId() != 0 ) {
                 avaiableNodes.add(node);
             }
         }
@@ -308,52 +311,62 @@ public class TheMapScreen implements Screen
         }
 
 
-        public NodeData pickTargetNode() 
-        {
-        if (enemyNodes.size() > 2) 
-        {
-            // Find nodes other than brain and heart
-            ArrayList<NodeData> otherNodes = new ArrayList<>();
-            for (NodeData node : enemyNodes) 
-            {
-                if (!node.getName().equals("Brain") && !node.getName().equals("Heart")) 
-                {
-                    otherNodes.add(node);
-                }
-            }
-
-            if (!otherNodes.isEmpty()) 
-            {
-                // Target other nodes if available
-                NodeData targetNode = otherNodes.get(0);
+        public NodeData pickTargetNode() {
+            ArrayList<NodeData> availableTargets = new ArrayList<>(enemyNodes);
+            
+        
+            // Check if other nodes are available
+            if (!availableTargets.isEmpty()) {
+                // Randomly select from other nodes
+                int randomIndex = random.nextInt(availableTargets.size());
+                NodeData targetNode = availableTargets.get(randomIndex);
                 System.out.println("Attacking " + targetNode.getName());
                 return targetNode;
             } 
             else 
             {
-                // Target heart if available
-                for (NodeData node : enemyNodes) 
-                {
-                    if (node.getName().equals("Heart")) 
-                    {
-                    System.out.println("Attacking Heart");
-                    return node;
+                // Check if brain is available
+                for (NodeData node : enemyNodes) {
+                    if (node.getName().equals("Brain")) {
+                        System.out.println("Attacking Brain");
+                        return node;
                     }
                 }
-                // Target brain if heart is not available
-                for (NodeData node : enemyNodes) 
-                {
-                    if (node.getName().equals("Brain")) 
-                    {
-                    System.out.println("Attacking Brain");
-                    return node;
+        
+                // Check if heart is available
+                for (NodeData node : enemyNodes) {
+                    if (node.getName().equals("Heart")) {
+                        System.out.println("Attacking Heart");
+                        return node;
                     }
                 }
             }
-        }
-        return null;
+            
+            // If no valid target is found, return null
+            return null; 
         }
 
+        private void handleMinigameResult(boolean success) {
+            if (success) {
+                System.out.println("Minigame Won! Enemy progress halted.");
+                NodeData targetNode = enemyNodes.get(0); // Get the first (and only) enemy node
+                if (targetNode != null) {
+                    targetNode.setId(0); // Reset to player-owned
+                    enemyNodes.remove(targetNode);
+                    // The line below is removed because we don't want to delete the node from nodes list.
+                    // nodes.remove(targetNode); 
+                }
+            } else {
+                System.out.println("Minigame Lost! Enemy takes a node.");
+                NodeData targetNode = pickTargetNode();
+                if (targetNode != null) {
+                    targetNode.setId(1); // Mark as enemy-owned
+                    enemyNodes.remove(targetNode); 
+                    nodes.remove(targetNode); 
+                }
+            }
+            paintMap();
+        }
 
         public void randomMinigameTrigger()
         {
@@ -367,12 +380,22 @@ public class TheMapScreen implements Screen
 
             TicTacToeScreen ticTacToeScreen = new TicTacToeScreen(game);
             game.setScreen(ticTacToeScreen);
+
           
         }
         else if ((0.2 < a) && (a < 0.4))
         {
             SpaceInvadersScreen spaceInvadersScreen = new SpaceInvadersScreen(game);
             game.setScreen(spaceInvadersScreen);
+            minigameResult = spaceInvadersScreen.getBodyWin();
+            if (minigameResult) 
+            {
+                handleMinigameResult(true);
+            } 
+            else 
+            {
+                handleMinigameResult(false);
+            }
             
         }
         else if ((0.4 < a) && (a < 0.6))
@@ -391,6 +414,7 @@ public class TheMapScreen implements Screen
             SpaceInvadersScreen spaceInvadersScreen = new SpaceInvadersScreen(game);
             game.setScreen(spaceInvadersScreen);
         }
+        
     }
 
     public void endGame()

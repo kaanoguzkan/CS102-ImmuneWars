@@ -209,7 +209,9 @@ public class SpeedTypingScreen implements Screen
 
     public int endGame()
     {
+        
         return winnerType;
+        
     }
 
     @Override
