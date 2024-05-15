@@ -147,7 +147,7 @@ public class SpeedTypingScreen implements Screen
 
         if (isGameTerminated())
         {
-            game.setScreen(new MainMenuScreen(game));
+            game.setScreen(new TheMapScreen(game));
         }
 
         stage.act();

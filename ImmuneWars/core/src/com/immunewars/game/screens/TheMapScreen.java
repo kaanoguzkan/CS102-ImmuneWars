@@ -80,7 +80,7 @@ public class TheMapScreen implements Screen
 
     
 
-    public TheMapScreen(ImmuneWars game, Boolean minigameResult) 
+    public TheMapScreen(ImmuneWars game) 
     {
         this.game = game;
         this.minigameResult = minigameResult;
