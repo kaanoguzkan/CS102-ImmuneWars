@@ -82,7 +82,7 @@ public class TheMapScreen implements Screen
 
     
 
-    public TheMapScreen(ImmuneWars game, Boolean minigameResult) 
+    public TheMapScreen(ImmuneWars game) 
     {
         this.game = game;
         this.minigameResult = minigameResult;
@@ -259,6 +259,152 @@ public class TheMapScreen implements Screen
         enemyNodes.add(randomNode2);
 
         System.out.println("enemy nodes are: " + randomNode1.getName() + " and " + randomNode2.getName());
+<<<<<<< HEAD
+=======
+        }
+
+
+        public NodeData pickTargetNode() {
+            ArrayList<NodeData> availableTargets = new ArrayList<>(enemyNodes);
+            
+        
+            // Check if other nodes are available
+            if (!availableTargets.isEmpty()) {
+                // Randomly select from other nodes
+                int randomIndex = random.nextInt(availableTargets.size());
+                NodeData targetNode = availableTargets.get(randomIndex);
+                System.out.println("Attacking " + targetNode.getName());
+                return targetNode;
+            } 
+            else 
+            {
+                // Check if brain is available
+                for (NodeData node : enemyNodes) {
+                    if (node.getName().equals("Brain")) {
+                        System.out.println("Attacking Brain");
+                        return node;
+                    }
+                }
+        
+                // Check if heart is available
+                for (NodeData node : enemyNodes) {
+                    if (node.getName().equals("Heart")) {
+                        System.out.println("Attacking Heart");
+                        return node;
+                    }
+                }
+            }
+            
+            // If no valid target is found, return null
+            return null; 
+        }
+
+        private void handleMinigameResult(boolean success) {
+            if (success) {
+                System.out.println("Minigame Won! Enemy progress halted.");
+                NodeData targetNode = enemyNodes.get(0); // Get the first (and only) enemy node
+                if (targetNode != null) {
+                    targetNode.setId(0); // Reset to player-owned
+                    enemyNodes.remove(targetNode);
+                    // The line below is removed because we don't want to delete the node from nodes list.
+                    // nodes.remove(targetNode); 
+                }
+            } else {
+                System.out.println("Minigame Lost! Enemy takes a node.");
+                NodeData targetNode = pickTargetNode();
+                if (targetNode != null) {
+                    targetNode.setId(1); // Mark as enemy-owned
+                    enemyNodes.remove(targetNode); 
+                    nodes.remove(targetNode); 
+                }
+            }
+            paintMap();
+        }
+
+        public void randomMinigameTrigger()
+        {
+        // triggers a random minigame and switches to that screen
+
+        Double a = Math.random();
+
+        if ((0 < a) && (a < 0.2))
+        {
+            // pops a screen for the player to play the minigame
+
+            TicTacToeScreen ticTacToeScreen = new TicTacToeScreen(game);
+            game.setScreen(ticTacToeScreen);
+            minigameResult = ticTacToeScreen.getBodyWin(); //TODO handle minigame result
+            if (minigameResult) 
+            {
+                handleMinigameResult(true);
+            } 
+            else 
+            {
+                handleMinigameResult(false);
+            }
+
+          
+        }
+        else if ((0.2 < a) && (a < 0.4))
+        {
+            SpaceInvadersScreen spaceInvadersScreen = new SpaceInvadersScreen(game);
+            game.setScreen(spaceInvadersScreen);
+            minigameResult = spaceInvadersScreen.getBodyWin();
+            if (minigameResult) 
+            {
+                handleMinigameResult(true);
+            } 
+            else 
+            {
+                handleMinigameResult(false);
+            }
+            
+        }
+        else if ((0.4 < a) && (a < 0.6))
+        {
+            SnakeScreen snakeScreen = new SnakeScreen(game);
+            game.setScreen(snakeScreen);
+            snakeScreen.getBodyWin(); //TODO handle minigame result
+            if (minigameResult) 
+            {
+                handleMinigameResult(true);
+            } 
+            else 
+            {
+                handleMinigameResult(false);
+            }
+            
+        }
+        else if ((0.6 < a) && (a < 0.8))
+        {
+            ImageMatchingScreen imageMatchingScreen = new ImageMatchingScreen(game, 16);
+            game.setScreen(imageMatchingScreen);
+            imageMatchingScreen.getBodyWin(); //TODO handle minigame result
+            if (minigameResult) 
+            {
+                handleMinigameResult(true);
+            } 
+            else 
+            {
+                handleMinigameResult(false);
+            }
+        }
+        else if ((0.8 < a) && (a < 1))
+        {
+            SpeedTypingScreen speedTypingScreen = new SpeedTypingScreen(game);
+            game.setScreen(speedTypingScreen);
+            minigameResult = speedTypingScreen.getBodyWin();
+            if (minigameResult) 
+            {
+                handleMinigameResult(true);
+            } 
+            else 
+            {
+                handleMinigameResult(false);
+            }
+        }
+        
+>>>>>>> 03680fc249af4b8e2fad1104fe65465ddcebd060
     }
 
 

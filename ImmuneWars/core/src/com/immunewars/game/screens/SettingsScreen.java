@@ -3,6 +3,7 @@ package com.immunewars.game.screens;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
@@ -40,7 +41,7 @@ public class SettingsScreen extends ScreenAdapter
     Table table;
     Label musicLabel, musicLevelLabel;
     Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
-    String[] musicFiles = {"explosion.mp3", "badApple.mp3","maoZedongYoldasim.mp3","gerudoValley.mp3"}; // Your music files
+    String[] musicFiles = {"maoZedongYoldasim.mp3","gerudoValley.mp3","bayonetta2.mp3","wowBackground.mp3","underpressure.mp3","xenobladeChronicles2battle.mp3","persona4.mp3","starcraft.mp3"}; // Your music files
     Music[] musics = new Music[musicFiles.length];
     Music currMusic, tempMusic;
     ImmuneWars game;
@@ -48,12 +49,12 @@ public class SettingsScreen extends ScreenAdapter
     public SettingsScreen(ImmuneWars game) 
     {   
         this.game = game;
+        
         for(int i = 0; i < musicFiles.length; i++){
             musics[i] =  Gdx.audio.newMusic(Gdx.files.internal(musicFiles[i])); 
         }
         currMusic = game.currMusic;
         tempMusic = currMusic;
-        currMusic.setLooping(true);
 
         stage = new Stage(new ScreenViewport()); // Create a stage with a screen-fitting viewport
         Gdx.input.setInputProcessor(stage); // Start taking input from the stage
@@ -71,39 +72,67 @@ public class SettingsScreen extends ScreenAdapter
         // Background Music Section
         musicLabel = new Label("Background Music", new Label.LabelStyle(new BitmapFont(), Color.WHITE)); // Default font and white color
         musicSelectBox = new SelectBox<String>(skin); 
-        musicSelectBox.setItems("XYZ","bad apple","PQR","LMN","Yoldas Mao","Gerudo Valley");
-        musicSelectBox.addListener(new ChangeListener() {
+        musicSelectBox.setItems("Yoldas Mao","Gerudo Valley","Bayonetta 2","Wow Background","Under Pressure","Xenoblade Chronicles 2 Battle","Persona 4","Starcraft");
+        musicSelectBox.addListener(new ChangeListener() 
+        {
             @Override
-            public void changed(ChangeEvent event, Actor actor) {
+            public void changed(ChangeEvent event, Actor actor) 
+            {
                 String selectedMusic = musicSelectBox.getSelected();
                 System.out.println("mehemtcan");
-                if(selectedMusic.equals("XYZ") && tempMusic != musics[0]){
-                    System.out.println("deltarune");
+                if(selectedMusic.equals("Yoldas Mao")){
+                    System.out.println("mao");
                     currMusic.stop();
                     currMusic = musics[0];
                     tempMusic = currMusic;
                 }
-                else if(selectedMusic.equals("ABC") && tempMusic != musics[1]){
-                    System.out.println("bad apple");
+                else if(selectedMusic.equals("Gerudo Valley")){
+                    System.out.println("gerudo");
                     currMusic.stop();
-                    game.changeMusic(currMusic);
                     currMusic = musics[1];
                     tempMusic = currMusic;
                 }
-                else if(selectedMusic.equals("Yoldas Mao")&& tempMusic != musics[2]){
-                    System.out.println("mao");
+                else if(selectedMusic.equals("Bayonetta 2")){
+                    System.out.println("bayonetta");
                     currMusic.stop();
                     currMusic = musics[2];
                     tempMusic = currMusic;
                 }
-                else if(selectedMusic.equals("Gerudo Valley") && tempMusic != musics[0]){
-                    System.out.println("gerudo");
+                else if(selectedMusic.equals("Wow Background")){
+                    System.out.println("wow");
                     currMusic.stop();
                     currMusic = musics[3];
                     tempMusic = currMusic;
                 }
-                currMusic.play();
-            }
+                else if(selectedMusic.equals("Under Pressure")){
+                    System.out.println("under pressure");
+                    currMusic.stop();
+                    currMusic = musics[4];
+                    tempMusic = currMusic;
+                }
+                else if(selectedMusic.equals("Xenoblade Chronicles 2 Battle"))
+                {
+                    System.out.println("xenoblade");
+                    currMusic.stop();
+                    currMusic = musics[5];
+                    tempMusic = currMusic;
+                }
+                else if(selectedMusic.equals("Persona 4"))
+                {
+                    System.out.println("persona");
+                    currMusic.stop();
+                    currMusic = musics[6];
+                    tempMusic = currMusic;
+                }
+                else if(selectedMusic.equals("Starcraft"))
+                {
+                    System.out.println("starcraft");
+                    currMusic.stop();
+                    currMusic = musics[7];
+                    tempMusic = currMusic;
+                }
+                
+        }
         });
 
         // add to table
@@ -137,14 +166,27 @@ public class SettingsScreen extends ScreenAdapter
         table.row();
 
 
-        // Quit Button
-        TextButton quitButton = new TextButton("Quit", skin);
+        // Back Button
+        TextButton backButton = new TextButton("Back", skin);
+        System.out.println("quit button cons.");
+        backButton.addListener(new ChangeListener() 
+        {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+            game.setScreen(currentScreen);
+           
+            }
+        });
+        table.add(backButton);
+
+        // quit Button
+        TextButton quitButton = new TextButton("quit", skin);
         System.out.println("quit button cons.");
         quitButton.addListener(new ChangeListener() 
         {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-            Gdx.app.exit(); // Exit the game
+            Gdx.app.exit();// Exit the game
             }
         });
         table.add(quitButton);

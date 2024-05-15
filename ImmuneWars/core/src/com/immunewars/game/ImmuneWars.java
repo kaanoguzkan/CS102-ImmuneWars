@@ -18,7 +18,7 @@ public class ImmuneWars extends Game {
 		batch = new SpriteBatch();
 		font = new BitmapFont();
 		this.setScreen(new MainMenuScreen(this));
-		currMusic =  Gdx.audio.newMusic(Gdx.files.internal("gerudoValley.mp3"));
+		currMusic =  Gdx.audio.newMusic(Gdx.files.internal("wowBackground.mp3"));
 		currMusic.setLooping(true);
 		//currMusic.play();
 	}
