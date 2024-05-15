@@ -5,7 +5,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.immunewars.game.screens.MainMenuScreen;
 
@@ -21,7 +20,7 @@ public class ImmuneWars extends Game {
 		this.setScreen(new MainMenuScreen(this));
 		currMusic =  Gdx.audio.newMusic(Gdx.files.internal("gerudoValley.mp3"));
 		currMusic.setLooping(true);
-		currMusic.play();
+		//currMusic.play();
 	}
 
 	public void changeMusic(Music music){

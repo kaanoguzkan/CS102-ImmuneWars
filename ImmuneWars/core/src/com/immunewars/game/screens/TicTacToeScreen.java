@@ -45,12 +45,14 @@ public class TicTacToeScreen extends TransitionableScreen {
 	boolean playerTurn;
 	Image[] buttons;
 	public boolean[] availableButtons;
+	TheMapScreen theMainScreen;
 	
-	public TicTacToeScreen(ImmuneWars game) {
-		this(game, MinigamePresets.TicTacToe.gameSize, MinigamePresets.TicTacToe.winLength);
+	public TicTacToeScreen(ImmuneWars game, TheMapScreen a) {
+		this(game, MinigamePresets.TicTacToe.gameSize, MinigamePresets.TicTacToe.winLength, a);
 	}
 	
-	public TicTacToeScreen(ImmuneWars game, int gameSize, int winLength) {
+	public TicTacToeScreen(ImmuneWars game, int gameSize, int winLength, TheMapScreen theMainScreen) {
+		this.theMainScreen = theMainScreen;
 		availableButtons = new boolean[gameSize * gameSize];
 		for(int i = 0; i < availableButtons.length; i++){
 			availableButtons[i] = true;
@@ -79,12 +81,12 @@ public class TicTacToeScreen extends TransitionableScreen {
 		for (int i = 0; i < gameSize; i++) {
 			for (int j = 0; j < gameSize; j++) {
 				int a = i; int b = j;
-				Image button = new Image(new Texture("mapBackground.png"));
+				Image button = new Image(new Texture("pixel.png"));
 				button.setX(lineThickness + i*(buttonLengthX + lineThickness));
 				button.setY(lineThickness + j*(buttonLengthY + lineThickness));
 				button.setSize(buttonLengthX, buttonLengthY);
 				button.setColor(new Color(1.0f,1.0f,1.0f,1.0f));
-				button.setDrawable(new TextureRegionDrawable(new TextureRegion(new Texture("mapBackground.png"))));
+				button.setDrawable(new TextureRegionDrawable(new TextureRegion(new Texture("pixel.png"))));
 				
 				button.addListener(new ClickListener() {
 					@Override
@@ -94,13 +96,15 @@ public class TicTacToeScreen extends TransitionableScreen {
 							int yIndex = (int) Math.round((button.getY() - lineThickness)/(buttonLengthY+lineThickness));
 							int mehmetcan = a * 3 + b;
 							System.out.println(xIndex + " ASDASD " + yIndex + " DASDA " + mehmetcan);
-							TicTacToe backend = TicTacToeScreen.currentScreen.backend;
-							backend.setTile(xIndex, yIndex);
-							backend.switchChar(); // Böööööö!!!!!!!!!
-							availableButtons[mehmetcan] = false;
-							playerTurn = false;
-							for(boolean element: availableButtons){System.out.println(element);}
-							button.setDrawable(new TextureRegionDrawable(new TextureRegion(new Texture("logo.png"))));
+							if(availableButtons[mehmetcan]){
+								TicTacToe backend = TicTacToeScreen.currentScreen.backend;
+								backend.setTile(xIndex, yIndex);
+								backend.switchChar(); // Böööööö!!!!!!!!!
+								availableButtons[mehmetcan] = false;
+								playerTurn = false;
+								for(boolean element: availableButtons){System.out.println(element);}    //TODO
+								button.setDrawable(new TextureRegionDrawable(new TextureRegion(new Texture("logo.png"))));
+							}
 						}
 					}
 				});
@@ -135,8 +139,7 @@ public class TicTacToeScreen extends TransitionableScreen {
 		if(!playerTurn){
 			this.computerPlay();
 		}
-		if(backend.didSomeoneWin()){Gdx.app.exit();}
-		if(this.isGameDraw()){Gdx.app.exit();}
+		if(backend.didSomeoneWin() || this.isGameDraw()){game.setScreen(theMainScreen);}
 	}
 
 	public void computerPlay(){

@@ -47,8 +47,10 @@ public class SpaceInvadersScreen extends TransitionableScreen {
 	Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
 	Stage foreground;
 	Boolean bodyWin;
+	TheMapScreen theMainScreen;
 
-	public SpaceInvadersScreen(ImmuneWars game) {
+	public SpaceInvadersScreen(ImmuneWars game, TheMapScreen theMapScreen) {
+		this.theMainScreen = theMapScreen;
 		currentScreen = this;
 		this.game = game;
 
@@ -153,7 +155,8 @@ public class SpaceInvadersScreen extends TransitionableScreen {
 		entityCountLabel.setText("entities to defeat: " + enemies.size());
 
 		if (isGameTerminated()) {
-			game.setScreen(new MainMenuScreen(game));
+			TheMapScreen.score += score;
+			game.setScreen(theMainScreen);
 		}
   
 		stage.act(delta);

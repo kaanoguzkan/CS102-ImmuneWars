@@ -122,7 +122,7 @@ public class SettingsScreen extends ScreenAdapter
             public void changed(ChangeEvent event, Actor actor) {
                 if(slider.isDragging()){
                     System.out.println(slider.getValue());
-                    currMusic.setVolume(slider.getValue() / 100);
+                    game.currMusic.setVolume(slider.getValue() / 100);
                 }
 
             }

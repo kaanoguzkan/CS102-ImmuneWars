@@ -36,27 +36,29 @@ public class TheMapScreen implements Screen
     private int i = 2;
     private Sprite backgroundSprite;
     private Boolean minigameResult;
+    boolean enemyTurn = false;
+    public boolean nodePressed = false;
     private SpriteBatch spriteBatch = new SpriteBatch();
     Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
-
+    public static int score = 0;
 
     
     ArrayList<NodeData> nodes = new ArrayList<NodeData>();
     ArrayList<EdgeData> edges = new ArrayList<EdgeData>();
     ArrayList<NodeData> enemyNodes = new ArrayList<NodeData>();
-    NodeData brainNode = new NodeData(0,60 , 350, "Brain", 0, 70 / i);
-    NodeData mouthNode = new NodeData(2, 170, 450, "Mouth", 0, 35 / i);
-    NodeData noseNode = new NodeData(3, 130,490 , "Nose", 0, 30 / i);
-    NodeData heartNode = new NodeData(4, 300, 480, "Heart", 0, 50 / i);
-    NodeData lungsNode = new NodeData(5, 300, 350, "Lungs", 0, 50 / i);
-    NodeData stomachNode = new NodeData(6, 550, 440, "Stomach", 0, 50 / i);
-    NodeData liverNode = new NodeData(7, 500, 350, "Liver", 0, 40 / i);
-    NodeData kidneysNode = new NodeData(8, 600, 350, "Kidneys", 0, 60 / i);
-    NodeData intestinesNode = new NodeData(9, 650, 460, "Intestines", 0, 30 / i);
-    NodeData armNode = new NodeData(10, 500, 530, "Arm", 0, 30 / i);
-    NodeData legNode = new NodeData(11, 850, 420, "Leg", 0, 30 / i);
-    NodeData footNode = new NodeData(12, 1200, 400, "Foot", 0, 20 / i);
-    NodeData handNode = new NodeData(13,600 , 570, "Hand", 0, 30 / i);
+    NodeData brainNode = new NodeData(0,60 , 350, "Brain", 0, 70 / i,this);
+    NodeData mouthNode = new NodeData(2, 170, 450, "Mouth", 0, 35 / i,this);
+    NodeData noseNode = new NodeData(3, 130,490 , "Nose", 0, 30 / i,this);
+    NodeData heartNode = new NodeData(4, 300, 480, "Heart", 0, 50 / i,this);
+    NodeData lungsNode = new NodeData(5, 300, 350, "Lungs", 0, 50 / i,this);
+    NodeData stomachNode = new NodeData(6, 550, 440, "Stomach", 0, 50 / i,this);
+    NodeData liverNode = new NodeData(7, 500, 350, "Liver", 0, 40 / i,this);
+    NodeData kidneysNode = new NodeData(8, 600, 350, "Kidneys", 0, 60 / i,this);
+    NodeData intestinesNode = new NodeData(9, 650, 460, "Intestines", 0, 30 / i,this);
+    NodeData armNode = new NodeData(10, 500, 530, "Arm", 0, 30 / i,this);
+    NodeData legNode = new NodeData(11, 850, 420, "Leg", 0, 30 / i,this);
+    NodeData footNode = new NodeData(12, 1200, 400, "Foot", 0, 20 / i,this);
+    NodeData handNode = new NodeData(13,600 , 570, "Hand", 0, 30 / i,this);
 
     EdgeData brainMouthEdge = new EdgeData(brainNode, mouthNode);
     EdgeData brainNoseEdge = new EdgeData(brainNode, noseNode);
@@ -134,19 +136,16 @@ public class TheMapScreen implements Screen
 
         stage = new Stage();
         shapeRenderer = new ShapeRenderer();
+        //armNode.
 
-       
-        paintMap();
-        System.out.println("no sorun.");
-        render(0);
         System.out.println("constructed.");
-        Gdx.input.setInputProcessor(stage);
+
+        //giveEnemyTwoNodes();
     }
 
-
-    // method that paints this nodes and edges to the map 
     public void paintMap()
     {
+        Gdx.input.setInputProcessor(stage);
         // paint background
         Texture a = new Texture("mapBackground.png");
         backgroundSprite = new Sprite(new Texture("mapBackground.png"));
@@ -159,26 +158,15 @@ public class TheMapScreen implements Screen
         Node nodeActor;
         for (NodeData node : nodes) 
         {   
-            try {
-                nodeActor = new Node(shapeRenderer, node);
-                stage.addActor(nodeActor);
-            } catch (Exception e) {
-                System.out.println("failed node!");
-                e.printStackTrace();
-            }
+            nodeActor = new Node(shapeRenderer, node);
+            stage.addActor(nodeActor);
         }
-        System.out.println("nodes painted");
         for(EdgeData edge : edges)
         {
             Edge edgeActor = new Edge(shapeRenderer, edge);
             stage.addActor(edgeActor);
-            System.out.println("successul edge!");
         }
-    }
-
-
-    @Override
-    public void show() {
+        System.out.println("map painted");
     }
 
     public void renderBackground(){
@@ -188,96 +176,59 @@ public class TheMapScreen implements Screen
     @Override
     public void render(float delta) {
         spriteBatch.begin();
+        paintMap();
+
         renderBackground();
         spriteBatch.end();
         stage.act();
-     
         stage.draw();
+        if(nodePressed){
+            this.randomMinigameTrigger(); // player
+            nodePressed = false;
+        }
+        if(score >= 5){
+            game.setScreen(new winScreen(game));;
+        }
+    }
 
-        enemyChooseAndAttack();
+    public void randomMinigameTrigger(){
 
+        int random = (int) (Math.random() * 4);
+
+        if (random == 0)
+        {
+            TicTacToeScreen ticTacToeScreen = new TicTacToeScreen(game,this);
+            game.setScreen(ticTacToeScreen);               
+        }
+        else if (random == 1)
+        {
+        SpaceInvadersScreen spaceInvadersScreen = new SpaceInvadersScreen(game,this);
+        game.setScreen(spaceInvadersScreen);
+            
+        }
+        else if (random == 2)
+    {
+        SnakeScreen snakeScreen = new SnakeScreen(game,this);
+        game.setScreen(snakeScreen);
+            
+    }
+
+    else if (random == 3)
+    {
+        SpeedTypingScreen speedTypingScreen = new SpeedTypingScreen(game,this);
+        game.setScreen(speedTypingScreen);
+    }
         
-    }
-
-    public ArrayList<NodeData> getNodes() {
-        return nodes;
-    }
-
-    @Override
-    public void resize(int width, int height) {
-        
-    }
-
-
-    @Override
-    public void pause() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'pause'");
-    }
-
-
-    @Override
-    public void resume() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'resume'");
-    }
-
-
-    @Override
-    public void hide() {
-        // hides the map screen
-
-        stage.clear();
-    }
-
-
-    @Override
-    public void dispose() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'dispose'");
-    }
-    
+}
+    /*
     public void enemyChooseAndAttack()
     {
-        giveEnemyTwoNodes();
         NodeData targetNode = pickTargetNode();
-        Timer.schedule(new Timer.Task() 
-        {
-            @Override
-            public void run() 
-            {
-                if (targetNode == null) 
-                {
-                    endGame();
-                }
-            }
-        }, 1, 1);
-
-        
        
         if (targetNode != null) 
         {
             System.out.println("enemy attacks: " + targetNode.getName());
-           // pops a label for the player to tell the next minigame
-            Label label = new Label("Enemy attacks: " + targetNode.getName(), skin);
-            label.setPosition(600,600);
-            stage.addActor(label);
         }
-        
-
-        // pops a panel for asking the player to play the minigame or not, if not is chosen, body will lose the node
-        Dialog dialog = new Dialog("Minigame Confirmation", skin);
-        dialog.text("Do you want to play the minigame?");
-        dialog.button("Yes", new TextButton.TextButtonStyle());
-        dialog.button("No", new TextButton.TextButtonStyle());
-        ((Window) dialog.show(stage).padTop(100).padBottom(100).padLeft(200).padRight(200)).setModal(true);
-        Timer.schedule(new Timer.Task() {
-            @Override
-            public void run() {
-            dialog.hide();
-            }
-        }, 10);
-
         
     }
 
@@ -285,9 +236,9 @@ public class TheMapScreen implements Screen
     public void giveEnemyTwoNodes()
     {
         ArrayList<NodeData> avaiableNodes = new ArrayList<NodeData>();
-        ArrayList<NodeData> nodess = getNodes();
+        ArrayList<NodeData> nodes = getNodes();
         
-        for (int i = 0; i < nodess.size(); i++) 
+        for (int i = 0; i < nodes.size(); i++) 
         {
             NodeData node = nodes.get(i);
             if (node.getId() != 0 ) {
@@ -308,114 +259,33 @@ public class TheMapScreen implements Screen
         enemyNodes.add(randomNode2);
 
         System.out.println("enemy nodes are: " + randomNode1.getName() + " and " + randomNode2.getName());
-        }
-
-
-        public NodeData pickTargetNode() {
-            ArrayList<NodeData> availableTargets = new ArrayList<>(enemyNodes);
-            
-        
-            // Check if other nodes are available
-            if (!availableTargets.isEmpty()) {
-                // Randomly select from other nodes
-                int randomIndex = random.nextInt(availableTargets.size());
-                NodeData targetNode = availableTargets.get(randomIndex);
-                System.out.println("Attacking " + targetNode.getName());
-                return targetNode;
-            } 
-            else 
-            {
-                // Check if brain is available
-                for (NodeData node : enemyNodes) {
-                    if (node.getName().equals("Brain")) {
-                        System.out.println("Attacking Brain");
-                        return node;
-                    }
-                }
-        
-                // Check if heart is available
-                for (NodeData node : enemyNodes) {
-                    if (node.getName().equals("Heart")) {
-                        System.out.println("Attacking Heart");
-                        return node;
-                    }
-                }
-            }
-            
-            // If no valid target is found, return null
-            return null; 
-        }
-
-        private void handleMinigameResult(boolean success) {
-            if (success) {
-                System.out.println("Minigame Won! Enemy progress halted.");
-                NodeData targetNode = enemyNodes.get(0); // Get the first (and only) enemy node
-                if (targetNode != null) {
-                    targetNode.setId(0); // Reset to player-owned
-                    enemyNodes.remove(targetNode);
-                    // The line below is removed because we don't want to delete the node from nodes list.
-                    // nodes.remove(targetNode); 
-                }
-            } else {
-                System.out.println("Minigame Lost! Enemy takes a node.");
-                NodeData targetNode = pickTargetNode();
-                if (targetNode != null) {
-                    targetNode.setId(1); // Mark as enemy-owned
-                    enemyNodes.remove(targetNode); 
-                    nodes.remove(targetNode); 
-                }
-            }
-            paintMap();
-        }
-
-        public void randomMinigameTrigger()
-        {
-        // triggers a random minigame and switches to that screen
-
-        Double a = Math.random();
-
-        if ((0 < a) && (a < 0.2))
-        {
-            // pops a screen for the player to play the minigame
-
-            TicTacToeScreen ticTacToeScreen = new TicTacToeScreen(game);
-            game.setScreen(ticTacToeScreen);
-
-          
-        }
-        else if ((0.2 < a) && (a < 0.4))
-        {
-            SpaceInvadersScreen spaceInvadersScreen = new SpaceInvadersScreen(game);
-            game.setScreen(spaceInvadersScreen);
-            minigameResult = spaceInvadersScreen.getBodyWin();
-            if (minigameResult) 
-            {
-                handleMinigameResult(true);
-            } 
-            else 
-            {
-                handleMinigameResult(false);
-            }
-            
-        }
-        else if ((0.4 < a) && (a < 0.6))
-        {
-            SnakeScreen snakeScreen = new SnakeScreen(game);
-            game.setScreen(snakeScreen);
-            
-        }
-        else if ((0.6 < a) && (a < 0.8))
-        {
-            ImageMatchingScreen imageMatchingScreen = new ImageMatchingScreen(game, 16);
-            game.setScreen(imageMatchingScreen);
-        }
-        else if ((0.8 < a) && (a < 1))
-        {
-            SpaceInvadersScreen spaceInvadersScreen = new SpaceInvadersScreen(game);
-            game.setScreen(spaceInvadersScreen);
-        }
-        
     }
+
+
+    
+    private void handleMinigameResult(boolean success) {
+        if (success) {
+            System.out.println("Minigame Won! Enemy progress halted.");
+            NodeData targetNode = enemyNodes.get(0); // Get the first (and only) enemy node
+            if (targetNode != null) {
+                targetNode.setId(0); // Reset to player-owned
+                enemyNodes.remove(targetNode);
+                // The line below is removed because we don't want to delete the node from nodes list.
+                // nodes.remove(targetNode); 
+            }
+        } else {
+            System.out.println("Minigame Lost! Enemy takes a node.");
+            NodeData targetNode = pickTargetNode();
+            if (targetNode != null) {
+                targetNode.setId(1); // Mark as enemy-owned
+                enemyNodes.remove(targetNode); 
+                nodes.remove(targetNode); 
+            }
+        }
+        paintMap();
+    }
+
+
 
     public void endGame()
     {
@@ -424,7 +294,48 @@ public class TheMapScreen implements Screen
        
     }
 
+    public ArrayList<NodeData> getNodes() {
+        return nodes;
+    }
+*/
 
+@Override
+public void show() {
+}
+
+@Override
+public void resize(int width, int height) {
+    
+}
+
+
+@Override
+public void pause() {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'pause'");
+}
+
+
+@Override
+public void resume() {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'resume'");
+}
+
+
+@Override
+public void hide() {
+    // hides the map screen
+
+    stage.clear();
+}
+
+
+@Override
+public void dispose() {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'dispose'");
+}
 }
 
 

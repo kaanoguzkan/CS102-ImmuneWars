@@ -64,7 +64,9 @@ public class SnakeScreen implements Screen{
        kaan has a a lot of work to do.
        set score = snakeParts.size()
      */
-    public SnakeScreen(ImmuneWars game) {
+    TheMapScreen theMainScreen;
+    public SnakeScreen(ImmuneWars game, TheMapScreen theMainScreen) {
+        this.theMainScreen = theMainScreen;
         snakeParts = new ArrayList<Pixel>();
 		currentScreen = this;
 		this.game = game;
@@ -82,7 +84,8 @@ public class SnakeScreen implements Screen{
 		
 		theSnakeHead = new snakeHead(1,1, PIXEL_SIZE, this); // snakeHead declare
         theSnakeTail = new SnakeTail(theSnakeHead.getPixelX() - 1, theSnakeHead.getPixelY()); // snakeTail declare
-        theApple = new Apple(random.nextInt(HORIZONTAL_PIXELS - 1) ,random.nextInt(VERTICAL_PIXELS - 1)); // Apple declare
+        theApple = new Apple(7 ,5); // Apple declare
+        System.out.println(theApple.toString());
 
 		stage.addActor(theSnakeHead); // add snakeHead
         this.create(); //calls the func create which creates shape renderer, and possibly more ¯\_(ツ)_/¯
@@ -96,7 +99,10 @@ public class SnakeScreen implements Screen{
     @Override
     public void render(float delta) {
 
-        if(checkTermination()){this.terminateGame();}
+        if(checkTermination()){
+            TheMapScreen.score += snakeParts.size();
+            game.setScreen(theMainScreen);
+        }
 
         Gdx.gl.glClearColor(0, 0, 0, 1); // set color to black
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);

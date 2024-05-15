@@ -20,4 +20,5 @@ public class Apple extends Actor{
     public int getPixelX() {return appleTile.getX();}
     public int getPixelY() {return appleTile.getY();}
     public Pixel getPixel() {return appleTile;}
+    public String toString() {return x + " " + y;}
 }

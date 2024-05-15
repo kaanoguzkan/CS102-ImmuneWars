@@ -51,8 +51,10 @@ public class ImageMatchingScreen implements Screen {
 	String[] imagePathways = MinigamePresets.ImageMatching.images;
 	Image[] theButtons = new Image[imagePathways.length];
 	int row = 0;
+	TheMapScreen theMainScreen;
 
-	public ImageMatchingScreen(ImmuneWars game, int gameSize){
+	public ImageMatchingScreen(ImmuneWars game, int gameSize, TheMapScreen theMainScreen){
+		this.theMainScreen = theMainScreen;
 		stage = new Stage();
 		currentScreen = this;
 
@@ -100,7 +102,7 @@ public class ImageMatchingScreen implements Screen {
 		viewport = new StretchViewport(gameScreenX, gameScreenY, camera);
 		viewport.apply();
 
-
+		
 		Gdx.input.setInputProcessor(stage);
 	}
 
@@ -115,6 +117,10 @@ public class ImageMatchingScreen implements Screen {
 		inGameTime = delta;
 		stage.act();
 		stage.draw();
+		if(this.isGameTerminated()){
+			theMainScreen.score++;
+			game.setScreen(theMainScreen);
+		}
 	}
 
 	public float getDelta(float delta){return delta;}
@@ -123,6 +129,13 @@ public class ImageMatchingScreen implements Screen {
 	public void resize(int width, int height) {
 		viewport.update(width, height);
 
+	}
+
+	public boolean isGameTerminated(){
+		for(Image element: theButtons){
+			//if(element.)
+		}
+		return true;
 	}
 
 	@Override

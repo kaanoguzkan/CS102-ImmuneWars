@@ -2,6 +2,8 @@ package com.immunewars.game.minigameBackend.MainMap.Node;
 
 import java.util.ArrayList;
 
+import com.immunewars.game.screens.TheMapScreen;
+
 public class NodeData 
 {
     private int id; 
@@ -11,9 +13,11 @@ public class NodeData
     private int type;
     private ArrayList<NodeData> neighbors;
     private int weight;
+    TheMapScreen screen;
 
-    public NodeData(int option, int x, int y, String name, int type, int weight)
+    public NodeData(int option, int x, int y, String name, int type, int weight, TheMapScreen screen)
     {
+        this.screen = screen;
         this.id = option;
         this.x = x;
         this.y = y;
@@ -21,6 +25,8 @@ public class NodeData
         this.type = type;
         this.weight = weight;
     }
+
+    public TheMapScreen getScreen(){return screen;}
 
     public NodeData getNode()
     {

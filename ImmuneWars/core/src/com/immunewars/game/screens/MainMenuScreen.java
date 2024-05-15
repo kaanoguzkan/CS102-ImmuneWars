@@ -84,10 +84,7 @@ public class MainMenuScreen implements Screen {
 			@Override
 			public void changed (ChangeEvent event, Actor actor) {
 				System.out.println("Button1 pressed");
-				//game.setScreen(new TicTacToeScreen(game));
-				TransitionableScreen newScreen = new SpaceInvadersScreen(game);
-				TransitionGenerator tg = new TransitionGenerator(game, stage, newScreen);
-				tg.startTransition();
+
 				
 			}
 		});
@@ -95,7 +92,7 @@ public class MainMenuScreen implements Screen {
 			@Override
 			public void changed (ChangeEvent event, Actor actor) {
 				System.out.println("Button2 pressed");
-				game.setScreen(new TicTacToeScreen(game));
+				//game.setScreen(new TicTacToeScreen(game));
 			}
 		});
 
@@ -104,7 +101,7 @@ public class MainMenuScreen implements Screen {
 			public void changed (ChangeEvent event, Actor actor) {
 				try {
 					System.out.println("Button3 pressed");
-					game.setScreen(new SpeedTypingScreen(game));
+					//game.setScreen(new SpeedTypingScreen(game));
 				} catch (Exception e) {
 					System.out.println("snsrelnfkjerlfnrekjlgnreklgntl");
 					e.printStackTrace();
@@ -117,7 +114,7 @@ public class MainMenuScreen implements Screen {
 			@Override
 			public void changed (ChangeEvent event, Actor actor) {
 				System.out.println("Button4 pressed");
-				game.setScreen(new SnakeScreen(game));
+				game.setScreen(new SnakeScreen(game, new TheMapScreen(game, true)));
 			}
 		});
 
@@ -125,7 +122,7 @@ public class MainMenuScreen implements Screen {
 			@Override
 			public void changed (ChangeEvent event, Actor actor) {
 				System.out.println("Button5 pressed");
-				game.setScreen(new ImageMatchingScreen(game,3));
+				//game.setScreen(new ImageMatchingScreen(game,3));
 			}
 		});
 		button6.addListener(new ChangeListener() {
@@ -144,9 +141,14 @@ public class MainMenuScreen implements Screen {
 		button7.addListener(new ChangeListener() {
 			@Override
 			public void changed (ChangeEvent event, Actor actor) {
-				System.out.println("Button7 pressed");
-				game.setScreen(new TheMapScreen(game, false));
-
+				try {
+					System.out.println("Button7 pressed");
+					game.setScreen(new TheMapScreen(game, false));
+	
+				} catch (Exception e) {
+					System.out.println("elkmfslkmfksmflk5");
+					e.printStackTrace();
+				}
 			}
 		});
 

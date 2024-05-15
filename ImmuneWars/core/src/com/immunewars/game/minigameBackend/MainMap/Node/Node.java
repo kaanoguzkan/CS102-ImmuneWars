@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.immunewars.game.screens.TheMapScreen;
 
 
 
@@ -22,6 +23,7 @@ public class Node extends Actor {
     private ShapeRenderer shapeRenderer;
     private float radius;
     Node curr;
+    TheMapScreen screen;
 
     public Node(ShapeRenderer shapeRenderer, NodeData nodeData) {
         curr = this;
@@ -33,12 +35,14 @@ public class Node extends Actor {
         setHeight(2 * radius);
         setX(nodeData.getX());
         setY(nodeData.getY());
+        this.screen = nodeData.getScreen();
 
         addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 System.out.println("click!!!!!!!!!");
                 System.out.println(curr.getNodeData().toString());
+                screen.nodePressed = true;
             }
         });
         System.out.println("screen node constructed");

@@ -28,7 +28,7 @@ import com.immunewars.game.screens.*;
 public class SpeedTypingScreen implements Screen
 {
     Boolean isGameTerminated = false;
-    int winTreshold = 10;
+    int winTreshold = 1000;
     int winnerType;
     ImmuneWars game;
     int cameraX = GameConfig.resolutionX; 
@@ -54,11 +54,13 @@ public class SpeedTypingScreen implements Screen
     private Label timerLabel;
 
     private Label meaningLabel;
+    TheMapScreen mainMapScreen;
 
-    public SpeedTypingScreen(ImmuneWars game)
+    public SpeedTypingScreen(ImmuneWars game, TheMapScreen mainMapScreen)
     {
+        this.mainMapScreen = mainMapScreen;
         this.game = game;
-        gameTimer = 50;
+        gameTimer = 3;
 
         Skin skin = new Skin(Gdx.files.internal("uiskin.json")); // sets the font and all; across all letter-related-elements
 
@@ -110,7 +112,12 @@ public class SpeedTypingScreen implements Screen
     public void render(float delta) 
     {
         this.update(delta);
-        this.isGameTerminated();
+        if( this.isGameTerminated()){
+            TheMapScreen.score += score;
+            game.setScreen(mainMapScreen);
+            //send the data idk
+        }
+       
         System.out.println(textField.getText());
         scoreLabel.setText("Score: " + score);
         Gdx.gl.glClearColor(.1f, .12f, .16f, 1);
