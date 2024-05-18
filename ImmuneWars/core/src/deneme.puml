@@ -1,0 +1,450 @@
+@startuml
+'https://plantuml.com/object-diagram
+class ImmuneWars extends Game{
+    +UpdateGrade(): void
+    +create(): void
+    +changeMusic(Music): void
+    +render(): void
+    +batch: SpriteBatch
+    +font: BitmapFont
+    +public Music: currMusic
+}
+
+class GameConfig{
+    +public static resolutionX: int
+    +public static resolutionY: int
+    +public static targetFPS: int
+}
+
+class winScreen implements Screen{
+    +public static backgroundSprite: Sprite
+    +public static text: Sprite
+    +private spriteBatch: SpriteBatch
+    +public render(float): void
+}
+
+class TicTacToeScreen implements Screen{
+    +static currentScreen: TicTacToeScreen
+    +final game: ImmuneWars
+    +backend: TicTacToe
+    +cameraX: int
+    +cameraY: int
+    +camera: OrthographicCamera
+    +viewport: Viewport
+    +gameSize: int
+    +winLength: int
+    +buttonLengthX, buttonLengthY: float
+    +availableButtons: boolean[]
+    +theMainScreen: TheMapScreen
+    +render(float): void
+    +computerPlay(): void
+    +isGameDraw(): boolean
+    +resize(): void
+}
+
+class SpeedTypingScreen implements Screen{
+    +winnerType, winThreshold: int
+    +score: int = 0
+    +game: ImmuneWars
+    +cameraX, cameraY: int
+    +camera: OrthographicCamera
+    +viewport: Viewport
+    +stage: Stage
+    +batch: spriteBatch
+    +SPACE_BETWEEN_BOXES: int = 10
+    +boxes: ArrayList<Box>
+    +textField: TextField
+    +word: String
+    +label, scoreLabel: Label
+    +boxGroup, letters: Group
+    +worList, wordDefinitionList: String[]
+    +bodyWin: boolean
+    -timeCount: float
+    -gameTimer: int
+    -timerLabel, meaningLabel: label
+    +render(float):void
+    +checkWord(): boolean
+    +newWord(String): void
+    +update(float): void
+    +isGameTerminated(): boolean
+    +getBodyWin(): boolean
+    +resize(int , int): void
+}
+
+class SpaceInvadersScreen extends Screen {
+    +currentScreen: SpaceInvadersScreen
+    +game: ImmuneWars
+    +cameraX, cameraY: int
+    +camera : OrthographicCamera
+    +viewport: Viewport
+    +batch: SpriteBatch
+    +winThreshold, life, score: int
+    +playerShip: Ship
+    +spawnCounter, spawnInterval: float = 1f
+    +backgroundSprite: Sprite
+    +spiriteBatch: spiriteBatch
+    +gameTime: float
+    +scoreLabel, livesLabel, timeLabel, entityCountLabel: label
+    +skin: Skin
+    +foreground: Stage
+    +bodyWin: boolean
+    +theMainScreen: TheMapScreen
+    +render(float): void
+    +isGameTerminated(): boolean
+    +getBodyWin(): boolean
+}
+
+class startScreen implements Screen{
+    -game: ImmuneWars
+    -batch: SpriteBatch
+    -background: Texture
+    -stage: Stage
+    +render(float): void
+}
+
+class TheMapScreen implements Screen{
+    -game: ImmuneWars
+    -shapeRenderer: ShapeRenderer
+    -stage: Stage
+    -background: Image
+    -i : int
+    -backgroundSprite: Sprite
+    -minigameResult: boolean
+    +enemyTurn: boolean = false
+    +nodePressed: boolean
+    -spiriteBatch: SpriteBatch
+    +skin: Skin
+    +score: int
+    +nodes: ArrayList<NodeData>
+    +edges: ArrayList<EdgeData>
+    +paintMap(): void
+    +renderBackground(): void
+    +randomMinigameTrigger(): void
+}
+
+class SnakeScreen implements Screen{
+    -shapeRenderer: ShapeRenderer
+    +currentScreen: SnakeScreen
+    +game: ImmuneWars
+    +cameraX, cameraY: int
+    +camera: OrthographicCamera
+    +viewport: Viewport
+    +batch: spiriteBatch
+    +winThreshold: int = 10
+    +snakeParts: ArrayList<Pixel>
+    +theSnakeHead: snakeHead
+    +theApple: Apple
+    +theSnakeTail: snakeTail
+    +PIXEL_SIZE: int= MinigamePresets.Snake.PIXEL_SIZE
+    +BOARD_WIDTH: int =MinigamePresets.Snake.xBound
+    +BOARD_HEIGHT: int = MinigamePresets.Snake.yBound
+    +VERTICAL_PIXELS: int = BOARD_HEIGHT / BOARD_WIDTH
+    +currPixel, tempPixel: Pixel
+    +theMainScreen: TheMapScreen
+    +create(): void
+    +render(float): void
+    +randomMoveablePixel(): Pixel
+    +checkTermination(): boolean
+    +terminateGame(): void
+}
+class SettingsScreen extends Screen{
+    +stage: Stage
+    +viewport: Viewport
+    +musicSelectBox:SelectBox<String>
+    +table: Table
+    +musicLabel, musicLevelLabel: Label
+    + skin : Skin
+    +musicFiles: String[]
+    +musics: Music[]
+    +currMusic, tempMusic: Music
+    +game: ImmuneWars
+    +createUI() : void
+    +render(float): void
+    +dispose(): void
+}
+
+class MainMenuScreen{
+    -cameraX, cameraY: float
+    -stage: Stage
+    -viewport: Viewport
+    -camera: OrthographicCamera
+    +game: ImmuneWars
+    -curr: MainMenuScreen
+    +render(float): void
+}
+
+class LoadingScreen implements Screen{
+    +backgroundSprite, a: Sprite
+    -spriteBatch = SpriteBatch
+    +font: BitmapFont
+    +shapeRenderer: ShapeRenderer
+    +timePassed: float = 0
+    +progressBar : int= 1280
+    +tip: String = "TIP"
+    +screen: LoadingScreen
+    +option: int
+    +renderBackground(): void
+    +render(float): void
+}
+
+class ImageMatchingScreen implements Screen {
+    +currentScreen: ImageMatchingScreen
+    +game: ImmuneWars
+    +gameScreenX, gameScreenY: int
+    +camera: OrthographicCamera
+    +viewport : Viewport
+    +stage: Stage
+    +gameSize: int
+    +prevPressedButtonIndex: int = -3
+    +currPressedButtonIndex: int = 0
+    +gameTime: float = 0
+    +imagePathways: String[]  = MinigamePresets.ImageMatching.images
+    +theButtons:Image[]
+    +theMainScreen: TheMapScreen
+    +isGameTerminated(): boolean
+}
+
+class TicTacToe{
+    +computerPlay(): void
+    +switchChar(): void
+    +didSomeoneWin(): boolean
+    +diagonalCheck(): boolean
+    +horizontalCheck(): boolean
+    +verticalCheck(): boolean
+    +setTile(int, int): boolean
+    +char1, char2 :char
+    +currChar: char = 'p'
+    +gameGrid: char[][]
+    +winLength, gameSize: int
+}
+
+abstract class MinigamePresets {
+    +gameSize, winlength: int = 3
+    +xLowerBound: int = 220
+    +xUpperBound: int = 1100
+    +yUpperBound: int = 800
+    +startHealth: int = 5
+    +bulletTexture: String = "bullet.png"
+    +bulletTextureFlipped: String = "bulletFlipped.png"
+    +enemyTexture: String = "enemy.png"
+    +shipTexture: String = "ship.png"
+    +shipTexture: String = "ship.png"
+    +yBound: int = 800
+    +PIXEL_SIZE: final int = 30
+    +BOX_WIDTH: final int = 50
+    +BOX_HEIGHT: final int = 100
+    +wordList: String[]
+    +wordDefinitionList: String[]
+}
+
+class Box extends Actor{
+    +BOX_HEIGHT: final int = MinigamePresets.SpeedTyping.BOX_HEIGHT
+    +BOX_WIDTH: final int = MinigamePresets.SpeedTyping.BOX_WIDTH
+    +letter: String
+    +texture: Texture
+    +label: Label
+    +word: String
+    +boxIndex: int
+    + check(): boolean
+    +delete(): void
+    +updateLetter(String): void
+    +resetLetter(): void
+}
+abstract class SIElement extends Actor{
+    #isEnemy: boolean = false
+    #texture: Texture
+    #moveBounded(float, float): void
+    #forceMove(float, float):void
+    #isOutOfBounds(): boolean
+    +collidesWith(SIElement): boolean
+}
+
+class Ship extends SIElement{
+    +speed: float = 300
+    +fireCooldown: float = 0
+    +health: int = MinigamePresets.SpaceInvaders.startHealth
+    +fire(Stage, float) : void
+    +damage(): void
+}
+
+class Enemy extends SIElement{
+    +speed: float
+    +fireInterval: float
+    +fireCooldown: float
+    +fire(Stage, float): void
+    }
+
+class Bullet extends SIElement{
+    +speed: float = 500
+    +isEnemy: boolean = false
+    +isEnemy(): boolean
+    +setSpeed(float): void
+}
+
+class Apple extends Actor{
+   +appleTile: Pixel
+   +x,y:int
+   +moveElse(int, int): void
+   +moveElse(Pixel): void
+   +getPixelX(): int
+   +getPixelY(): int
+   +getPixel(): Pixel
+}
+
+class Pixel{
+    -x,y:int
+    +setPixel(int, int): void
+    +setPixel(Pixel):void
+    +getX(): int
+    +getY(): int
+}
+
+class snakeBody extends Actor{
+    -x,y: int
+    -snakeBody: Pixel
+    +setPixel(int, int): void
+    +setPixel(Pixel): void
+}
+
+class SnakeTail extends Actor{
+    -x,y: int
+    -snakeTail: Pixel
+    +getPixelX(): int
+    +getPixelY(): int
+}
+
+class snakeHead extends Actor{
+    -texture : Texture
+    -snakeHeadPixel: Pixel
+    -x,y: int
+    -tick: float = 0
+    -option: int = 4
+    -gameScreen: SnakeScreen
+    +snakeHeadMoved:boolean = false
+    +getPixelX(): int
+    +getPixelY(): int
+    +getPixel(): Pixel
+    +headCanMoveAtDirection(int): boolean
+    +moveDirection(int): void
+    +intersects(Pixel): boolean
+    +didHeadMove(): boolean
+}
+
+class NodeData{
+    -id, x ,y, type, weight: int
+    -name: String
+    -neighbors: ArrayList<NodeData>
+    +screen: TheMapScreen
+    +getScreen(): TheMapScreen
+    +getNodeData(): NodeData
+    +getId() : int
+    +setNeighbors(ArrayList<NodeData>): void
+    +getWeight(): int
+}
+
+class Node extends Actor {
+    -nodeData: NodeData
+    -shapeRenderer: ShapeRenderer
+    -radius: float
+    +curr: Node
+    +screen: TheMapScreen
+    +getNodeData(): NodeData
+}
+
+class EdgeData{
+    -start, end: NodeData
+    +getStart(): NodeData
+    +setEnd(NodeData): void
+    +getEnd(): NodeData
+}
+
+class Edge extends Actor{
+        -edgeData: EdgeData
+        -shapeRenderer: ShapeRenderer
+        -lineColor: Color = Color.PURPLE
+        +findNodeActor(NodeData): Node
+}
+
+Interface Screen{
+    +show(): void
+    +render(float): void
+    +resize(int,int): void
+    +pause(): void
+    +resume(): void
+    +hide(): void
+    +dispose(): void
+}
+
+class Actor{
++draw (Batch batch): void
++act(float): void
+}
+
+TicTacToeScreen --* TicTacToe
+TicTacToeScreen --o ImmuneWars
+TicTacToeScreen --o TheMapScreen
+TicTacToeScreen --o MinigamePresets
+
+TheMapScreen --o ImmuneWars
+TheMapScreen --* Node
+TheMapScreen --* Edge
+
+startScreen --o ImmuneWars
+
+SpeedTypingScreen --o ImmuneWars
+SpeedTypingScreen --* Box
+SpeedTypingScreen --o TheMapScreen
+SpeedTypingScreen --o Label
+SpeedTypingScreen --o MinigamePresets
+
+SpaceInvadersScreen --o ImmuneWars
+SpaceInvadersScreen --* Ship
+SpaceInvadersScreen --o TheMapScreen
+SpaceInvadersScreen --o Label
+SpaceInvadersScreen --o MinigamePresets
+
+SnakeScreen --o ImmuneWars
+SnakeScreen --* snakeBody
+SnakeScreen --* snakeTail
+SnakeScreen --* snakeHead
+SnakeScreen --* Apple
+SnakeScreen --* Pixel
+SnakeScreen --o MinigamePresets
+
+SettingsScreen --o ImmuneWars
+SettingsScreen --* Music
+
+MainMenuScreen --o ImmuneWars
+MainMenuScreen --* Button
+
+ImageMatchingScreen --o ImmuneWars
+ImageMatchingScreen --* Image
+ImageMatchingScreen --o TheMapScreen
+ImageMatchingScreen --o MinigamePresets
+
+Box --o MinigamePresets
+Box --* Label
+
+Ship --o MinigamePresets
+
+SIElement --o MinigamePresets
+
+SnakeTail --* Pixel
+snakeHead --* Pixel
+snakeHead --o SnakeScreen
+snakeBody --* Pixel
+Apple --* Pixel
+
+Node --* NodeData
+Node --o TheMapScreen
+
+NodeData --o TheMapScreen
+
+Edge --* EdgeData
+Edge --o TheMapScreen
+
+EdgeData --o TheMapScreen
+
+MinigamePresets --o GameConfig
+
+@enduml
