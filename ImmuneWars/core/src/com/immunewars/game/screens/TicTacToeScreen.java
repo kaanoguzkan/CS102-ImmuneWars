@@ -103,7 +103,7 @@ public class TicTacToeScreen extends TransitionableScreen {
 								availableButtons[mehmetcan] = false;
 								playerTurn = false;
 								for(boolean element: availableButtons){System.out.println(element);}    //TODO
-								button.setDrawable(new TextureRegionDrawable(new TextureRegion(new Texture("logo.png"))));
+								button.setDrawable(new TextureRegionDrawable(new TextureRegion(new Texture("ticTacToe_X.jpg"))));
 							}
 						}
 					}
@@ -149,7 +149,7 @@ public class TicTacToeScreen extends TransitionableScreen {
 		if(availableButtons[xIndex * 3 + yIndex]){
 			System.out.println("haha" + availableButtons[xIndex * 3 + yIndex]);
 			backend.setTile(xIndex, yIndex);
-			buttons[xIndex * 3 + yIndex].setDrawable(new TextureRegionDrawable(new TextureRegion(new Texture("IMBackground.png"))));
+			buttons[xIndex * 3 + yIndex].setDrawable(new TextureRegionDrawable(new TextureRegion(new Texture("ticTacToe_O.jpg"))));
 			availableButtons[xIndex * 3 + yIndex] = false;
 			System.out.println(xIndex + " " + yIndex);
 			backend.switchChar(); // Böööööö!!!!!!!!!

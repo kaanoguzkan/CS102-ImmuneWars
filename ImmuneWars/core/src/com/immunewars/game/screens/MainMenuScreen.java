@@ -114,7 +114,7 @@ public class MainMenuScreen implements Screen {
 			@Override
 			public void changed (ChangeEvent event, Actor actor) {
 				System.out.println("Button4 pressed");
-				game.setScreen(new SnakeScreen(game, new TheMapScreen(game, true)));
+				game.setScreen(new SnakeScreen(game, new TheMapScreen(game)));
 			}
 		});
 
@@ -143,7 +143,7 @@ public class MainMenuScreen implements Screen {
 			public void changed (ChangeEvent event, Actor actor) {
 				try {
 					System.out.println("Button7 pressed");
-					game.setScreen(new TheMapScreen(game, false));
+					game.setScreen(new TheMapScreen(game));
 	
 				} catch (Exception e) {
 					System.out.println("elkmfslkmfksmflk5");

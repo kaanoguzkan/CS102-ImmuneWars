@@ -61,7 +61,7 @@ public class SpeedTypingScreen implements Screen
     {
         this.mainMapScreen = mainMapScreen;
         this.game = game;
-        gameTimer = 3;
+        gameTimer = 60;
 
         Skin skin = new Skin(Gdx.files.internal("uiskin.json")); // sets the font and all; across all letter-related-elements
 

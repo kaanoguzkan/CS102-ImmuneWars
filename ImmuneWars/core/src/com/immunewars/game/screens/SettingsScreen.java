@@ -173,7 +173,7 @@ public class SettingsScreen extends ScreenAdapter
         {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-            game.setScreen(currentScreen);
+
            
             }
         });

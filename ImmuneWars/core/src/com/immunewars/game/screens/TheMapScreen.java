@@ -186,7 +186,7 @@ public class TheMapScreen implements Screen
             this.randomMinigameTrigger(); // player
             nodePressed = false;
         }
-        if(score >= 5){
+        if(score >= 50){
             game.setScreen(new winScreen(game));;
         }
     }
