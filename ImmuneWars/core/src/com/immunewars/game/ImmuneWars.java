@@ -20,7 +20,7 @@ public class ImmuneWars extends Game {
 		this.setScreen(new MainMenuScreen(this));
 		currMusic =  Gdx.audio.newMusic(Gdx.files.internal("wowBackground.mp3"));
 		currMusic.setLooping(true);
-		//currMusic.play();
+		currMusic.play();
 	}
 
 	public void changeMusic(Music music){

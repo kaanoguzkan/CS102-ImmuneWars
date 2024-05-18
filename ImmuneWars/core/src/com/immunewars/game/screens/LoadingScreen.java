@@ -2,6 +2,7 @@ package com.immunewars.game.screens;
 
 import java.text.Format;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
@@ -50,7 +51,9 @@ public class LoadingScreen implements Screen{
     4 = imageMatching
     */
     int option;
+    ImmuneWars game;
     public LoadingScreen(ImmuneWars game, int option){
+        this.game = game;
         this.option = option;
         this.option = 4;
         screen = this;
@@ -111,6 +114,17 @@ public class LoadingScreen implements Screen{
                     progressOfBar = 250;
                     if(timePassed >= 5){
                         progressOfBar = 0;
+                        if(option == 0){
+                            TicTacToeScreen a = new TicTacToeScreen(game, null);
+                        }else if(option == 1){
+                            font.draw(spriteBatch, tip, 1280 / 2 - 100, 800 / 2 );
+                        }else if(option == 2){
+                            font.draw(spriteBatch, tip, 1280 / 2 - 100, 800 / 2 + 150);
+                        }else if(option == 3){
+                            font.draw(spriteBatch, tip, 1280 / 2 - 500, 800 / 2 + 50);
+                        }else if(option == 4){
+                            font.draw(spriteBatch, tip, 1280 / 2 - 200, 800 / 2);
+                        }
                     }
                 }
             }
