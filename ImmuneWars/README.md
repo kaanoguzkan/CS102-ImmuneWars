@@ -1,0 +1,1 @@
+This is the main folder of this Immune Wars game. They can lead to asset, core and desktop folder. In assets, we have all assets that Immune Wars have, in core we have all classes excluding the main runner class. Finally in desktop, it have runner class for Immune Wars.
